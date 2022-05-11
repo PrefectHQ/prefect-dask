@@ -1,0 +1,2 @@
+include versioneer.py
+include prefect_dask/_version.py
