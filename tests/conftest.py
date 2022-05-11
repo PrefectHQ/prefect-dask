@@ -2,7 +2,7 @@ import asyncio
 
 import distributed
 import pytest
-from prefect.testing.fixtures import use_hosted_orion  # noqa: F401
+from prefect.testing.fixtures import hosted_orion_api, use_hosted_orion  # noqa: F401
 
 from prefect_dask import DaskTaskRunner
 

@@ -40,6 +40,7 @@ from contextlib import AsyncExitStack
 from typing import Any, Awaitable, Callable, Dict, Optional, Union
 from uuid import UUID
 
+import distributed
 from prefect.futures import PrefectFuture
 from prefect.orion.schemas.core import TaskRun
 from prefect.orion.schemas.states import State
