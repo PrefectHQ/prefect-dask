@@ -25,19 +25,25 @@ pip install prefect-dask
 ### Write and run a flow
 
 ```python
-from prefect import flow
-from prefect_dask.tasks import (
-    goodbye_prefect_dask,
-    hello_prefect_dask,
-)
+from prefect import flow, task
+from prefect.task_runners import DaskTaskRunner
 
+@task
+def say_hello(name):
+    print(f"hello {name}")
 
-@flow
-def example_flow():
-    hello_prefect_dask
-    goodbye_prefect_dask
+@task
+def say_goodbye(name):
+    print(f"goodbye {name}")
 
-example_flow()
+@flow(task_runner=DaskTaskRunner())
+def greetings(names):
+    for name in names:
+        say_hello(name)
+        say_goodbye(name)
+
+if __name__ == "__main__":
+    greetings(["arthur", "trillian", "ford", "marvin"])
 ```
 
 ## Resources
