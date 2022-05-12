@@ -1,21 +1,51 @@
+import asyncio
 from uuid import uuid4
 
 import cloudpickle
+import distributed
 import pytest
 from prefect.orion.schemas.core import TaskRun
 from prefect.states import State
 from prefect.task_runners import TaskConcurrencyType
+from prefect.testing.fixtures import hosted_orion_api, use_hosted_orion  # noqa: F401
 from prefect.testing.standard_test_suites import TaskRunnerStandardTestSuite
 
-from .conftest import (
-    dask_task_runner_with_existing_cluster,
-    dask_task_runner_with_process_pool,
-    dask_task_runner_with_thread_pool,
-    default_dask_task_runner,
-)
+from prefect_dask import DaskTaskRunner
 
 
-@pytest.mark.service("dask")
+@pytest.fixture(scope="session")
+def event_loop():
+    loop = asyncio.get_event_loop()
+    yield loop
+    loop.close()
+
+
+@pytest.fixture
+def dask_task_runner_with_existing_cluster(use_hosted_orion):  # noqa
+    """
+    Generate a dask task runner that's connected to a local cluster
+    """
+    with distributed.LocalCluster(n_workers=2) as cluster:
+        with distributed.Client(cluster) as client:
+            address = client.scheduler.address
+            yield DaskTaskRunner(address=address)
+
+
+@pytest.fixture
+def dask_task_runner_with_process_pool():
+    yield DaskTaskRunner(cluster_kwargs={"processes": True})
+
+
+@pytest.fixture
+def dask_task_runner_with_thread_pool():
+    yield DaskTaskRunner(cluster_kwargs={"processes": False})
+
+
+@pytest.fixture
+def default_dask_task_runner():
+    yield DaskTaskRunner()
+
+
 class TestDaskTaskRunner(TaskRunnerStandardTestSuite):
     @pytest.fixture(
         params=[
