@@ -1,6 +1,7 @@
 pytest
 black
 flake8
+flaky
 mypy
 mkdocs
 mkdocs-material
