@@ -242,28 +242,10 @@ class DaskTaskRunner(BaseTaskRunner):
         future = self._get_dask_future(prefect_future)
         try:
             return await future.result(timeout=timeout)
-        except self._distributed.TimeoutError:
+        except distributed.TimeoutError:
             return None
         except BaseException as exc:
             return exception_to_crashed_state(exc)
-
-    @property
-    def _distributed(self) -> "distributed":
-        """
-        Delayed import of `distributed` allowing configuration of the task runner
-        without the extra installed and improves `prefect` import times.
-        """
-        global distributed
-
-        if distributed is None:
-            try:
-                import distributed
-            except ImportError as exc:
-                raise RuntimeError(
-                    "Using the `DaskTaskRunner` requires `distributed` to be installed."
-                ) from exc
-
-        return distributed
 
     async def _start(self, exit_stack: AsyncExitStack):
         """
@@ -278,7 +260,7 @@ class DaskTaskRunner(BaseTaskRunner):
             )
             connect_to = self.address
         else:
-            self.cluster_class = self.cluster_class or self._distributed.LocalCluster
+            self.cluster_class = self.cluster_class or distributed.LocalCluster
 
             self.logger.info(
                 f"Creating a new Dask cluster with "
@@ -291,9 +273,7 @@ class DaskTaskRunner(BaseTaskRunner):
                 self._cluster.adapt(**self.adapt_kwargs)
 
         self._client = await exit_stack.enter_async_context(
-            self._distributed.Client(
-                connect_to, asynchronous=True, **self.client_kwargs
-            )
+            distributed.Client(connect_to, asynchronous=True, **self.client_kwargs)
         )
 
         if self._client.dashboard_link:
@@ -316,4 +296,4 @@ class DaskTaskRunner(BaseTaskRunner):
         Restore the `distributed.Client` by loading the client on a dask worker.
         """
         self.__dict__.update(data)
-        self._client = self._distributed.get_client()
+        self._client = distributed.get_client()
