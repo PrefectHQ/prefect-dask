@@ -23,7 +23,7 @@ Example:
     ...         say_hello(name)
     ...         say_goodbye(name)
     Switching to a `DaskTaskRunner`:
-    >>> from prefect.task_runners import DaskTaskRunner
+    >>> from prefect_dask.task_runners import DaskTaskRunner
     >>> flow.task_runner = DaskTaskRunner()
     >>> greetings(["arthur", "trillian", "ford", "marvin"])
     hello arthur
