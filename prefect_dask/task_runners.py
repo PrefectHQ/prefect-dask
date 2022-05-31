@@ -83,7 +83,7 @@ class DaskTaskRunner(BaseTaskRunner):
     Examples:
         Using a temporary local dask cluster:
         >>> from prefect import flow
-        >>> from prefect.task_runners import DaskTaskRunner
+        >>> from prefect_dask.task_runners import DaskTaskRunner
         >>> @flow(task_runner=DaskTaskRunner)
         >>> def my_flow():
         >>>     ...
