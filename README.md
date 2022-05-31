@@ -26,7 +26,7 @@ pip install prefect-dask
 
 ```python
 from prefect import flow, task
-from prefect.task_runners import DaskTaskRunner
+from prefect_dask.task_runners import DaskTaskRunner
 
 @task
 def say_hello(name):
