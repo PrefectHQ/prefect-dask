@@ -1,10 +1,21 @@
 site_name: prefect-dask
 repo_url: https://github.com/PrefectHQ/prefect-dask
+site_url: https://prefecthq.github.io/prefect-dask/
+edit_uri: /edit/main/docs/
 theme:
   name: material
+  favicon: img/favicon.ico
   palette:
     primary: blue
     accent: blue
+  icon:
+    repo: fontawesome/brands/github
+  logo: img/prefect-logo-white.png
+  font:
+    text: Inter
+    code: Source Code Pro
+extra_css:
+    - stylesheets/extra.css
 markdown_extensions:
     - admonition
     - attr_list
