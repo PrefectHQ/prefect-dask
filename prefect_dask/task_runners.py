@@ -1,7 +1,7 @@
 """
 Interface and implementations of the Dask Task Runner.
-[Task Runners](/concepts/task-runners/) in Prefect are
-responsible for managing the execution of Prefect task runs.
+[Task Runners](https://orion-docs.prefect.io/api-ref/prefect/task-runners/)
+in Prefect are responsible for managing the execution of Prefect task runs.
 Generally speaking, users are not expected to interact with
 task runners outside of configuring and initializing them for a flow.
 Example:
@@ -23,7 +23,7 @@ Example:
     ...         say_hello(name)
     ...         say_goodbye(name)
     Switching to a `DaskTaskRunner`:
-    >>> from prefect.task_runners import DaskTaskRunner
+    >>> from prefect_dask.task_runners import DaskTaskRunner
     >>> flow.task_runner = DaskTaskRunner()
     >>> greetings(["arthur", "trillian", "ford", "marvin"])
     hello arthur
@@ -108,10 +108,6 @@ class DaskTaskRunner(BaseTaskRunner):
         adapt_kwargs: dict = None,
         client_kwargs: dict = None,
     ):
-        """
-        Initializes keywords.
-        """
-
         # Validate settings and infer defaults
         if address:
             if cluster_class or cluster_kwargs or adapt_kwargs:
@@ -161,9 +157,6 @@ class DaskTaskRunner(BaseTaskRunner):
 
     @property
     def concurrency_type(self) -> TaskConcurrencyType:
-        """
-        Set concurrency type.
-        """
         return (
             TaskConcurrencyType.PARALLEL
             if self.cluster_kwargs.get("processes")
@@ -177,9 +170,6 @@ class DaskTaskRunner(BaseTaskRunner):
         run_kwargs: Dict[str, Any],
         asynchronous: A = True,
     ) -> PrefectFuture[R, A]:
-        """
-        Submit task run.
-        """
         if not self._started:
             raise RuntimeError(
                 "The task runner must be started before submitting work."
@@ -214,14 +204,7 @@ class DaskTaskRunner(BaseTaskRunner):
         return self._dask_futures[prefect_future.run_id]
 
     async def _optimize_futures(self, expr):
-        """
-        Optimizes future.
-        """
-
         async def visit_fn(expr):
-            """
-            Visits the fn.
-            """
             if isinstance(expr, PrefectFuture):
                 dask_future = self._dask_futures.get(expr.run_id)
                 if dask_future is not None:
@@ -236,9 +219,6 @@ class DaskTaskRunner(BaseTaskRunner):
         prefect_future: PrefectFuture,
         timeout: float = None,
     ) -> Optional[State]:
-        """
-        Wait for task to finish.
-        """
         future = self._get_dask_future(prefect_future)
         try:
             return await future.result(timeout=timeout)
