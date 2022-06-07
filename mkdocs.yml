@@ -1,5 +1,7 @@
 site_name: prefect-dask
+site_url: https://prefecthq.github.io/prefect-dask/
 repo_url: https://github.com/PrefectHQ/prefect-dask
+edit_uri: /edit/main/docs/
 theme:
   name: material
   palette:
@@ -33,7 +35,6 @@ plugins:
       watch:
         - prefect_dask/
         - README.md
-
 nav:
     - Home: index.md
     - Task Runners: task_runners.md
