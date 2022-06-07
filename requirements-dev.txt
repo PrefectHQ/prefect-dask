@@ -5,7 +5,7 @@ flaky
 mypy
 mkdocs
 mkdocs-material
-mkdocstrings
+mkdocstrings[python]
 isort
 pre-commit
 pytest-asyncio
