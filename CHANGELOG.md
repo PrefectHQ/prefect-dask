@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 ### Changed
+- Expanded documentation [#9](https://github.com/PrefectHQ/prefect-dask/pull/2)
 
 ### Deprecated
 
@@ -25,4 +26,4 @@ Released on ????? ?th, 20??.
 
 ### Added
 
-- `task_name` task - [#1](https://github.com/PrefectHQ/prefect-dask/pull/1)
+- Migrated `DaskTaskRunner` - [#2](https://github.com/PrefectHQ/prefect-dask/pull/2)
