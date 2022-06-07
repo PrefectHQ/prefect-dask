@@ -51,8 +51,8 @@ def greetings(names: List[str]):
         say_hello(name)
         say_goodbye(name)
 
-
-greetings(["arthur", "trillian", "ford", "marvin"])
+if __name__ == "__main__":
+    greetings(["arthur", "trillian", "ford", "marvin"])
 
 # truncated output
 ...
