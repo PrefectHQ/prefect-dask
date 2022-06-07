@@ -28,7 +28,46 @@ pip install prefect-dask
 
 The `DaskTaskRunner` is a parallel task runner that submits tasks to the [`dask.distributed`](http://distributed.dask.org/) scheduler. 
 
-By default, a temporary Dask cluster is created for the duration of the flow run. If you already have a Dask cluster running, either local or cloud hosted, you can provide the connection URL via an `address` argument.
+By default, a temporary Dask cluster is created for the duration of the flow run.
+
+For example, this flow says hello and goodbye in parallel.
+
+```python
+from prefect import flow, task
+from prefect_dask.task_runners import DaskTaskRunner
+from typing import List
+
+@task
+def say_hello(name):
+    print(f"hello {name}")
+
+@task
+def say_goodbye(name):
+    print(f"goodbye {name}")
+
+@flow(task_runner=DaskTaskRunner())
+def greetings(names: List[str]):
+    for name in names:
+        say_hello(name)
+        say_goodbye(name)
+
+if __name__ == "__main__":
+    greetings(["arthur", "trillian", "ford", "marvin"])
+
+# truncated output
+...
+goodbye trillian
+goodbye arthur
+hello trillian
+hello ford
+hello marvin
+hello arthur
+goodbye ford
+goodbye marvin
+...
+```
+
+If you already have a Dask cluster running, either local or cloud hosted, you can provide the connection URL via an `address` argument.
 
 To configure your flow to use the `DaskTaskRunner`:
 
