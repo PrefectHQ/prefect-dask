@@ -26,4 +26,4 @@ Released on ????? ?th, 20??.
 
 ### Added
 
-- `task_name` task - [#1](https://github.com/PrefectHQ/prefect-dask/pull/1)
+- Migrated `DaskTaskRunner` - [#2](https://github.com/PrefectHQ/prefect-dask/pull/2)

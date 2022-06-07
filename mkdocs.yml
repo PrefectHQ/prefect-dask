@@ -37,3 +37,4 @@ plugins:
         - README.md
 nav:
     - Home: index.md
+    - Task Runners: task_runners.md
