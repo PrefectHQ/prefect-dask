@@ -4,28 +4,37 @@ Interface and implementations of the Dask Task Runner.
 in Prefect are responsible for managing the execution of Prefect task runs.
 Generally speaking, users are not expected to interact with
 task runners outside of configuring and initializing them for a flow.
+
 Example:
-    >>> from prefect import flow, task
-    >>> from prefect.task_runners import SequentialTaskRunner
-    >>> from typing import List
-    >>>
-    >>> @task
-    >>> def say_hello(name):
-    ...     print(f"hello {name}")
-    >>>
-    >>> @task
-    >>> def say_goodbye(name):
-    ...     print(f"goodbye {name}")
-    >>>
-    >>> @flow(task_runner=SequentialTaskRunner())
-    >>> def greetings(names: List[str]):
-    ...     for name in names:
-    ...         say_hello(name)
-    ...         say_goodbye(name)
+    ```python
+    from prefect import flow, task
+    from prefect.task_runners import SequentialTaskRunner
+    from typing import List
+
+    @task
+    def say_hello(name):
+        print(f"hello {name}")
+
+    @task
+    def say_goodbye(name):
+        print(f"goodbye {name}")
+
+    @flow(task_runner=SequentialTaskRunner())
+    def greetings(names: List[str]):
+        for name in names:
+            say_hello(name)
+            say_goodbye(name)
+    ```
+
     Switching to a `DaskTaskRunner`:
-    >>> from prefect_dask.task_runners import DaskTaskRunner
-    >>> flow.task_runner = DaskTaskRunner()
-    >>> greetings(["arthur", "trillian", "ford", "marvin"])
+    ```python
+    from prefect_dask.task_runners import DaskTaskRunner
+    flow.task_runner = DaskTaskRunner()
+    greetings(["arthur", "trillian", "ford", "marvin"])
+    ```
+
+    Output:
+    ```
     hello arthur
     goodbye arthur
     hello trillian
@@ -34,6 +43,7 @@ Example:
     hello marvin
     goodbye ford
     goodbye trillian
+    ```
 """
 
 from contextlib import AsyncExitStack
