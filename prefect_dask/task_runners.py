@@ -58,8 +58,7 @@ from prefect.states import exception_to_crashed_state
 from prefect.task_runners import BaseTaskRunner, R, TaskConcurrencyType
 from prefect.utilities.asyncio import A
 from prefect.utilities.collections import visit_collection
-from prefect.utilities.hashing import to_qualified_name
-from prefect.utilities.importtools import import_object
+from prefect.utilities.importtools import from_qualified_name, to_qualified_name
 
 
 class DaskTaskRunner(BaseTaskRunner):
@@ -127,7 +126,7 @@ class DaskTaskRunner(BaseTaskRunner):
                 )
         else:
             if isinstance(cluster_class, str):
-                cluster_class = import_object(cluster_class)
+                cluster_class = from_qualified_name(cluster_class)
             else:
                 cluster_class = cluster_class
 
