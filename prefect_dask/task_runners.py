@@ -176,6 +176,7 @@ class DaskTaskRunner(BaseTaskRunner):
     async def submit(
         self,
         task_run: TaskRun,
+        run_key: str,
         run_fn: Callable[..., Awaitable[State[R]]],
         run_kwargs: Dict[str, Any],
         asynchronous: A = True,
@@ -191,9 +192,9 @@ class DaskTaskRunner(BaseTaskRunner):
 
         self._dask_futures[task_run.id] = self._client.submit(
             run_fn,
-            # Dask displays the text up to the first '-' as the name, include the
-            # task run id to ensure the key is unique.
-            key=f"{task_run.name}-{task_run.id.hex}",
+            # Dask displays the text up to the first '-' as the name, the task run key
+            # should include the task run name for readability in the dask console.
+            key=run_key,
             # Dask defaults to treating functions are pure, but we set this here for
             # explicit expectations. If this task run is submitted to Dask twice, the
             # result of the first run should be returned. Subsequent runs would return
