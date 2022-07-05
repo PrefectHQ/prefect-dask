@@ -189,7 +189,7 @@ class DaskTaskRunner(BaseTaskRunner):
         # scheduling
         run_kwargs = await self._optimize_futures(run_kwargs)
 
-        self._dask_futures[task_run.id] = self._client.submit(
+        self._dask_futures[run_key] = self._client.submit(
             run_fn,
             # Dask displays the text up to the first '-' as the name, the task run key
             # should include the task run name for readability in the dask console.
@@ -203,7 +203,10 @@ class DaskTaskRunner(BaseTaskRunner):
         )
 
         return PrefectFuture(
-            task_run=task_run, task_runner=self, asynchronous=asynchronous
+            task_run=task_run,
+            task_runner=self,
+            run_key=run_key,
+            asynchronous=asynchronous,
         )
 
     def _get_dask_future(self, prefect_future: PrefectFuture) -> "distributed.Future":
@@ -211,12 +214,12 @@ class DaskTaskRunner(BaseTaskRunner):
         Retrieve the dask future corresponding to a Prefect future.
         The Dask future is for the `run_fn`, which should return a `State`.
         """
-        return self._dask_futures[prefect_future.run_id]
+        return self._dask_futures[prefect_future.run_key]
 
     async def _optimize_futures(self, expr):
         async def visit_fn(expr):
             if isinstance(expr, PrefectFuture):
-                dask_future = self._dask_futures.get(expr.run_id)
+                dask_future = self._dask_futures.get(expr.run_key)
                 if dask_future is not None:
                     return dask_future
             # Fallback to return the expression unaltered
