@@ -48,7 +48,6 @@ Example:
 
 from contextlib import AsyncExitStack
 from typing import Any, Awaitable, Callable, Dict, Optional, Union
-from uuid import UUID
 
 import distributed
 from prefect.futures import PrefectFuture
@@ -160,7 +159,7 @@ class DaskTaskRunner(BaseTaskRunner):
         # Runtime attributes
         self._client: "distributed.Client" = None
         self._cluster: "distributed.deploy.Cluster" = None
-        self._dask_futures: Dict[UUID, "distributed.Future"] = {}
+        self._dask_futures: Dict[str, "distributed.Future"] = {}
 
         super().__init__()
 
