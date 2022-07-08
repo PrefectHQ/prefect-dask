@@ -48,7 +48,6 @@ Example:
 
 from contextlib import AsyncExitStack
 from typing import Any, Awaitable, Callable, Dict, Optional, Union
-from uuid import UUID
 
 import distributed
 from prefect.futures import PrefectFuture
@@ -58,8 +57,7 @@ from prefect.states import exception_to_crashed_state
 from prefect.task_runners import BaseTaskRunner, R, TaskConcurrencyType
 from prefect.utilities.asyncio import A
 from prefect.utilities.collections import visit_collection
-from prefect.utilities.hashing import to_qualified_name
-from prefect.utilities.importtools import import_object
+from prefect.utilities.importtools import from_qualified_name, to_qualified_name
 
 
 class DaskTaskRunner(BaseTaskRunner):
@@ -127,7 +125,7 @@ class DaskTaskRunner(BaseTaskRunner):
                 )
         else:
             if isinstance(cluster_class, str):
-                cluster_class = import_object(cluster_class)
+                cluster_class = from_qualified_name(cluster_class)
             else:
                 cluster_class = cluster_class
 
@@ -161,7 +159,7 @@ class DaskTaskRunner(BaseTaskRunner):
         # Runtime attributes
         self._client: "distributed.Client" = None
         self._cluster: "distributed.deploy.Cluster" = None
-        self._dask_futures: Dict[UUID, "distributed.Future"] = {}
+        self._dask_futures: Dict[str, "distributed.Future"] = {}
 
         super().__init__()
 
@@ -176,6 +174,7 @@ class DaskTaskRunner(BaseTaskRunner):
     async def submit(
         self,
         task_run: TaskRun,
+        run_key: str,
         run_fn: Callable[..., Awaitable[State[R]]],
         run_kwargs: Dict[str, Any],
         asynchronous: A = True,
@@ -189,11 +188,11 @@ class DaskTaskRunner(BaseTaskRunner):
         # scheduling
         run_kwargs = await self._optimize_futures(run_kwargs)
 
-        self._dask_futures[task_run.id] = self._client.submit(
+        self._dask_futures[run_key] = self._client.submit(
             run_fn,
-            # Dask displays the text up to the first '-' as the name, include the
-            # task run id to ensure the key is unique.
-            key=f"{task_run.name}-{task_run.id.hex}",
+            # Dask displays the text up to the first '-' as the name, the task run key
+            # should include the task run name for readability in the dask console.
+            key=run_key,
             # Dask defaults to treating functions are pure, but we set this here for
             # explicit expectations. If this task run is submitted to Dask twice, the
             # result of the first run should be returned. Subsequent runs would return
@@ -203,7 +202,10 @@ class DaskTaskRunner(BaseTaskRunner):
         )
 
         return PrefectFuture(
-            task_run=task_run, task_runner=self, asynchronous=asynchronous
+            task_run=task_run,
+            task_runner=self,
+            run_key=run_key,
+            asynchronous=asynchronous,
         )
 
     def _get_dask_future(self, prefect_future: PrefectFuture) -> "distributed.Future":
@@ -211,12 +213,12 @@ class DaskTaskRunner(BaseTaskRunner):
         Retrieve the dask future corresponding to a Prefect future.
         The Dask future is for the `run_fn`, which should return a `State`.
         """
-        return self._dask_futures[prefect_future.run_id]
+        return self._dask_futures[prefect_future.run_key]
 
     async def _optimize_futures(self, expr):
         async def visit_fn(expr):
             if isinstance(expr, PrefectFuture):
-                dask_future = self._dask_futures.get(expr.run_id)
+                dask_future = self._dask_futures.get(expr.run_key)
                 if dask_future is not None:
                     return dask_future
             # Fallback to return the expression unaltered

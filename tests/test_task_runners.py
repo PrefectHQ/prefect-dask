@@ -128,7 +128,10 @@ class TestDaskTaskRunner(TaskRunnerStandardTestSuite):
 
         async with task_runner.start():
             future = await task_runner.submit(
-                task_run=task_run, run_fn=fake_orchestrate_task_run, run_kwargs={}
+                task_run=task_run,
+                run_fn=fake_orchestrate_task_run,
+                run_key="run_key_input",
+                run_kwargs={},
             )
 
             state = await task_runner.wait(future, 5)
