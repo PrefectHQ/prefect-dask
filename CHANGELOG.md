@@ -23,9 +23,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Released on July 8th, 2022.
 
-### Fixed
+### Changed
 
-- Fixed `DaskTaskRunner` compatibility with core Prefect library - [#12](https://github.com/PrefectHQ/prefect-dask/pull/12)
+- Updated `DaskTaskRunner` to be compatible with core Prefect library (v2.08b) - [#12](https://github.com/PrefectHQ/prefect-dask/pull/12)
 
 ## 0.1.0
 
