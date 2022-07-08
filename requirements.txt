@@ -1,4 +1,3 @@
 prefect>=2.0b8
-dask==2022.2.0; python_version < '3.8'
-dask>=2022.5.0; python_version >= '3.8'
-distributed>=2022.6.1
+distributed==2022.2.0; python_version < '3.8'
+distributed>=2022.5.0; python_version >= '3.8'
