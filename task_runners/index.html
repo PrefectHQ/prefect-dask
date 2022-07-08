@@ -11,7 +11,7 @@
         <link rel="canonical" href="https://prefecthq.github.io/prefect-dask/task_runners/">
       
       <link rel="icon" href="../img/favicon.ico">
-      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.3.3">
+      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.3.9">
     
     
       
@@ -19,7 +19,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.4a0965b7.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.1d29e8d0.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.cbb835fc.min.css">
@@ -554,7 +554,9 @@ is only enabled if <code>adapt_kwargs</code> are provided.</p></td>
 
         <details class="quote">
           <summary>Source code in <code>prefect_dask/task_runners.py</code></summary>
-          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 65</span>
+          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 63</span>
+<span class="normal"> 64</span>
+<span class="normal"> 65</span>
 <span class="normal"> 66</span>
 <span class="normal"> 67</span>
 <span class="normal"> 68</span>
@@ -778,7 +780,9 @@ is only enabled if <code>adapt_kwargs</code> are provided.</p></td>
 <span class="normal">286</span>
 <span class="normal">287</span>
 <span class="normal">288</span>
-<span class="normal">289</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">DaskTaskRunner</span><span class="p">(</span><span class="n">BaseTaskRunner</span><span class="p">):</span>
+<span class="normal">289</span>
+<span class="normal">290</span>
+<span class="normal">291</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">DaskTaskRunner</span><span class="p">(</span><span class="n">BaseTaskRunner</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A parallel task_runner that submits tasks to the `dask.distributed` scheduler.</span>
 <span class="sd">    By default a temporary `distributed.LocalCluster` is created (and</span>
@@ -843,7 +847,7 @@ is only enabled if <code>adapt_kwargs</code> are provided.</p></td>
                 <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cluster_class</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-                <span class="n">cluster_class</span> <span class="o">=</span> <span class="n">import_object</span><span class="p">(</span><span class="n">cluster_class</span><span class="p">)</span>
+                <span class="n">cluster_class</span> <span class="o">=</span> <span class="n">from_qualified_name</span><span class="p">(</span><span class="n">cluster_class</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">cluster_class</span> <span class="o">=</span> <span class="n">cluster_class</span>
 
@@ -877,7 +881,7 @@ is only enabled if <code>adapt_kwargs</code> are provided.</p></td>
         <span class="c1"># Runtime attributes</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="p">:</span> <span class="s2">&quot;distributed.Client&quot;</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_cluster</span><span class="p">:</span> <span class="s2">&quot;distributed.deploy.Cluster&quot;</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_dask_futures</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">UUID</span><span class="p">,</span> <span class="s2">&quot;distributed.Future&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_dask_futures</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="s2">&quot;distributed.Future&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
 
@@ -892,6 +896,7 @@ is only enabled if <code>adapt_kwargs</code> are provided.</p></td>
     <span class="k">async</span> <span class="k">def</span> <span class="nf">submit</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">task_run</span><span class="p">:</span> <span class="n">TaskRun</span><span class="p">,</span>
+        <span class="n">run_key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">run_fn</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">Awaitable</span><span class="p">[</span><span class="n">State</span><span class="p">[</span><span class="n">R</span><span class="p">]]],</span>
         <span class="n">run_kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
         <span class="n">asynchronous</span><span class="p">:</span> <span class="n">A</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
@@ -905,11 +910,11 @@ is only enabled if <code>adapt_kwargs</code> are provided.</p></td>
         <span class="c1"># scheduling</span>
         <span class="n">run_kwargs</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_optimize_futures</span><span class="p">(</span><span class="n">run_kwargs</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_dask_futures</span><span class="p">[</span><span class="n">task_run</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_dask_futures</span><span class="p">[</span><span class="n">run_key</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span>
             <span class="n">run_fn</span><span class="p">,</span>
-            <span class="c1"># Dask displays the text up to the first &#39;-&#39; as the name, include the</span>
-            <span class="c1"># task run id to ensure the key is unique.</span>
-            <span class="n">key</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">task_run</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">task_run</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">hex</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="c1"># Dask displays the text up to the first &#39;-&#39; as the name, the task run key</span>
+            <span class="c1"># should include the task run name for readability in the dask console.</span>
+            <span class="n">key</span><span class="o">=</span><span class="n">run_key</span><span class="p">,</span>
             <span class="c1"># Dask defaults to treating functions are pure, but we set this here for</span>
             <span class="c1"># explicit expectations. If this task run is submitted to Dask twice, the</span>
             <span class="c1"># result of the first run should be returned. Subsequent runs would return</span>
@@ -919,7 +924,10 @@ is only enabled if <code>adapt_kwargs</code> are provided.</p></td>
         <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">PrefectFuture</span><span class="p">(</span>
-            <span class="n">task_run</span><span class="o">=</span><span class="n">task_run</span><span class="p">,</span> <span class="n">task_runner</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">asynchronous</span><span class="o">=</span><span class="n">asynchronous</span>
+            <span class="n">task_run</span><span class="o">=</span><span class="n">task_run</span><span class="p">,</span>
+            <span class="n">task_runner</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span>
+            <span class="n">run_key</span><span class="o">=</span><span class="n">run_key</span><span class="p">,</span>
+            <span class="n">asynchronous</span><span class="o">=</span><span class="n">asynchronous</span><span class="p">,</span>
         <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_get_dask_future</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prefect_future</span><span class="p">:</span> <span class="n">PrefectFuture</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;distributed.Future&quot;</span><span class="p">:</span>
@@ -927,12 +935,12 @@ is only enabled if <code>adapt_kwargs</code> are provided.</p></td>
 <span class="sd">        Retrieve the dask future corresponding to a Prefect future.</span>
 <span class="sd">        The Dask future is for the `run_fn`, which should return a `State`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dask_futures</span><span class="p">[</span><span class="n">prefect_future</span><span class="o">.</span><span class="n">run_id</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dask_futures</span><span class="p">[</span><span class="n">prefect_future</span><span class="o">.</span><span class="n">run_key</span><span class="p">]</span>
 
     <span class="k">async</span> <span class="k">def</span> <span class="nf">_optimize_futures</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expr</span><span class="p">):</span>
         <span class="k">async</span> <span class="k">def</span> <span class="nf">visit_fn</span><span class="p">(</span><span class="n">expr</span><span class="p">):</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="n">PrefectFuture</span><span class="p">):</span>
-                <span class="n">dask_future</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dask_futures</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">expr</span><span class="o">.</span><span class="n">run_id</span><span class="p">)</span>
+                <span class="n">dask_future</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dask_futures</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">expr</span><span class="o">.</span><span class="n">run_key</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">dask_future</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="k">return</span> <span class="n">dask_future</span>
             <span class="c1"># Fallback to return the expression unaltered</span>
@@ -1036,15 +1044,15 @@ Must be deserialized on a dask worker.</p>
 
       <details class="quote">
         <summary>Source code in <code>prefect_dask/task_runners.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">274</span>
-<span class="normal">275</span>
-<span class="normal">276</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">276</span>
 <span class="normal">277</span>
 <span class="normal">278</span>
 <span class="normal">279</span>
 <span class="normal">280</span>
 <span class="normal">281</span>
-<span class="normal">282</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">__getstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="normal">282</span>
+<span class="normal">283</span>
+<span class="normal">284</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">__getstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Allow the `DaskTaskRunner` to be serialized by dropping</span>
 <span class="sd">    the `distributed.Client`, which contains locks.</span>
@@ -1075,12 +1083,12 @@ Must be deserialized on a dask worker.</p>
 
       <details class="quote">
         <summary>Source code in <code>prefect_dask/task_runners.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">284</span>
-<span class="normal">285</span>
-<span class="normal">286</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">286</span>
 <span class="normal">287</span>
 <span class="normal">288</span>
-<span class="normal">289</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">__setstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+<span class="normal">289</span>
+<span class="normal">290</span>
+<span class="normal">291</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">__setstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Restore the `distributed.Client` by loading the client on a dask worker.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -1160,10 +1168,10 @@ Must be deserialized on a dask worker.</p>
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.b028fd86.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.b97dbffb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.f758a944.min.js"></script>
+      <script src="../assets/javascripts/bundle.6c7ad80a.min.js"></script>
       
     
   </body>
