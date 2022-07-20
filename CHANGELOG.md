@@ -19,6 +19,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Security
 
+## 0.1.2
+
+Released on July 20th, 2022.
+
+- Updated `DaskTaskRunner` to be compatible with core Prefect library (v2.09b) - [#15](https://github.com/PrefectHQ/prefect-dask/pull/15)
+
 ## 0.1.1
 
 Released on July 8th, 2022.
