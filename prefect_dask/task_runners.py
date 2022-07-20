@@ -55,7 +55,7 @@ from prefect.orion.schemas.core import TaskRun
 from prefect.orion.schemas.states import State
 from prefect.states import exception_to_crashed_state
 from prefect.task_runners import BaseTaskRunner, R, TaskConcurrencyType
-from prefect.utilities.asyncio import A
+from prefect.utilities.asyncutils import A
 from prefect.utilities.collections import visit_collection
 from prefect.utilities.importtools import from_qualified_name, to_qualified_name
 
