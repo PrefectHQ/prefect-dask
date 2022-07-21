@@ -7,42 +7,53 @@ task runners outside of configuring and initializing them for a flow.
 
 Example:
     ```python
+    import time
+
     from prefect import flow, task
-    from prefect.task_runners import SequentialTaskRunner
-    from typing import List
 
     @task
-    def say_hello(name):
-        print(f"hello {name}")
+    def shout(number):
+        time.sleep(0.5)
+        print(f"#{number}")
 
-    @task
-    def say_goodbye(name):
-        print(f"goodbye {name}")
+    @flow
+    def count_to(highest_number):
+        for number in range(highest_number):
+            shout.submit(number)
 
-    @flow(task_runner=SequentialTaskRunner())
-    def greetings(names: List[str]):
-        for name in names:
-            say_hello(name)
-            say_goodbye(name)
+    if __name__ == "__main__":
+        count_to(3)
+
+    # outputs
+    #0
+    #1
+    #2
     ```
 
     Switching to a `DaskTaskRunner`:
     ```python
-    from prefect_dask.task_runners import DaskTaskRunner
-    flow.task_runner = DaskTaskRunner()
-    greetings(["arthur", "trillian", "ford", "marvin"])
-    ```
+    import time
 
-    Output:
-    ```
-    hello arthur
-    goodbye arthur
-    hello trillian
-    hello ford
-    goodbye marvin
-    hello marvin
-    goodbye ford
-    goodbye trillian
+    from prefect import flow, task
+    from prefect_dask import DaskTaskRunner
+
+    @task
+    def shout(number):
+        time.sleep(0.5)
+        print(f"#{number}")
+
+    @flow(task_runner=DaskTaskRunner)
+    def count_to(highest_number):
+        for number in range(highest_number):
+            shout.submit(number)
+
+    if __name__ == "__main__":
+        count_to(3)
+
+    # outputs
+    #0
+    #2
+    #1
     ```
 """
 
