@@ -22,12 +22,20 @@ Example:
             shout.submit(number)
 
     if __name__ == "__main__":
-        count_to(3)
+        count_to(10)
 
     # outputs
     #0
     #1
     #2
+    #3
+    #4
+    #5
+    #6
+    #7
+    #8
+    #9
+    #10
     ```
 
     Switching to a `DaskTaskRunner`:
@@ -48,12 +56,19 @@ Example:
             shout.submit(number)
 
     if __name__ == "__main__":
-        count_to(3)
+        count_to(10)
 
     # outputs
-    #0
+    #3
+    #7
     #2
+    #6
+    #4
+    #0
     #1
+    #5
+    #8
+    #9
     ```
 """
 

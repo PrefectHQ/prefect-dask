@@ -30,7 +30,7 @@ The `DaskTaskRunner` is a parallel task runner that submits tasks to the [`dask.
 
 By default, a temporary Dask cluster is created for the duration of the flow run.
 
-For example, this flow counts to 3 in parallel.
+For example, this flow counts up to 10 in parallel (note that the output is not sequential).
 
 ```python
 import time
@@ -49,12 +49,19 @@ def count_to(highest_number):
         shout.submit(number)
 
 if __name__ == "__main__":
-    count_to(3)
+    count_to(10)
 
 # outputs
-#0
+#3
+#7
 #2
+#6
+#4
+#0
 #1
+#5
+#8
+#9
 ```
 
 If you already have a Dask cluster running, either local or cloud hosted, you can provide the connection URL via an `address` argument.
