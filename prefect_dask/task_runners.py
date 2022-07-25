@@ -35,7 +35,6 @@ Example:
     #7
     #8
     #9
-    #10
     ```
 
     Switching to a `DaskTaskRunner`:
