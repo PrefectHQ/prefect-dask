@@ -30,41 +30,38 @@ The `DaskTaskRunner` is a parallel task runner that submits tasks to the [`dask.
 
 By default, a temporary Dask cluster is created for the duration of the flow run.
 
-For example, this flow says hello and goodbye in parallel.
+For example, this flow counts up to 10 in parallel (note that the output is not sequential).
 
 ```python
+import time
+
 from prefect import flow, task
-from prefect_dask.task_runners import DaskTaskRunner
-from typing import List
+from prefect_dask import DaskTaskRunner
 
 @task
-def say_hello(name):
-    print(f"hello {name}")
+def shout(number):
+    time.sleep(0.5)
+    print(f"#{number}")
 
-@task
-def say_goodbye(name):
-    print(f"goodbye {name}")
-
-@flow(task_runner=DaskTaskRunner())
-def greetings(names: List[str]):
-    for name in names:
-        say_hello(name)
-        say_goodbye(name)
+@flow(task_runner=DaskTaskRunner)
+def count_to(highest_number):
+    for number in range(highest_number):
+        shout.submit(number)
 
 if __name__ == "__main__":
-    greetings(["arthur", "trillian", "ford", "marvin"])
+    count_to(10)
 
-# truncated output
-...
-goodbye trillian
-goodbye arthur
-hello trillian
-hello ford
-hello marvin
-hello arthur
-goodbye ford
-goodbye marvin
-...
+# outputs
+#3
+#7
+#2
+#6
+#4
+#0
+#1
+#5
+#8
+#9
 ```
 
 If you already have a Dask cluster running, either local or cloud hosted, you can provide the connection URL via an `address` argument.
