@@ -210,7 +210,7 @@ class DaskTaskRunner(BaseTaskRunner):
 
         # unpack the upstream call in order to cast Prefect futures to Dask futures
         # where possible to optimize Dask task scheduling
-        call_kwargs = await self._optimize_futures(call.keywords)
+        call_kwargs = self._optimize_futures(call.keywords)
 
         self._dask_futures[key] = self._client.submit(
             call.func,
@@ -232,16 +232,16 @@ class DaskTaskRunner(BaseTaskRunner):
         """
         return self._dask_futures[key]
 
-    async def _optimize_futures(self, expr):
-        async def visit_fn(expr):
+    def _optimize_futures(self, expr):
+        def visit_fn(expr):
             if isinstance(expr, PrefectFuture):
-                dask_future = self._dask_futures.get(expr.run_key)
+                dask_future = self._dask_futures.get(expr.key)
                 if dask_future is not None:
                     return dask_future
             # Fallback to return the expression unaltered
             return expr
 
-        return await visit_collection(expr, visit_fn=visit_fn, return_data=True)
+        return visit_collection(expr, visit_fn=visit_fn, return_data=True)
 
     async def wait(self, key: UUID, timeout: float = None) -> Optional[State]:
         future = self._get_dask_future(key)
