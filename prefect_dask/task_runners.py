@@ -72,17 +72,14 @@ Example:
 """
 
 from contextlib import AsyncExitStack
-from functools import partial
-from typing import Any, Awaitable, Callable, Dict, Optional, Union
+from typing import Awaitable, Callable, Dict, Optional, Union
 from uuid import UUID
 
 import distributed
 from prefect.futures import PrefectFuture
-from prefect.orion.schemas.core import TaskRun
 from prefect.orion.schemas.states import State
 from prefect.states import exception_to_crashed_state
 from prefect.task_runners import BaseTaskRunner, R, TaskConcurrencyType
-from prefect.utilities.asyncutils import A
 from prefect.utilities.collections import visit_collection
 from prefect.utilities.importtools import from_qualified_name, to_qualified_name
 

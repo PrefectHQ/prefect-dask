@@ -122,15 +122,13 @@ class TestDaskTaskRunner(TaskRunnerStandardTestSuite):
                 f"{task_runner.concurrency_type} task runners."
             )
 
-        task_run = TaskRun(flow_run_id=uuid4(), task_key="foo", dynamic_key="bar")
-
         async def fake_orchestrate_task_run():
             raise exception
 
         test_key = uuid4()
 
         async with task_runner.start():
-            future = await task_runner.submit(
+            await task_runner.submit(
                 call=partial(fake_orchestrate_task_run),
                 key=test_key,
             )
