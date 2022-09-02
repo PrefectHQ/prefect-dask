@@ -73,8 +73,8 @@ Example:
 
 from contextlib import AsyncExitStack
 from functools import partial
-from uuid import UUID
 from typing import Any, Awaitable, Callable, Dict, Optional, Union
+from uuid import UUID
 
 import distributed
 from prefect.futures import PrefectFuture
@@ -222,7 +222,7 @@ class DaskTaskRunner(BaseTaskRunner):
             # result of the first run should be returned. Subsequent runs would return
             # `Abort` exceptions if they were submitted again.
             pure=True,
-            **call_kwargs
+            **call_kwargs,
         )
 
     def _get_dask_future(self, key: UUID) -> "distributed.Future":
