@@ -7,9 +7,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
-- Updated `DaskTaskRunner` to be compatible with the updated `TaskRunner` interface in the Prefect Core library (v2.3.0)
-- Fixed a bug where `optimize_futures` was awaiting `visit_collection`, leading to strange behavior
-
 ### Added
 
 ### Changed
@@ -19,6 +16,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 
 ### Fixed
+- Updated `DaskTaskRunner` to be compatible with the updated `TaskRunner` interface in the Prefect Core library (v2.3.0) - [#21](https://github.com/PrefectHQ/prefect-dask/pull/21)
+- Fixed a bug where `optimize_futures` was awaiting `visit_collection`, leading to strange behavior - [#21](https://github.com/PrefectHQ/prefect-dask/pull/21)
 
 ### Security
 
