@@ -72,15 +72,14 @@ Example:
 """
 
 from contextlib import AsyncExitStack
-from typing import Any, Awaitable, Callable, Dict, Optional, Union
+from typing import Awaitable, Callable, Dict, Optional, Union
+from uuid import UUID
 
 import distributed
 from prefect.futures import PrefectFuture
-from prefect.orion.schemas.core import TaskRun
 from prefect.orion.schemas.states import State
 from prefect.states import exception_to_crashed_state
 from prefect.task_runners import BaseTaskRunner, R, TaskConcurrencyType
-from prefect.utilities.asyncutils import A
 from prefect.utilities.collections import visit_collection
 from prefect.utilities.importtools import from_qualified_name, to_qualified_name
 
@@ -198,65 +197,51 @@ class DaskTaskRunner(BaseTaskRunner):
 
     async def submit(
         self,
-        task_run: TaskRun,
-        run_key: str,
-        run_fn: Callable[..., Awaitable[State[R]]],
-        run_kwargs: Dict[str, Any],
-        asynchronous: A = True,
-    ) -> PrefectFuture[R, A]:
+        key: UUID,
+        call: Callable[..., Awaitable[State[R]]],
+    ) -> None:
         if not self._started:
             raise RuntimeError(
                 "The task runner must be started before submitting work."
             )
 
-        # Cast Prefect futures to Dask futures where possible to optimize Dask task
-        # scheduling
-        run_kwargs = await self._optimize_futures(run_kwargs)
+        # unpack the upstream call in order to cast Prefect futures to Dask futures
+        # where possible to optimize Dask task scheduling
+        call_kwargs = self._optimize_futures(call.keywords)
 
-        self._dask_futures[run_key] = self._client.submit(
-            run_fn,
+        self._dask_futures[key] = self._client.submit(
+            call.func,
             # Dask displays the text up to the first '-' as the name, the task run key
             # should include the task run name for readability in the dask console.
-            key=run_key,
+            key=key,
             # Dask defaults to treating functions are pure, but we set this here for
             # explicit expectations. If this task run is submitted to Dask twice, the
             # result of the first run should be returned. Subsequent runs would return
             # `Abort` exceptions if they were submitted again.
             pure=True,
-            **run_kwargs,
+            **call_kwargs,
         )
 
-        return PrefectFuture(
-            task_run=task_run,
-            task_runner=self,
-            run_key=run_key,
-            asynchronous=asynchronous,
-        )
-
-    def _get_dask_future(self, prefect_future: PrefectFuture) -> "distributed.Future":
+    def _get_dask_future(self, key: UUID) -> "distributed.Future":
         """
         Retrieve the dask future corresponding to a Prefect future.
         The Dask future is for the `run_fn`, which should return a `State`.
         """
-        return self._dask_futures[prefect_future.run_key]
+        return self._dask_futures[key]
 
-    async def _optimize_futures(self, expr):
-        async def visit_fn(expr):
+    def _optimize_futures(self, expr):
+        def visit_fn(expr):
             if isinstance(expr, PrefectFuture):
-                dask_future = self._dask_futures.get(expr.run_key)
+                dask_future = self._dask_futures.get(expr.key)
                 if dask_future is not None:
                     return dask_future
             # Fallback to return the expression unaltered
             return expr
 
-        return await visit_collection(expr, visit_fn=visit_fn, return_data=True)
+        return visit_collection(expr, visit_fn=visit_fn, return_data=True)
 
-    async def wait(
-        self,
-        prefect_future: PrefectFuture,
-        timeout: float = None,
-    ) -> Optional[State]:
-        future = self._get_dask_future(prefect_future)
+    async def wait(self, key: UUID, timeout: float = None) -> Optional[State]:
+        future = self._get_dask_future(key)
         try:
             return await future.result(timeout=timeout)
         except distributed.TimeoutError:
