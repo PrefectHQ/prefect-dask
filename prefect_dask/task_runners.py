@@ -93,15 +93,18 @@ class DaskTaskRunner(BaseTaskRunner):
     [`dask_kubernetes.KubeCluster`](https://kubernetes.dask.org/)), you can
     specify `cluster_class`/`cluster_kwargs`.
     Alternatively, if you already have a dask cluster running, you can provide
-    the address of the scheduler via the `address` kwarg.
+    the cluster object via the `cluster` kwarg or the address of the scheduler
+    via the `address` kwarg.
     !!! warning "Multiprocessing safety"
         Note that, because the `DaskTaskRunner` uses multiprocessing, calls to flows
         in scripts must be guarded with `if __name__ == "__main__":` or warnings will
         be displayed.
     Args:
+        cluster (distributed.deploy.Cluster, optional): Currently running dask cluster;
+            if one is not provider (or specified via `address` kwarg), a temporary cluster
+            will be created in `DaskTaskRunner.start()`. Defaults to `None`.
         address (string, optional): Address of a currently running dask
-            scheduler; if one is not provided, a temporary cluster will be
-            created in `DaskTaskRunner.start()`.  Defaults to `None`.
+            scheduler. Defaults to `None`.
         cluster_class (string or callable, optional): The cluster class to use
             when creating a temporary dask cluster. Can be either the full
             class name (e.g. `"distributed.LocalCluster"`), or the class itself.
@@ -134,6 +137,7 @@ class DaskTaskRunner(BaseTaskRunner):
 
     def __init__(
         self,
+        cluster: Optional[distributed.deploy.Cluster] = None,
         address: str = None,
         cluster_class: Union[str, Callable] = None,
         cluster_kwargs: dict = None,
@@ -142,9 +146,15 @@ class DaskTaskRunner(BaseTaskRunner):
     ):
         # Validate settings and infer defaults
         if address:
-            if cluster_class or cluster_kwargs or adapt_kwargs:
+            if cluster or cluster_class or cluster_kwargs or adapt_kwargs:
                 raise ValueError(
                     "Cannot specify `address` and "
+                    "`cluster`/`cluster_class`/`cluster_kwargs`/`adapt_kwargs`"
+                )
+        elif cluster:
+            if cluster_class or cluster_kwargs or adapt_kwargs:
+                raise ValueError(
+                    "Cannot specify `cluster` and "
                     "`cluster_class`/`cluster_kwargs`/`adapt_kwargs`"
                 )
         else:
@@ -182,7 +192,7 @@ class DaskTaskRunner(BaseTaskRunner):
 
         # Runtime attributes
         self._client: "distributed.Client" = None
-        self._cluster: "distributed.deploy.Cluster" = None
+        self._cluster: "distributed.deploy.Cluster" = cluster
         self._dask_futures: Dict[str, "distributed.Future"] = {}
 
         super().__init__()
@@ -256,7 +266,11 @@ class DaskTaskRunner(BaseTaskRunner):
         - Creates a client to connect to the cluster.
         - Pushes a call to wait for all running futures to complete on exit.
         """
-        if self.address:
+
+        if self._cluster:
+            self.logger.info(f"Connecting to existing Dask cluster {self._cluster}")
+            connect_to = self._cluster
+        elif self.address:
             self.logger.info(
                 f"Connecting to an existing Dask cluster at {self.address}"
             )

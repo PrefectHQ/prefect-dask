@@ -85,20 +85,21 @@ def my_flow():
 
 `DaskTaskRunner` accepts the following optional parameters:
 
-| Parameter | Description |
-| --- | --- |
-| address | Address of a currently running Dask scheduler. |
-| cluster_class | The cluster class to use when creating a temporary Dask cluster. It can be either the full class name (for example, `"distributed.LocalCluster"`), or the class itself. |
-| cluster_kwargs | Additional kwargs to pass to the `cluster_class` when creating a temporary Dask cluster. |
-| adapt_kwargs | Additional kwargs to pass to `cluster.adapt` when creating a temporary Dask cluster. Note that adaptive scaling is only enabled if `adapt_kwargs` are provided. |
-| client_kwargs | Additional kwargs to use when creating a [`dask.distributed.Client`](https://distributed.dask.org/en/latest/api.html#client). |
+| Parameter      | Description                                                                                                                                                             |
+|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| cluster        | Currently running Dask cluster, ``dask.distributed.Cluster`` (or subclass).                                                                                             |
+| address        | Address of a currently running Dask scheduler.                                                                                                                          |
+| cluster_class  | The cluster class to use when creating a temporary Dask cluster. It can be either the full class name (for example, `"distributed.LocalCluster"`), or the class itself. |
+| cluster_kwargs | Additional kwargs to pass to the `cluster_class` when creating a temporary Dask cluster.                                                                                |
+| adapt_kwargs   | Additional kwargs to pass to `cluster.adapt` when creating a temporary Dask cluster. Note that adaptive scaling is only enabled if `adapt_kwargs` are provided.         |
+| client_kwargs  | Additional kwargs to use when creating a [`dask.distributed.Client`](https://distributed.dask.org/en/latest/api.html#client).                                           |
 
 !!! warning "Multiprocessing safety"
     Note that, because the `DaskTaskRunner` uses multiprocessing, calls to flows
     in scripts must be guarded with `if __name__ == "__main__":` or you will encounter 
     warnings and errors.
 
-If you don't provide the `address` of a Dask scheduler, Prefect creates a temporary local cluster automatically. The number of workers used is based on the number of cores available to your execution environment. The default provides a mix of processes and threads that should work well for most workloads. If you want to specify this explicitly, you can pass values for `n_workers` or `threads_per_worker` to `cluster_kwargs`.
+If you don't provide a `cluster` object or the `address` of a Dask scheduler, Prefect creates a temporary local cluster automatically. The number of workers used is based on the number of cores available to your execution environment. The default provides a mix of processes and threads that should work well for most workloads. If you want to specify this explicitly, you can pass values for `n_workers` or `threads_per_worker` to `cluster_kwargs`.
 
 ```python
 # Use 4 worker processes, each with 2 threads
@@ -143,6 +144,17 @@ To configure a `DaskTaskRunner` to connect to an existing cluster, pass in the a
 # Connect to an existing cluster running at a specified address
 DaskTaskRunner(address="tcp://...")
 ```
+
+You can also pass in a cluster object:
+
+```python
+# Create a local cluster and then connect to it
+cluster = distributed.LocalCluster()
+DaskTaskRunner(cluster=cluster)
+```
+
+When you pass an existing cluster object, this will automatically use the correct address and
+any `distributed.Security` configuration set on the cluster.
 
 ### Adaptive scaling
 
