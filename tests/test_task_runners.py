@@ -64,6 +64,17 @@ def dask_task_runner_with_existing_cluster(use_hosted_orion):  # noqa
 
 
 @pytest.fixture
+def dask_task_runner_with_existing_cluster_address(use_hosted_orion):  # noqa
+    """
+    Generate a dask task runner that's connected to a local cluster
+    """
+    with distributed.LocalCluster(n_workers=2) as cluster:
+        with distributed.Client(cluster) as client:
+            address = client.scheduler.address
+            yield DaskTaskRunner(address=address)
+
+
+@pytest.fixture
 def dask_task_runner_with_process_pool():
     yield DaskTaskRunner(cluster_kwargs={"processes": True})
 
@@ -83,6 +94,7 @@ class TestDaskTaskRunner(TaskRunnerStandardTestSuite):
         params=[
             default_dask_task_runner,
             dask_task_runner_with_existing_cluster,
+            dask_task_runner_with_existing_cluster_address,
             dask_task_runner_with_process_pool,
             dask_task_runner_with_thread_pool,
         ]
