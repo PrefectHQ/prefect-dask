@@ -154,8 +154,7 @@ class DaskTaskRunner(BaseTaskRunner):
         elif cluster:
             if cluster_class or cluster_kwargs:
                 raise ValueError(
-                    "Cannot specify `cluster` and "
-                    "`cluster_class`/`cluster_kwargs`"
+                    "Cannot specify `cluster` and `cluster_class`/`cluster_kwargs`"
                 )
         else:
             if isinstance(cluster_class, str):
