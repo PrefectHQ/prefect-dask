@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Updated `DaskTaskRunner` to accept `dask.deploy.Cluster` object for connecting to existing cluster
+- Updated `DaskTaskRunner` to accept `dask.deploy.Cluster` object for connecting to existing cluster - [#29](https://github.com/PrefectHQ/prefect-dask/pull/29)
 
 ### Changed
 
