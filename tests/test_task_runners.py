@@ -15,7 +15,7 @@ from prefect.testing.standard_test_suites import TaskRunnerStandardTestSuite
 from prefect_dask import DaskTaskRunner
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="session", autouse=True)
 def event_loop(request):
     """
     Redefine the event loop to support session/module-scoped fixtures;
@@ -55,11 +55,11 @@ def event_loop(request):
 
 
 @pytest.fixture
-def dask_task_runner_with_existing_cluster(use_hosted_orion):  # noqa
+async def dask_task_runner_with_existing_cluster(use_hosted_orion):  # noqa
     """
     Generate a dask task runner that's connected to a local cluster
     """
-    with distributed.LocalCluster(n_workers=2) as cluster:
+    async with distributed.LocalCluster(n_workers=2, asynchronous=True) as cluster:
         yield DaskTaskRunner(cluster=cluster)
 
 
@@ -146,3 +146,8 @@ class TestDaskTaskRunner(TaskRunnerStandardTestSuite):
             assert state is not None, "wait timed out"
             assert isinstance(state, State), "wait should return a state"
             assert state.name == "Crashed"
+
+    def test_cluster_not_asynchronous(self):
+        with pytest.raises(ValueError, match="The cluster must have"):
+            with distributed.LocalCluster(n_workers=2) as cluster:
+                DaskTaskRunner(cluster=cluster)
