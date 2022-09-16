@@ -156,6 +156,11 @@ class DaskTaskRunner(BaseTaskRunner):
                 raise ValueError(
                     "Cannot specify `cluster` and `cluster_class`/`cluster_kwargs`"
                 )
+            if not cluster.asynchronous:
+                raise ValueError(
+                    f"The cluster must have `asynchronous=True` to be "
+                    f"used with `DaskTaskRunner`."
+                )
         else:
             if isinstance(cluster_class, str):
                 cluster_class = from_qualified_name(cluster_class)
