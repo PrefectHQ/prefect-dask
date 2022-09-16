@@ -101,8 +101,8 @@ class DaskTaskRunner(BaseTaskRunner):
         be displayed.
     Args:
         cluster (distributed.deploy.Cluster, optional): Currently running dask cluster;
-            if one is not provider (or specified via `address` kwarg), a temporary cluster
-            will be created in `DaskTaskRunner.start()`. Defaults to `None`.
+            if one is not provider (or specified via `address` kwarg), a temporary
+            cluster will be created in `DaskTaskRunner.start()`. Defaults to `None`.
         address (string, optional): Address of a currently running dask
             scheduler. Defaults to `None`.
         cluster_class (string or callable, optional): The cluster class to use
