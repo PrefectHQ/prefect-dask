@@ -15,7 +15,7 @@ from prefect.testing.standard_test_suites import TaskRunnerStandardTestSuite
 from prefect_dask import DaskTaskRunner
 
 
-@pytest.fixture(scope="session", autouse=True)
+@pytest.fixture(scope="session")
 def event_loop(request):
     """
     Redefine the event loop to support session/module-scoped fixtures;
