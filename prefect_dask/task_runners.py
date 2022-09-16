@@ -158,7 +158,8 @@ class DaskTaskRunner(BaseTaskRunner):
                 )
             if not cluster.asynchronous:
                 raise ValueError(
-                    f"The cluster must have `asynchronous=True` to be used with DaskTaskRunner."
+                    f"The cluster must have `asynchronous=True` to be "
+                    f"used with `DaskTaskRunner`."
                 )
         else:
             if isinstance(cluster_class, str):
