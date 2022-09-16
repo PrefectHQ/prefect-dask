@@ -152,10 +152,10 @@ class DaskTaskRunner(BaseTaskRunner):
                     "`cluster`/`cluster_class`/`cluster_kwargs`/`adapt_kwargs`"
                 )
         elif cluster:
-            if cluster_class or cluster_kwargs or adapt_kwargs:
+            if cluster_class or cluster_kwargs:
                 raise ValueError(
                     "Cannot specify `cluster` and "
-                    "`cluster_class`/`cluster_kwargs`/`adapt_kwargs`"
+                    "`cluster_class`/`cluster_kwargs`"
                 )
         else:
             if isinstance(cluster_class, str):
@@ -270,6 +270,8 @@ class DaskTaskRunner(BaseTaskRunner):
         if self._cluster:
             self.logger.info(f"Connecting to existing Dask cluster {self._cluster}")
             connect_to = self._cluster
+            if self.adapt_kwargs:
+                self._cluster.adapt(**self.adapt_kwargs)
         elif self.address:
             self.logger.info(
                 f"Connecting to an existing Dask cluster at {self.address}"
