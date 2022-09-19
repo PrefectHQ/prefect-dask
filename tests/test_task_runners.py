@@ -99,7 +99,7 @@ class TestDaskTaskRunner(TaskRunnerStandardTestSuite):
             dask_task_runner_with_thread_pool,
         ]
     )
-    def task_runner(self, request):
+    async def task_runner(self, request):
         yield request.getfixturevalue(
             request.param._pytestfixturefunction.name or request.param.__name__
         )
