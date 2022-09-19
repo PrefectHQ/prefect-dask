@@ -208,8 +208,12 @@ class DaskTaskRunner(BaseTaskRunner):
         # unpack the upstream call in order to cast Prefect futures to Dask futures
         # where possible to optimize Dask task scheduling
         call_kwargs = self._optimize_futures(call.keywords)
-        task_run = call_kwargs["task_run"]
-        dask_key = f"{task_run.name}-{task_run.id.hex}"
+
+        if "task_run" in call_kwargs:
+            task_run = call_kwargs["task_run"]
+            dask_key = f"{task_run.name}-{task_run.id.hex}"
+        else:
+            dask_key = key
 
         self._dask_futures[key] = self._client.submit(
             call.func,
