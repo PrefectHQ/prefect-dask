@@ -208,12 +208,14 @@ class DaskTaskRunner(BaseTaskRunner):
         # unpack the upstream call in order to cast Prefect futures to Dask futures
         # where possible to optimize Dask task scheduling
         call_kwargs = self._optimize_futures(call.keywords)
+        task_run = call_kwargs["task_run"]
+        dask_key = f"{task_run.name}-{task_run.id.hex}"
 
         self._dask_futures[key] = self._client.submit(
             call.func,
             # Dask displays the text up to the first '-' as the name, the task run key
             # should include the task run name for readability in the dask console.
-            key=key,
+            key=dask_key,
             # Dask defaults to treating functions are pure, but we set this here for
             # explicit expectations. If this task run is submitted to Dask twice, the
             # result of the first run should be returned. Subsequent runs would return
