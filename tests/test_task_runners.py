@@ -148,8 +148,12 @@ class TestDaskTaskRunner(TaskRunnerStandardTestSuite):
         @flow(task_runner=task_runner)
         def my_flow():
             my_task.submit()
+            my_task.submit()
+            my_task.submit()
 
         my_flow()
         futures = task_runner._dask_futures.values()
+        # ensure task run name is in key
         assert all(future.key.startswith("my_task-") for future in futures)
-        assert all("-r0-" in future.key for future in futures)
+        # ensure flow run retries is in key
+        assert all(future.key.endswith("-1") for future in futures)

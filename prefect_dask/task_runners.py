@@ -76,6 +76,7 @@ from typing import Awaitable, Callable, Dict, Optional, Union
 from uuid import UUID
 
 import distributed
+from prefect.context import FlowRunContext
 from prefect.futures import PrefectFuture
 from prefect.orion.schemas.states import State
 from prefect.states import exception_to_crashed_state
@@ -211,10 +212,10 @@ class DaskTaskRunner(BaseTaskRunner):
 
         if "task_run" in call_kwargs:
             task_run = call_kwargs["task_run"]
-            dask_key = f"{task_run.name}-r{task_run.run_count}-{task_run.id.hex}"
+            flow_run = FlowRunContext.get().flow_run
+            dask_key = f"{task_run.name}-{task_run.id.hex}-{flow_run.run_count}"
         else:
             dask_key = key
-        print(dask_key)
 
         self._dask_futures[key] = self._client.submit(
             call.func,
