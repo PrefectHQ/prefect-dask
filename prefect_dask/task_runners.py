@@ -214,10 +214,10 @@ class DaskTaskRunner(BaseTaskRunner):
             task_run = call_kwargs["task_run"]
             flow_run = FlowRunContext.get().flow_run
             # Dask displays the text up to the first '-' as the name; the task run key
-            # should include the task run name for readability in the dask console.
+            # should include the task run name for readability in the Dask console.
             # For cases where the task run fails and reruns for a retried flow run,
-            # the flow run count is included so that the keys will not match,
-            # the failed run's key, thus not resulting in a retrieval from the Dask cache.
+            # the flow run count is included so that the new key will not match
+            # the failed run's key, therefore not retrieving from the Dask cache.
             dask_key = f"{task_run.name}-{task_run.id.hex}-{flow_run.run_count}"
         else:
             dask_key = key
