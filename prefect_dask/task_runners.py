@@ -76,6 +76,7 @@ from typing import Awaitable, Callable, Dict, Optional, Union
 from uuid import UUID
 
 import distributed
+from prefect.context import FlowRunContext
 from prefect.futures import PrefectFuture
 from prefect.orion.schemas.states import State
 from prefect.states import exception_to_crashed_state
@@ -209,11 +210,21 @@ class DaskTaskRunner(BaseTaskRunner):
         # where possible to optimize Dask task scheduling
         call_kwargs = self._optimize_futures(call.keywords)
 
+        if "task_run" in call_kwargs:
+            task_run = call_kwargs["task_run"]
+            flow_run = FlowRunContext.get().flow_run
+            # Dask displays the text up to the first '-' as the name; the task run key
+            # should include the task run name for readability in the Dask console.
+            # For cases where the task run fails and reruns for a retried flow run,
+            # the flow run count is included so that the new key will not match
+            # the failed run's key, therefore not retrieving from the Dask cache.
+            dask_key = f"{task_run.name}-{task_run.id.hex}-{flow_run.run_count}"
+        else:
+            dask_key = key
+
         self._dask_futures[key] = self._client.submit(
             call.func,
-            # Dask displays the text up to the first '-' as the name, the task run key
-            # should include the task run name for readability in the dask console.
-            key=key,
+            key=dask_key,
             # Dask defaults to treating functions are pure, but we set this here for
             # explicit expectations. If this task run is submitted to Dask twice, the
             # result of the first run should be returned. Subsequent runs would return
