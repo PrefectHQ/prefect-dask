@@ -213,14 +213,17 @@ class DaskTaskRunner(BaseTaskRunner):
         if "task_run" in call_kwargs:
             task_run = call_kwargs["task_run"]
             flow_run = FlowRunContext.get().flow_run
+            # Dask displays the text up to the first '-' as the name; the task run key
+            # should include the task run name for readability in the dask console.
+            # The flow run count is included for cases where keys will match
+            # if the task run failed and is running again for a retried flow run,
+            # resulting in a retrieval from the Dask cache.
             dask_key = f"{task_run.name}-{task_run.id.hex}-{flow_run.run_count}"
         else:
             dask_key = key
 
         self._dask_futures[key] = self._client.submit(
             call.func,
-            # Dask displays the text up to the first '-' as the name, the task run key
-            # should include the task run name for readability in the dask console.
             key=dask_key,
             # Dask defaults to treating functions are pure, but we set this here for
             # explicit expectations. If this task run is submitted to Dask twice, the
