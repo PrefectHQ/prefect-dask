@@ -152,3 +152,4 @@ class TestDaskTaskRunner(TaskRunnerStandardTestSuite):
         my_flow()
         futures = task_runner._dask_futures.values()
         assert all(future.key.startswith("my_task-") for future in futures)
+        assert all("-r0-" in future.key for future in futures)

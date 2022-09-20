@@ -211,9 +211,10 @@ class DaskTaskRunner(BaseTaskRunner):
 
         if "task_run" in call_kwargs:
             task_run = call_kwargs["task_run"]
-            dask_key = f"{task_run.name}-{task_run.id.hex}"
+            dask_key = f"{task_run.name}-r{task_run.run_count}-{task_run.id.hex}"
         else:
             dask_key = key
+        print(dask_key)
 
         self._dask_futures[key] = self._client.submit(
             call.func,
