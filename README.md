@@ -107,6 +107,33 @@ DaskTaskRunner(
 )
 ```
 
+### Distributing work across workers
+
+If your task contains a Dask collection, such as a `dask.DataFrame` or `dask.Bag`, to distribute the work across workers and achieve parallel computations, use the `get_dask_client` context manager within your task.
+
+Be mindful of the futures upon `submit` and `compute`. To resolve these futures, call `result`.
+
+```python
+import dask
+from prefect import flow, task
+from prefect_dask import DaskTaskRunner, get_dask_client
+
+@task
+def compute_task():
+    with get_dask_client(timeout="120s") as client:
+        df = dask.datasets.timeseries("2000", "2001", partition_freq="4w")
+        summary_df = client.compute(df.describe())
+    return summary_df.result()
+
+@flow(task_runner=DaskTaskRunner())
+def dask_flow():
+    prefect_future = compute_task.submit()
+    return prefect_future.result()
+
+dask_flow()
+```
+
+
 ### Using a temporary cluster
 
 The `DaskTaskRunner` is capable of creating a temporary cluster using any of [Dask's cluster-manager options](https://docs.dask.org/en/latest/setup.html). This can be useful when you want each flow run to have its own Dask cluster, allowing for per-flow adaptive scaling.
