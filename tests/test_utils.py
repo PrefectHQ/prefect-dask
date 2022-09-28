@@ -38,16 +38,6 @@ def test_get_dask_client_from_flow():
     assert test_flow() == 42
 
 
-def test_get_dask_client_flow_run_context_catch_timeout_error():
-    @flow(task_runner=DaskTaskRunner)
-    def test_flow():
-        with get_dask_client(timeout=42):
-            pass
-
-    with pytest.raises(ValueError, match="Passing `timeout`"):
-        test_flow()
-
-
 @pytest.mark.parametrize("timeout", [None, 10])
 def test_get_dask_client_outside_run_context(timeout):
     delayed_num = dask.delayed(42)

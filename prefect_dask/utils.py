@@ -66,14 +66,11 @@ def get_dask_client(timeout: Optional[Union[int, float, str, timedelta]] = None)
         with worker_client(timeout=timeout, separate_thread=False) as client:
             yield client
     elif flow_run_context:
-        if timeout is not None:
-            raise ValueError(
-                "Passing `timeout` to `get_dask_client` has no "
-                "effect within the flow run context; instead, pass `timeout` "
-                "to `client_kwargs` when instantiating `DaskTaskRunner`."
-            )
         task_runner = flow_run_context.task_runner
-        yield task_runner._client
+        connect_to = task_runner._connect_to
+        client_kwargs = task_runner.client_kwargs
+        with Client(connect_to, **client_kwargs) as client:
+            yield client
     else:
         # this else clause allows users to debug or test
         # without much change to code

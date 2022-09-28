@@ -189,6 +189,7 @@ class DaskTaskRunner(BaseTaskRunner):
         # Runtime attributes
         self._client: "distributed.Client" = None
         self._cluster: "distributed.deploy.Cluster" = None
+        self._connect_to: Union[str, "distributed.deploy.Cluster"] = None
         self._dask_futures: Dict[str, "distributed.Future"] = {}
 
         super().__init__()
@@ -276,7 +277,7 @@ class DaskTaskRunner(BaseTaskRunner):
             self.logger.info(
                 f"Connecting to an existing Dask cluster at {self.address}"
             )
-            connect_to = self.address
+            self._connect_to = self.address
         else:
             self.cluster_class = self.cluster_class or distributed.LocalCluster
 
@@ -284,14 +285,16 @@ class DaskTaskRunner(BaseTaskRunner):
                 f"Creating a new Dask cluster with "
                 f"`{to_qualified_name(self.cluster_class)}`"
             )
-            connect_to = self._cluster = await exit_stack.enter_async_context(
+            self._connect_to = self._cluster = await exit_stack.enter_async_context(
                 self.cluster_class(asynchronous=True, **self.cluster_kwargs)
             )
             if self.adapt_kwargs:
                 self._cluster.adapt(**self.adapt_kwargs)
 
         self._client = await exit_stack.enter_async_context(
-            distributed.Client(connect_to, asynchronous=True, **self.client_kwargs)
+            distributed.Client(
+                self._connect_to, asynchronous=True, **self.client_kwargs
+            )
         )
 
         if self._client.dashboard_link:
