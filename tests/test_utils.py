@@ -7,7 +7,7 @@ from prefect_dask import DaskTaskRunner, get_dask_client
 
 
 @pytest.mark.parametrize("timeout", [None, 10])
-def test_get_dask_client_task_run_context_integration(timeout):
+def test_get_dask_client_from_task(timeout):
     @task
     def test_task():
         delayed_num = dask.delayed(42)
@@ -26,7 +26,7 @@ def test_get_dask_client_task_run_context_integration(timeout):
     assert test_flow() == 42
 
 
-def test_get_dask_client_flow_run_context_integration():
+def test_get_dask_client_from_flow():
     @flow(task_runner=DaskTaskRunner)
     def test_flow():
         delayed_num = dask.delayed(42)
@@ -49,7 +49,7 @@ def test_get_dask_client_flow_run_context_catch_timeout_error():
 
 
 @pytest.mark.parametrize("timeout", [None, 10])
-def test_get_dask_client_no_context(timeout):
+def test_get_dask_client_outside_run_context(timeout):
     delayed_num = dask.delayed(42)
     with get_dask_client(timeout=timeout) as client:
         assert isinstance(client, Client)
