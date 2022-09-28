@@ -115,22 +115,27 @@ class DaskTaskRunner(BaseTaskRunner):
             [`dask.distributed.Client`](https://distributed.dask.org/en/latest/api.html#client).
     Examples:
         Using a temporary local dask cluster:
-        >>> from prefect import flow
-        >>> from prefect_dask.task_runners import DaskTaskRunner
-        >>> @flow(task_runner=DaskTaskRunner)
-        >>> def my_flow():
-        >>>     ...
+        ```python
+        from prefect import flow
+        from prefect_dask.task_runners import DaskTaskRunner
+        @flow(task_runner=DaskTaskRunner)
+        def my_flow():
+            ...
+        ```
         Using a temporary cluster running elsewhere. Any Dask cluster class should
         work, here we use [dask-cloudprovider](https://cloudprovider.dask.org):
-        >>> DaskTaskRunner(
-        >>>     cluster_class="dask_cloudprovider.FargateCluster",
-        >>>     cluster_kwargs={
-        >>>          "image": "prefecthq/prefect:latest",
-        >>>          "n_workers": 5,
-        >>>     },
-        >>> )
+
+        ```python
+        DaskTaskRunner(
+            cluster_class="dask_cloudprovider.FargateCluster",
+            cluster_kwargs={
+                "image": "prefecthq/prefect:latest",
+                "n_workers": 5,
+            },
+        )
         Connecting to an existing dask cluster:
-        >>> DaskTaskRunner(address="192.0.2.255:8786")
+        DaskTaskRunner(address="192.0.2.255:8786")
+        ```
     """
 
     def __init__(

@@ -109,9 +109,9 @@ DaskTaskRunner(
 
 ### Distributing work across workers
 
-If your task contains a Dask collection, such as a `dask.DataFrame` or `dask.Bag`, to distribute the work across workers and achieve parallel computations, use the `get_dask_client` context manager within your task.
+If your task contains a Dask collection, such as a `dask.DataFrame` or `dask.Bag`, to distribute the work across workers and achieve parallel computations, use the `get_dask_client` context manager.
 
-Be mindful of the futures upon `submit` and `compute`. To resolve these futures, call `result`.
+Within task run contexts:
 
 ```python
 import dask
@@ -122,8 +122,8 @@ from prefect_dask import DaskTaskRunner, get_dask_client
 def compute_task():
     with get_dask_client(timeout="120s") as client:
         df = dask.datasets.timeseries("2000", "2001", partition_freq="4w")
-        summary_df = client.compute(df.describe())
-    return summary_df.result()
+        summary_df = client.compute(df.describe()).result()
+    return summary_df
 
 @flow(task_runner=DaskTaskRunner())
 def dask_flow():
@@ -133,6 +133,31 @@ def dask_flow():
 dask_flow()
 ```
 
+Within flow run contexts; not `timeout` must be set in `DaskTaskRunner`:
+```python
+import dask
+from prefect import flow
+from prefect_dask import DaskTaskRunner, get_dask_client
+
+@flow(task_runner=DaskTaskRunner(client_kwargs=dict(timeout="120s")))
+def dask_flow():
+    with get_dask_client() as client:
+        df = dask.datasets.timeseries("2000", "2001", partition_freq="4w")
+        summary_df = client.compute(df.describe()).result()
+    return summary_df
+
+dask_flow()
+```
+
+Be mindful of the futures upon `compute`; without resolving the futures, you may encounter:
+`Future: finalize status: cancelled`. To resolve these futures, call `result`.
+
+To resolve multiple Dask futures together, use `sync=True`:
+```python
+summary_df = client.compute(futures, sync=True)
+```
+
+For more information, visit the docs on [Waiting on Futures](https://docs.dask.org/en/stable/futures.html#waiting-on-futures).
 
 ### Using a temporary cluster
 
