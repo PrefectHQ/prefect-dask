@@ -107,12 +107,11 @@ DaskTaskRunner(
 )
 ```
 
-### Distributing work across workers
+### Distributing Dask collections across workers
 
 If your task contains a Dask collection, such as a `dask.DataFrame` or `dask.Bag`, to distribute the work across workers and achieve parallel computations, use the `get_dask_client` context manager.
 
 Within task run contexts:
-
 ```python
 import dask
 from prefect import flow, task
@@ -133,7 +132,7 @@ def dask_flow():
 dask_flow()
 ```
 
-Within flow run contexts; not `timeout` must be set in `DaskTaskRunner`:
+Within flow run contexts; `timeout` must be set in `DaskTaskRunner`:
 ```python
 import dask
 from prefect import flow
