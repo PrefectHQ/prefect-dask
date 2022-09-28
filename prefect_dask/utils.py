@@ -4,32 +4,33 @@ Utils to use alongside prefect-dask.
 
 from contextlib import contextmanager
 from datetime import timedelta
-from typing import Optional, Union
+from typing import Any, Dict, Optional, Union
 
-from distributed import Client, worker_client
+from distributed import Client, get_client
 from prefect.context import FlowRunContext, TaskRunContext
 
 
 @contextmanager
-def get_dask_client(timeout: Optional[Union[int, float, str, timedelta]] = None):
+def get_dask_client(
+    timeout: Optional[Union[int, float, str, timedelta]] = None,
+    **client_kwargs: Dict[str, Any]
+) -> Client:
     """
-    This is useful for parallelizing operations on dask collections,
-    such as a `dask.DataFrame`.
+    Yields a temporary client; this is useful for parallelizing operations
+    on dask collections, such as a `dask.DataFrame` or `dask.Bag`.
 
     Without invoking this, workers do not automatically get a client to connect
     to the full cluster. Therefore, it will attempt perform work within the
     worker itself serially, and potentially overwhelming the single worker.
-
-    Within the task run context, this context manager is a simple
-    wrapper around `distributed.worker_client` with `separate_thread=False` fixed
-    Within the flow run context, this context manager simply returns
-    the existing client used in `DaskTaskRunner`.
 
     Args:
         timeout: Timeout after which to error out; has no effect in
             flow run contexts because the client has already started;
             Defaults to the `distributed.comm.timeouts.connect`
             configuration value.
+        client_kwargs: Additional keyword arguments to pass to
+            `distributed.Client`, and overwrites inherited keyword arguments
+            from the task runner, if any.
 
     Returns:
         Within task run contexts, the dask worker client, and within flow run contexts,
@@ -37,8 +38,6 @@ def get_dask_client(timeout: Optional[Union[int, float, str, timedelta]] = None)
 
     Examples:
         Use `get_dask_client` to distribute work across workers within task run context.
-        Be mindful of the futures upon `submit` and `compute`. To resolve these futures,
-        call `result` on the future.
         ```python
         import dask
         from prefect import flow, task
@@ -48,7 +47,7 @@ def get_dask_client(timeout: Optional[Union[int, float, str, timedelta]] = None)
         def compute_task():
             with get_dask_client(timeout="120s") as client:
                 df = dask.datasets.timeseries("2000", "2001", partition_freq="4w")
-                summary_df = client.compute(df.describe()).result()
+                summary_df = df.describe().compute()
             return summary_df
 
         @flow(task_runner=DaskTaskRunner())
@@ -59,23 +58,32 @@ def get_dask_client(timeout: Optional[Union[int, float, str, timedelta]] = None)
         dask_flow()
         ```
     """
-    task_run_context = TaskRunContext.get()
     flow_run_context = FlowRunContext.get()
+    task_run_context = TaskRunContext.get()
 
-    if task_run_context:
-        with worker_client(timeout=timeout, separate_thread=False) as client:
-            yield client
-    elif flow_run_context:
+    if flow_run_context:
         task_runner = flow_run_context.task_runner
-        connect_to = task_runner._connect_to
-        client_kwargs = task_runner.client_kwargs
-        with Client(connect_to, **client_kwargs) as client:
-            yield client
+        input_client_kwargs = task_runner.client_kwargs
+        address = task_runner._connect_to
+        asynchronous = flow_run_context.flow.isasync
+    elif task_run_context:
+        # copies functionality of worker_client(separate_thread=False)
+        # because this allows us to set asynchronous based on user's task
+        input_client_kwargs = {}
+        address = get_client(timeout=timeout).scheduler.address
+        asynchronous = task_run_context.task.isasync
     else:
         # this else clause allows users to debug or test
         # without much change to code
-        client_kwargs = {}
-        if timeout is not None:  # dask errors if timeout=None here
-            client_kwargs["timeout"] = timeout
-        with Client(**client_kwargs) as client:
-            yield client
+        input_client_kwargs = {}
+        address = None
+        asynchronous = False
+
+    input_client_kwargs["address"] = address
+    input_client_kwargs["asynchronous"] = asynchronous
+    if timeout is not None:
+        input_client_kwargs["timeout"] = timeout
+    input_client_kwargs.update(**client_kwargs)
+
+    with Client(**input_client_kwargs) as client:
+        yield client
