@@ -15,7 +15,7 @@ def test_get_dask_client_from_task(timeout):
             assert isinstance(client, Client)
             if timeout is not None:
                 assert client._timeout == timeout
-            result = client.compute(delayed_num)
+            result = delayed_num.compute()
         return result
 
     @flow(task_runner=DaskTaskRunner)
@@ -33,7 +33,9 @@ def test_get_dask_client_from_flow(timeout):
         delayed_num = dask.delayed(42)
         with get_dask_client(timeout=timeout) as client:
             assert isinstance(client, Client)
-            result = client.compute(delayed_num)
+            if timeout is not None:
+                assert client._timeout == timeout
+            result = delayed_num.compute()
         return result
 
     assert test_flow() == 42
@@ -46,5 +48,5 @@ def test_get_dask_client_outside_run_context(timeout):
         assert isinstance(client, Client)
         if timeout is not None:
             assert client._timeout == timeout
-        result = client.compute(delayed_num)
+        result = delayed_num.compute()
     assert result == 42
