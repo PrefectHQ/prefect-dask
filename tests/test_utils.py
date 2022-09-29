@@ -94,20 +94,6 @@ class TestDaskAsyncClient:
 
         assert (await test_flow()) == 42
 
-    async def test_from_async_task_error(self):
-        @task
-        async def test_task():
-            with get_dask_sync_client():
-                pass
-
-        @flow(task_runner=DaskTaskRunner)
-        async def test_flow():
-            await test_task.submit()
-
-        match = "The task run is sync"
-        with pytest.raises(ImproperClientError, match=match):
-            await test_flow()
-
     async def test_from_flow(self):
         @flow(task_runner=DaskTaskRunner)
         async def test_flow():
