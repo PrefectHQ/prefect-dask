@@ -109,16 +109,16 @@ DaskTaskRunner(
 
 ### Distributing Dask collections across workers
 
-If you use a Dask collection, such as a `dask.DataFrame` or `dask.Bag`, to distribute the work across workers and achieve parallel computations, use the `get_dask_client` context manager:
+If you use a Dask collection, such as a `dask.DataFrame` or `dask.Bag`, to distribute the work across workers and achieve parallel computations, use one of the context managers `get_dask_sync_client` or `get_dask_async_client`:
 
 ```python
 import dask
 from prefect import flow, task
-from prefect_dask import DaskTaskRunner, get_dask_client
+from prefect_dask import DaskTaskRunner, get_dask_sync_client
 
 @task
 def compute_task():
-    with get_dask_client() as client:
+    with get_dask_sync_client() as client:
         df = dask.datasets.timeseries("2000", "2001", partition_freq="4w")
         summary_df = df.describe().compute()
     return summary_df
@@ -131,23 +131,53 @@ def dask_flow():
 dask_flow()
 ```
 
-The util, `get_dask_client`, can be used the same way in both `flow` run contexts and `task` run contexts.
+The context managers can be used the same way in both `flow` run contexts and `task` run contexts.
 
-!!! warning "Resolving futures"
-    Note, by default, `client.compute(dask_collection)` returns Dask Futures while `dask_collection.compute()` returns concrete values. Therefore, if you call `client.compute`, you must resolve all futures before exiting out of the context manager by either setting `sync=True` or calling `result`!
-
+!!! warning "Resolving futures in sync client"
+    Note, by default, `dask_collection.compute()` returns concrete values while `client.compute(dask_collection)` returns Dask Futures. Therefore, if you call `client.compute`, you must resolve all futures before exiting out of the context manager by either:
+    
+    1. setting `sync=True`
     ```python
-    with get_dask_client() as client:
+    with get_dask_sync_client() as client:
         df = dask.datasets.timeseries("2000", "2001", partition_freq="4w")
         summary_df = client.compute(df.describe(), sync=True)
     ```
 
+    2. calling `result()`
     ```python
-    with get_dask_client() as client:
+    with get_dask_sync_client() as client:
         df = dask.datasets.timeseries("2000", "2001", partition_freq="4w")
         summary_df = client.compute(df.describe()).result()
     ```
     For more information, visit the docs on [Waiting on Futures](https://docs.dask.org/en/stable/futures.html#waiting-on-futures).
+
+There is also an equivalent `async` version, namely `get_dask_async_client`.
+
+```python
+import dask
+from prefect import flow, task
+from prefect_dask import DaskTaskRunner, get_dask_async_client
+
+@task
+async def compute_task():
+    async with get_dask_async_client() as client:
+        df = dask.datasets.timeseries("2000", "2001", partition_freq="4w")
+        summary_df = await client.compute(df.describe())
+    return summary_df
+
+@flow(task_runner=DaskTaskRunner())
+async def dask_flow():
+    prefect_future = await compute_task.submit()
+    return await prefect_future.result()
+
+asyncio.run(dask_flow())
+```
+!!! warning "Resolving futures in async client"
+    With the async client, you do not need to set `sync=True` or call `result()`.
+
+    However you must `await client.compute` before exiting out of the context manager.
+
+    Running `await dask_collection.compute()` will result in an error: `TypeError: 'coroutine' object is not iterable`.
 
 ### Using a temporary cluster
 

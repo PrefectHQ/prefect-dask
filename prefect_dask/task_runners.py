@@ -93,12 +93,15 @@ class DaskTaskRunner(BaseTaskRunner):
     different cluster class (e.g.
     [`dask_kubernetes.KubeCluster`](https://kubernetes.dask.org/)), you can
     specify `cluster_class`/`cluster_kwargs`.
+
     Alternatively, if you already have a dask cluster running, you can provide
     the address of the scheduler via the `address` kwarg.
+
     !!! warning "Multiprocessing safety"
         Note that, because the `DaskTaskRunner` uses multiprocessing, calls to flows
         in scripts must be guarded with `if __name__ == "__main__":` or warnings will
         be displayed.
+
     Args:
         address (string, optional): Address of a currently running dask
             scheduler; if one is not provided, a temporary cluster will be
@@ -113,6 +116,7 @@ class DaskTaskRunner(BaseTaskRunner):
             is only enabled if `adapt_kwargs` are provided.
         client_kwargs (dict, optional): Additional kwargs to use when creating a
             [`dask.distributed.Client`](https://distributed.dask.org/en/latest/api.html#client).
+
     Examples:
         Using a temporary local dask cluster:
         ```python
@@ -122,9 +126,9 @@ class DaskTaskRunner(BaseTaskRunner):
         def my_flow():
             ...
         ```
+
         Using a temporary cluster running elsewhere. Any Dask cluster class should
         work, here we use [dask-cloudprovider](https://cloudprovider.dask.org):
-
         ```python
         DaskTaskRunner(
             cluster_class="dask_cloudprovider.FargateCluster",
@@ -133,7 +137,10 @@ class DaskTaskRunner(BaseTaskRunner):
                 "n_workers": 5,
             },
         )
+        ```
+
         Connecting to an existing dask cluster:
+        ```python
         DaskTaskRunner(address="192.0.2.255:8786")
         ```
     """
