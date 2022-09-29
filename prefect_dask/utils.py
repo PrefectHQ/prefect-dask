@@ -48,10 +48,6 @@ def _populate_client_kwargs(
         raise ImproperClientError(
             f"The {context} run is async; use `get_dask_async_client` instead"
         )
-    elif async_client and not asynchronous:
-        raise ImproperClientError(
-            f"The {context} run is not async; use `get_dask_sync_client` instead"
-        )
 
     input_client_kwargs["address"] = address
     input_client_kwargs["asynchronous"] = asynchronous

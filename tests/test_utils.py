@@ -94,6 +94,19 @@ class TestDaskAsyncClient:
 
         assert (await test_flow()) == 42
 
+    def test_from_sync_task_error(self):
+        @task
+        def test_task():
+            with get_dask_async_client():
+                pass
+
+        @flow(task_runner=DaskTaskRunner)
+        def test_flow():
+            test_task.submit()
+
+        with pytest.raises(AttributeError, match="__enter__"):
+            test_flow()
+
     async def test_from_flow(self):
         @flow(task_runner=DaskTaskRunner)
         async def test_flow():
@@ -105,15 +118,14 @@ class TestDaskAsyncClient:
 
         assert (await test_flow()) == 42
 
-    async def test_from_async_flow_error(self):
+    def test_from_sync_flow_error(self):
         @flow(task_runner=DaskTaskRunner)
-        async def test_flow():
-            with get_dask_sync_client():
+        def test_flow():
+            with get_dask_async_client():
                 pass
 
-        match = "The flow run is async"
-        with pytest.raises(ImproperClientError, match=match):
-            await test_flow()
+        with pytest.raises(AttributeError, match="__enter__"):
+            test_flow()
 
     async def test_outside_run_context(self):
         delayed_num = dask.delayed(42)
