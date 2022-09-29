@@ -154,6 +154,8 @@ The context managers can be used the same way in both `flow` run contexts and `t
 There is also an equivalent `async` version, namely `get_dask_async_client`.
 
 ```python
+import asyncio
+
 import dask
 from prefect import flow, task
 from prefect_dask import DaskTaskRunner, get_dask_async_client
