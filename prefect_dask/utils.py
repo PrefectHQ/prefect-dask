@@ -58,13 +58,14 @@ def _populate_client_kwargs(
 
 
 @contextmanager
-def get_dask_sync_client(
+def get_dask_client(
     timeout: Optional[Union[int, float, str, timedelta]] = None,
     **client_kwargs: Dict[str, Any],
 ) -> Client:
     """
-    Yields a temporary dask sync client; this is useful for parallelizing operations
-    on dask collections, such as a `dask.DataFrame` or `dask.Bag`.
+    Yields a temporary synchronous dask client; this is useful
+    for parallelizing operations on dask collections,
+    such as a `dask.DataFrame` or `dask.Bag`.
 
     Without invoking this, workers do not automatically get a client to connect
     to the full cluster. Therefore, it will attempt perform work within the
@@ -80,18 +81,18 @@ def get_dask_sync_client(
             from the task runner, if any.
 
     Returns:
-        A temporary dask sync client.
+        A temporary synchronous dask client.
 
     Examples:
-        Use `get_dask_sync_client` to distribute work across workers.
+        Use `get_dask_client` to distribute work across workers.
         ```python
         import dask
         from prefect import flow, task
-        from prefect_dask import DaskTaskRunner, get_dask_sync_client
+        from prefect_dask import DaskTaskRunner, get_dask_client
 
         @task
         def compute_task():
-            with get_dask_sync_client(timeout="120s") as client:
+            with get_dask_client(timeout="120s") as client:
                 df = dask.datasets.timeseries("2000", "2001", partition_freq="4w")
                 summary_df = client.compute(df.describe()).result()
             return summary_df
@@ -117,8 +118,9 @@ async def get_dask_async_client(
     **client_kwargs: Dict[str, Any],
 ) -> Client:
     """
-    Yields a temporary async client; this is useful for parallelizing operations
-    on dask collections, such as a `dask.DataFrame` or `dask.Bag`.
+    Yields a temporary asynchronous dask client; this is useful
+    for parallelizing operations on dask collections,
+    such as a `dask.DataFrame` or `dask.Bag`.
 
     Without invoking this, workers do not automatically get a client to connect
     to the full cluster. Therefore, it will attempt perform work within the
@@ -134,7 +136,7 @@ async def get_dask_async_client(
             from the task runner, if any.
 
     Yields:
-        A temporary dask async client.
+        A temporary asynchronous dask client.
 
     Examples:
         Use `get_dask_async_client` to distribute work across workers.

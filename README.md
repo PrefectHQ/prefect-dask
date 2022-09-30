@@ -109,16 +109,16 @@ DaskTaskRunner(
 
 ### Distributing Dask collections across workers
 
-If you use a Dask collection, such as a `dask.DataFrame` or `dask.Bag`, to distribute the work across workers and achieve parallel computations, use one of the context managers `get_dask_sync_client` or `get_dask_async_client`:
+If you use a Dask collection, such as a `dask.DataFrame` or `dask.Bag`, to distribute the work across workers and achieve parallel computations, use one of the context managers `get_dask_client` or `get_dask_async_client`:
 
 ```python
 import dask
 from prefect import flow, task
-from prefect_dask import DaskTaskRunner, get_dask_sync_client
+from prefect_dask import DaskTaskRunner, get_dask_client
 
 @task
 def compute_task():
-    with get_dask_sync_client() as client:
+    with get_dask_client() as client:
         df = dask.datasets.timeseries("2000", "2001", partition_freq="4w")
         summary_df = df.describe().compute()
     return summary_df
@@ -138,14 +138,14 @@ The context managers can be used the same way in both `flow` run contexts and `t
     
     1. setting `sync=True`
     ```python
-    with get_dask_sync_client() as client:
+    with get_dask_client() as client:
         df = dask.datasets.timeseries("2000", "2001", partition_freq="4w")
         summary_df = client.compute(df.describe(), sync=True)
     ```
 
     2. calling `result()`
     ```python
-    with get_dask_sync_client() as client:
+    with get_dask_client() as client:
         df = dask.datasets.timeseries("2000", "2001", partition_freq="4w")
         summary_df = client.compute(df.describe()).result()
     ```
