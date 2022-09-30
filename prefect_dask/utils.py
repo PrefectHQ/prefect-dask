@@ -71,7 +71,7 @@ def get_dask_client(
     to the full cluster. Therefore, it will attempt perform work within the
     worker itself serially, and potentially overwhelming the single worker.
 
-    Yields:
+    Args:
         timeout: Timeout after which to error out; has no effect in
             flow run contexts because the client has already started;
             Defaults to the `distributed.comm.timeouts.connect`
@@ -80,7 +80,7 @@ def get_dask_client(
             `distributed.Client`, and overwrites inherited keyword arguments
             from the task runner, if any.
 
-    Returns:
+    Yields:
         A temporary synchronous dask client.
 
     Examples:
