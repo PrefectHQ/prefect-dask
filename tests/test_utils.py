@@ -3,7 +3,7 @@ import pytest
 from distributed import Client
 from prefect import flow, task
 
-from prefect_dask import DaskTaskRunner, get_dask_async_client, get_dask_client
+from prefect_dask import DaskTaskRunner, get_async_dask_client, get_dask_client
 from prefect_dask.exceptions import ImproperClientError
 
 
@@ -82,7 +82,7 @@ class TestDaskAsyncClient:
         @task
         async def test_task():
             delayed_num = dask.delayed(42)
-            async with get_dask_async_client() as client:
+            async with get_async_dask_client() as client:
                 assert isinstance(client, Client)
                 result = await client.compute(delayed_num).result()
             return result
@@ -97,7 +97,7 @@ class TestDaskAsyncClient:
     def test_from_sync_task_error(self):
         @task
         def test_task():
-            with get_dask_async_client():
+            with get_async_dask_client():
                 pass
 
         @flow(task_runner=DaskTaskRunner)
@@ -111,7 +111,7 @@ class TestDaskAsyncClient:
         @flow(task_runner=DaskTaskRunner)
         async def test_flow():
             delayed_num = dask.delayed(42)
-            async with get_dask_async_client() as client:
+            async with get_async_dask_client() as client:
                 assert isinstance(client, Client)
                 result = await client.compute(delayed_num).result()
             return result
@@ -121,7 +121,7 @@ class TestDaskAsyncClient:
     def test_from_sync_flow_error(self):
         @flow(task_runner=DaskTaskRunner)
         def test_flow():
-            with get_dask_async_client():
+            with get_async_dask_client():
                 pass
 
         with pytest.raises(AttributeError, match="__enter__"):
@@ -129,7 +129,7 @@ class TestDaskAsyncClient:
 
     async def test_outside_run_context(self):
         delayed_num = dask.delayed(42)
-        async with get_dask_async_client() as client:
+        async with get_async_dask_client() as client:
             assert isinstance(client, Client)
             result = await client.compute(delayed_num).result()
         assert result == 42
@@ -137,7 +137,7 @@ class TestDaskAsyncClient:
     @pytest.mark.parametrize("timeout", [None, 8])
     async def test_include_timeout(self, timeout):
         delayed_num = dask.delayed(42)
-        async with get_dask_async_client(timeout=timeout) as client:
+        async with get_async_dask_client(timeout=timeout) as client:
             assert isinstance(client, Client)
             if timeout is not None:
                 assert client._timeout == timeout

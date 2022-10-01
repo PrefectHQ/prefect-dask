@@ -12,7 +12,7 @@ from prefect.context import FlowRunContext, TaskRunContext
 from prefect_dask.exceptions import ImproperClientError
 
 
-def _populate_client_kwargs(
+def _generate_client_kwargs(
     async_client: bool,
     timeout: Optional[Union[int, float, str, timedelta]] = None,
     **client_kwargs: Dict[str, Any],
@@ -23,19 +23,19 @@ def _populate_client_kwargs(
     flow_run_context = FlowRunContext.get()
     task_run_context = TaskRunContext.get()
 
-    if flow_run_context:
-        context = "flow"
-        task_runner = flow_run_context.task_runner
-        input_client_kwargs = task_runner.client_kwargs
-        address = task_runner._connect_to
-        asynchronous = flow_run_context.flow.isasync
-    elif task_run_context:
+    if task_run_context:
         # copies functionality of worker_client(separate_thread=False)
         # because this allows us to set asynchronous based on user's task
         context = "task"
         input_client_kwargs = {}
         address = get_client().scheduler.address
         asynchronous = task_run_context.task.isasync
+    elif flow_run_context:
+        context = "flow"
+        task_runner = flow_run_context.task_runner
+        input_client_kwargs = task_runner.client_kwargs
+        address = task_runner._connect_to
+        asynchronous = flow_run_context.flow.isasync
     else:
         # this else clause allows users to debug or test
         # without much change to code
@@ -46,7 +46,7 @@ def _populate_client_kwargs(
 
     if not async_client and asynchronous:
         raise ImproperClientError(
-            f"The {context} run is async; use `get_dask_async_client` instead"
+            f"The {context} run is async; use `get_async_dask_client` instead"
         )
 
     input_client_kwargs["address"] = address
@@ -105,7 +105,7 @@ def get_dask_client(
         dask_flow()
         ```
     """
-    client_kwargs = _populate_client_kwargs(
+    client_kwargs = _generate_client_kwargs(
         async_client=False, timeout=timeout, **client_kwargs
     )
     with Client(**client_kwargs) as client:
@@ -113,7 +113,7 @@ def get_dask_client(
 
 
 @asynccontextmanager
-async def get_dask_async_client(
+async def get_async_dask_client(
     timeout: Optional[Union[int, float, str, timedelta]] = None,
     **client_kwargs: Dict[str, Any],
 ) -> Client:
@@ -139,15 +139,15 @@ async def get_dask_async_client(
         A temporary asynchronous dask client.
 
     Examples:
-        Use `get_dask_async_client` to distribute work across workers.
+        Use `get_async_dask_client` to distribute work across workers.
         ```python
         import dask
         from prefect import flow, task
-        from prefect_dask import DaskTaskRunner, get_dask_async_client
+        from prefect_dask import DaskTaskRunner, get_async_dask_client
 
         @task
         async def compute_task():
-            async with get_dask_async_client(timeout="120s") as client:
+            async with get_async_dask_client(timeout="120s") as client:
                 df = dask.datasets.timeseries("2000", "2001", partition_freq="4w")
                 summary_df = await client.compute(df.describe())
             return summary_df
@@ -160,7 +160,7 @@ async def get_dask_async_client(
         asyncio.run(dask_flow())
         ```
     """
-    client_kwargs = _populate_client_kwargs(
+    client_kwargs = _generate_client_kwargs(
         async_client=True, timeout=timeout, **client_kwargs
     )
     async with Client(**client_kwargs) as client:

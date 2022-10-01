@@ -109,7 +109,7 @@ DaskTaskRunner(
 
 ### Distributing Dask collections across workers
 
-If you use a Dask collection, such as a `dask.DataFrame` or `dask.Bag`, to distribute the work across workers and achieve parallel computations, use one of the context managers `get_dask_client` or `get_dask_async_client`:
+If you use a Dask collection, such as a `dask.DataFrame` or `dask.Bag`, to distribute the work across workers and achieve parallel computations, use one of the context managers `get_dask_client` or `get_async_dask_client`:
 
 ```python
 import dask
@@ -151,18 +151,18 @@ The context managers can be used the same way in both `flow` run contexts and `t
     ```
     For more information, visit the docs on [Waiting on Futures](https://docs.dask.org/en/stable/futures.html#waiting-on-futures).
 
-There is also an equivalent `async` version, namely `get_dask_async_client`.
+There is also an equivalent `async` version, namely `get_async_dask_client`.
 
 ```python
 import asyncio
 
 import dask
 from prefect import flow, task
-from prefect_dask import DaskTaskRunner, get_dask_async_client
+from prefect_dask import DaskTaskRunner, get_async_dask_client
 
 @task
 async def compute_task():
-    async with get_dask_async_client() as client:
+    async with get_async_dask_client() as client:
         df = dask.datasets.timeseries("2000", "2001", partition_freq="4w")
         summary_df = await client.compute(df.describe())
     return summary_df

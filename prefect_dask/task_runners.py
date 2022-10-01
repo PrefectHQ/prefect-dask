@@ -291,10 +291,9 @@ class DaskTaskRunner(BaseTaskRunner):
                 f"Creating a new Dask cluster with "
                 f"`{to_qualified_name(self.cluster_class)}`"
             )
-            self._cluster = await exit_stack.enter_async_context(
+            self._connect_to = self._cluster = await exit_stack.enter_async_context(
                 self.cluster_class(asynchronous=True, **self.cluster_kwargs)
             )
-            self._connect_to = self._cluster.scheduler_address
             if self.adapt_kwargs:
                 self._cluster.adapt(**self.adapt_kwargs)
 
@@ -316,7 +315,7 @@ class DaskTaskRunner(BaseTaskRunner):
         Must be deserialized on a dask worker.
         """
         data = self.__dict__.copy()
-        data.update({k: None for k in {"_client", "_cluster"}})
+        data.update({k: None for k in {"_client", "_cluster", "_connect_to"}})
         return data
 
     def __setstate__(self, data: dict):
