@@ -151,7 +151,7 @@ The context managers can be used the same way in both `flow` run contexts and `t
     ```
     For more information, visit the docs on [Waiting on Futures](https://docs.dask.org/en/stable/futures.html#waiting-on-futures).
 
-There is also an equivalent `async` version, namely `get_async_dask_client`.
+There is also an equivalent context manager for asynchronous tasks and flows: `get_async_dask_client`.
 
 ```python
 import asyncio

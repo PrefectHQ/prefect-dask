@@ -61,7 +61,7 @@ def get_dask_client(
     to the full cluster. Therefore, it will attempt perform work within the
     worker itself serially, and potentially overwhelming the single worker.
 
-    For async, there is `get_async_dask_client`.
+    When in an async context, we recommend using `get_async_dask_client` instead.
 
     Args:
         timeout: Timeout after which to error out; has no effect in
