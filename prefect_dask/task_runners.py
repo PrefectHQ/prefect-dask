@@ -93,6 +93,7 @@ class DaskTaskRunner(BaseTaskRunner):
     different cluster class (e.g.
     [`dask_kubernetes.KubeCluster`](https://kubernetes.dask.org/)), you can
     specify `cluster_class`/`cluster_kwargs`.
+
     Alternatively, if you already have a dask cluster running, you can provide
     the cluster object via the `cluster` kwarg or the address of the scheduler
     via the `address` kwarg.
@@ -100,6 +101,7 @@ class DaskTaskRunner(BaseTaskRunner):
         Note that, because the `DaskTaskRunner` uses multiprocessing, calls to flows
         in scripts must be guarded with `if __name__ == "__main__":` or warnings will
         be displayed.
+
     Args:
         cluster (distributed.deploy.Cluster, optional): Currently running dask cluster;
             if one is not provider (or specified via `address` kwarg), a temporary
@@ -116,24 +118,33 @@ class DaskTaskRunner(BaseTaskRunner):
             is only enabled if `adapt_kwargs` are provided.
         client_kwargs (dict, optional): Additional kwargs to use when creating a
             [`dask.distributed.Client`](https://distributed.dask.org/en/latest/api.html#client).
+
     Examples:
         Using a temporary local dask cluster:
-        >>> from prefect import flow
-        >>> from prefect_dask.task_runners import DaskTaskRunner
-        >>> @flow(task_runner=DaskTaskRunner)
-        >>> def my_flow():
-        >>>     ...
+        ```python
+        from prefect import flow
+        from prefect_dask.task_runners import DaskTaskRunner
+        @flow(task_runner=DaskTaskRunner)
+        def my_flow():
+            ...
+        ```
+
         Using a temporary cluster running elsewhere. Any Dask cluster class should
         work, here we use [dask-cloudprovider](https://cloudprovider.dask.org):
-        >>> DaskTaskRunner(
-        >>>     cluster_class="dask_cloudprovider.FargateCluster",
-        >>>     cluster_kwargs={
-        >>>          "image": "prefecthq/prefect:latest",
-        >>>          "n_workers": 5,
-        >>>     },
-        >>> )
+        ```python
+        DaskTaskRunner(
+            cluster_class="dask_cloudprovider.FargateCluster",
+            cluster_kwargs={
+                "image": "prefecthq/prefect:latest",
+                "n_workers": 5,
+            },
+        )
+        ```
+
         Connecting to an existing dask cluster:
-        >>> DaskTaskRunner(address="192.0.2.255:8786")
+        ```python
+        DaskTaskRunner(address="192.0.2.255:8786")
+        ```
     """
 
     def __init__(
@@ -291,7 +302,7 @@ class DaskTaskRunner(BaseTaskRunner):
             self.logger.info(
                 f"Connecting to an existing Dask cluster at {self.address}"
             )
-            connect_to = self.address
+            self._connect_to = self.address
         else:
             self.cluster_class = self.cluster_class or distributed.LocalCluster
 
@@ -299,14 +310,16 @@ class DaskTaskRunner(BaseTaskRunner):
                 f"Creating a new Dask cluster with "
                 f"`{to_qualified_name(self.cluster_class)}`"
             )
-            connect_to = self._cluster = await exit_stack.enter_async_context(
+            self._connect_to = self._cluster = await exit_stack.enter_async_context(
                 self.cluster_class(asynchronous=True, **self.cluster_kwargs)
             )
             if self.adapt_kwargs:
                 self._cluster.adapt(**self.adapt_kwargs)
 
         self._client = await exit_stack.enter_async_context(
-            distributed.Client(connect_to, asynchronous=True, **self.client_kwargs)
+            distributed.Client(
+                self._connect_to, asynchronous=True, **self.client_kwargs
+            )
         )
 
         if self._client.dashboard_link:
@@ -321,7 +334,7 @@ class DaskTaskRunner(BaseTaskRunner):
         Must be deserialized on a dask worker.
         """
         data = self.__dict__.copy()
-        data.update({k: None for k in {"_client", "_cluster"}})
+        data.update({k: None for k in {"_client", "_cluster", "_connect_to"}})
         return data
 
     def __setstate__(self, data: dict):

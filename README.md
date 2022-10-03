@@ -1,5 +1,21 @@
 # prefect-dask
 
+<p align="center">
+    <a href="https://pypi.python.org/pypi/prefect-dask/" alt="PyPI version">
+        <img alt="PyPI" src="https://img.shields.io/pypi/v/prefect-dask?color=0052FF&labelColor=090422"></a>
+    <a href="https://github.com/PrefectHQ/prefect-dask/" alt="Stars">
+        <img src="https://img.shields.io/github/stars/PrefectHQ/prefect-dask?color=0052FF&labelColor=090422" /></a>
+    <a href="https://pepy.tech/badge/prefect-dask/" alt="Downloads">
+        <img src="https://img.shields.io/pypi/dm/prefect-dask?color=0052FF&labelColor=090422" /></a>
+    <a href="https://github.com/PrefectHQ/prefect-dask/pulse" alt="Activity">
+        <img src="https://img.shields.io/github/commit-activity/m/PrefectHQ/prefect-dask?color=0052FF&labelColor=090422" /></a>
+    <br>
+    <a href="https://prefect-community.slack.com" alt="Slack">
+        <img src="https://img.shields.io/badge/slack-join_community-red.svg?color=0052FF&labelColor=090422&logo=slack" /></a>
+    <a href="https://discourse.prefect.io/" alt="Discourse">
+        <img src="https://img.shields.io/badge/discourse-browse_forum-red.svg?color=0052FF&labelColor=090422&logo=discourse" /></a>
+</p>
+
 ## Welcome!
 
 Prefect integrations with the [Dask.distributed](http://distributed.dask.org/) library for distributed computing in Python.
@@ -23,6 +39,14 @@ Install `prefect-dask` with `pip`:
 ```bash
 pip install prefect-dask
 ```
+
+Then, register to [view the block](https://orion-docs.prefect.io/ui/blocks/) on Prefect Cloud:
+
+```bash
+prefect block register -m prefect_dask.credentials
+```
+
+Note, to use the `load` method on Blocks, you must already have a block document [saved through code](https://orion-docs.prefect.io/concepts/blocks/#saving-blocks) or [saved through the UI](https://orion-docs.prefect.io/ui/blocks/).
 
 ## Running tasks on Dask
 
@@ -107,6 +131,80 @@ DaskTaskRunner(
     cluster_kwargs={"n_workers": 4, "threads_per_worker": 2}
 )
 ```
+
+### Distributing Dask collections across workers
+
+If you use a Dask collection, such as a `dask.DataFrame` or `dask.Bag`, to distribute the work across workers and achieve parallel computations, use one of the context managers `get_dask_client` or `get_async_dask_client`:
+
+```python
+import dask
+from prefect import flow, task
+from prefect_dask import DaskTaskRunner, get_dask_client
+
+@task
+def compute_task():
+    with get_dask_client() as client:
+        df = dask.datasets.timeseries("2000", "2001", partition_freq="4w")
+        summary_df = df.describe().compute()
+    return summary_df
+
+@flow(task_runner=DaskTaskRunner())
+def dask_flow():
+    prefect_future = compute_task.submit()
+    return prefect_future.result()
+
+dask_flow()
+```
+
+The context managers can be used the same way in both `flow` run contexts and `task` run contexts.
+
+!!! warning "Resolving futures in sync client"
+    Note, by default, `dask_collection.compute()` returns concrete values while `client.compute(dask_collection)` returns Dask Futures. Therefore, if you call `client.compute`, you must resolve all futures before exiting out of the context manager by either:
+    
+    1. setting `sync=True`
+    ```python
+    with get_dask_client() as client:
+        df = dask.datasets.timeseries("2000", "2001", partition_freq="4w")
+        summary_df = client.compute(df.describe(), sync=True)
+    ```
+
+    2. calling `result()`
+    ```python
+    with get_dask_client() as client:
+        df = dask.datasets.timeseries("2000", "2001", partition_freq="4w")
+        summary_df = client.compute(df.describe()).result()
+    ```
+    For more information, visit the docs on [Waiting on Futures](https://docs.dask.org/en/stable/futures.html#waiting-on-futures).
+
+There is also an equivalent context manager for asynchronous tasks and flows: `get_async_dask_client`.
+
+```python
+import asyncio
+
+import dask
+from prefect import flow, task
+from prefect_dask import DaskTaskRunner, get_async_dask_client
+
+@task
+async def compute_task():
+    async with get_async_dask_client() as client:
+        df = dask.datasets.timeseries("2000", "2001", partition_freq="4w")
+        summary_df = await client.compute(df.describe())
+    return summary_df
+
+@flow(task_runner=DaskTaskRunner())
+async def dask_flow():
+    prefect_future = await compute_task.submit()
+    return await prefect_future.result()
+
+asyncio.run(dask_flow())
+```
+!!! warning "Resolving futures in async client"
+    With the async client, you do not need to set `sync=True` or call `result()`.
+
+    However you must `await client.compute(dask_collection)` before exiting out of the context manager.
+
+    To invoke `compute` from the Dask collection, set `sync=False` and call `result()` before exiting out of the context manager: `await dask_collection.compute(sync=False)`.
 
 ### Using a temporary cluster
 
@@ -236,6 +334,8 @@ def my_flow():
 If you encounter any bugs while using `prefect-dask`, feel free to open an issue in the [prefect-dask](https://github.com/PrefectHQ/prefect-dask) repository.
 
 If you have any questions or issues while using `prefect-dask`, you can find help in either the [Prefect Discourse forum](https://discourse.prefect.io/) or the [Prefect Slack community](https://prefect.io/slack).
+
+Feel free to ⭐️ or watch [`prefect-dask`](https://github.com/PrefectHQ/prefect-dask) for updates too!
 
 ## Development
 
