@@ -295,7 +295,7 @@ class DaskTaskRunner(BaseTaskRunner):
 
         if self._cluster:
             self.logger.info(f"Connecting to existing Dask cluster {self._cluster}")
-            connect_to = self._cluster
+            self._connect_to = self._cluster
             if self.adapt_kwargs:
                 self._cluster.adapt(**self.adapt_kwargs)
         elif self.address:
