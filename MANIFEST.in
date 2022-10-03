@@ -12,4 +12,3 @@ include MANIFEST.in
 include setup.cfg
 include requirements.txt
 include requirements-dev.txt
-
