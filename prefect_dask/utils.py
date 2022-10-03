@@ -9,8 +9,6 @@ from typing import Any, Dict, Optional, Union
 from distributed import Client, get_client
 from prefect.context import FlowRunContext, TaskRunContext
 
-from prefect_dask.exceptions import ImproperClientError
-
 
 def _generate_client_kwargs(
     async_client: bool,
@@ -26,12 +24,10 @@ def _generate_client_kwargs(
     if task_run_context:
         # copies functionality of worker_client(separate_thread=False)
         # because this allows us to set asynchronous based on user's task
-        context = "task"
         input_client_kwargs = {}
         address = get_client().scheduler.address
         asynchronous = task_run_context.task.isasync
     elif flow_run_context:
-        context = "flow"
         task_runner = flow_run_context.task_runner
         input_client_kwargs = task_runner.client_kwargs
         address = task_runner._connect_to
@@ -39,15 +35,9 @@ def _generate_client_kwargs(
     else:
         # this else clause allows users to debug or test
         # without much change to code
-        context = ""
         input_client_kwargs = {}
         address = None
         asynchronous = async_client
-
-    if not async_client and asynchronous:
-        raise ImproperClientError(
-            f"The {context} run is async; use `get_async_dask_client` instead"
-        )
 
     input_client_kwargs["address"] = address
     input_client_kwargs["asynchronous"] = asynchronous
@@ -70,6 +60,8 @@ def get_dask_client(
     Without invoking this, workers do not automatically get a client to connect
     to the full cluster. Therefore, it will attempt perform work within the
     worker itself serially, and potentially overwhelming the single worker.
+
+    For async, there is `get_async_dask_client`.
 
     Args:
         timeout: Timeout after which to error out; has no effect in

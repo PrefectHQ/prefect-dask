@@ -4,7 +4,6 @@ from distributed import Client
 from prefect import flow, task
 
 from prefect_dask import DaskTaskRunner, get_async_dask_client, get_dask_client
-from prefect_dask.exceptions import ImproperClientError
 
 
 class TestDaskSyncClient:
@@ -24,20 +23,6 @@ class TestDaskSyncClient:
 
         assert test_flow() == 42
 
-    def test_from_async_task_error(self):
-        @task
-        async def test_task():
-            with get_dask_client():
-                pass
-
-        @flow(task_runner=DaskTaskRunner)
-        def test_flow():
-            test_task.submit()
-
-        match = "The task run is async"
-        with pytest.raises(ImproperClientError, match=match):
-            test_flow()
-
     def test_from_flow(self):
         @flow(task_runner=DaskTaskRunner)
         def test_flow():
@@ -48,16 +33,6 @@ class TestDaskSyncClient:
             return result
 
         assert test_flow() == 42
-
-    async def test_from_async_flow_error(self):
-        @flow(task_runner=DaskTaskRunner)
-        async def test_flow():
-            with get_dask_client():
-                pass
-
-        match = "The flow run is async"
-        with pytest.raises(ImproperClientError, match=match):
-            await test_flow()
 
     def test_outside_run_context(self):
         delayed_num = dask.delayed(42)
