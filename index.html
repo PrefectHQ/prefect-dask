@@ -8,10 +8,10 @@
       
       
       
-        <link rel="canonical" href="https://prefecthq.github.io/prefect-dask/">
+        <link rel="canonical" href="https://PrefectHQ.github.io/prefect-dask/">
       
       <link rel="icon" href="img/favicon.ico">
-      <meta name="generator" content="mkdocs-1.3.1, mkdocs-material-8.4.3">
+      <meta name="generator" content="mkdocs-1.4.0, mkdocs-material-8.5.6">
     
     
       
@@ -19,7 +19,7 @@
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.6b80c2a2.min.css">
+      <link rel="stylesheet" href="assets/stylesheets/main.20d9efc8.min.css">
       
         
         <link rel="stylesheet" href="assets/stylesheets/palette.cbb835fc.min.css">
@@ -30,6 +30,7 @@
         
       
       
+
     
     
     
@@ -50,6 +51,7 @@
     
       
 
+    
     
     
   </head>
@@ -86,7 +88,7 @@
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href="." title="prefect-dask" class="md-header__button md-logo" aria-label="prefect-dask" data-md-component="logo">
       
-  <img src="img/prefect-logo-white.png" alt="logo">
+  <img src="img/prefect-logo-mark-solid-white-500.png" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -125,7 +127,7 @@
       </label>
       <nav class="md-search__options" aria-label="Search">
         
-        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
         </button>
       </nav>
@@ -183,7 +185,7 @@
   <label class="md-nav__title" for="__drawer">
     <a href="." title="prefect-dask" class="md-nav__button md-logo" aria-label="prefect-dask" data-md-component="logo">
       
-  <img src="img/prefect-logo-white.png" alt="logo">
+  <img src="img/prefect-logo-mark-solid-white-500.png" alt="logo">
 
     </a>
     prefect-dask
@@ -287,6 +289,13 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#distributing-dask-collections-across-workers" class="md-nav__link">
+    Distributing Dask collections across workers
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#using-a-temporary-cluster" class="md-nav__link">
     Using a temporary cluster
   </a>
@@ -351,6 +360,21 @@
     <li class="md-nav__item">
       <a href="task_runners/" class="md-nav__link">
         Task Runners
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="utils/" class="md-nav__link">
+        Utils
       </a>
     </li>
   
@@ -425,6 +449,13 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#distributing-dask-collections-across-workers" class="md-nav__link">
+    Distributing Dask collections across workers
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#using-a-temporary-cluster" class="md-nav__link">
     Using a temporary cluster
   </a>
@@ -479,18 +510,35 @@
               </div>
             
           
-          <div class="md-content" data-md-component="content">
-            <article class="md-content__inner md-typeset">
-              
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
                 
+                  
 
-  <a href="https://github.com/edit/main/docs/README.md" title="Edit this page" class="md-content__button md-icon">
+  <a href="https://github.com/PrefectHQ/prefect-dask/edit/main/docs/README.md" title="Edit this page" class="md-content__button md-icon">
     
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
   </a>
 
 
 <h1 id="prefect-dask">prefect-dask</h1>
+<p align="center">
+    <a href="https://pypi.python.org/pypi/prefect-dask/" alt="PyPI version">
+        <img alt="PyPI" src="https://img.shields.io/pypi/v/prefect-dask?color=0052FF&labelColor=090422"></a>
+    <a href="https://github.com/PrefectHQ/prefect-dask/" alt="Stars">
+        <img src="https://img.shields.io/github/stars/PrefectHQ/prefect-dask?color=0052FF&labelColor=090422" /></a>
+    <a href="https://pepy.tech/badge/prefect-dask/" alt="Downloads">
+        <img src="https://img.shields.io/pypi/dm/prefect-dask?color=0052FF&labelColor=090422" /></a>
+    <a href="https://github.com/PrefectHQ/prefect-dask/pulse" alt="Activity">
+        <img src="https://img.shields.io/github/commit-activity/m/PrefectHQ/prefect-dask?color=0052FF&labelColor=090422" /></a>
+    <br>
+    <a href="https://prefect-community.slack.com" alt="Slack">
+        <img src="https://img.shields.io/badge/slack-join_community-red.svg?color=0052FF&labelColor=090422&logo=slack" /></a>
+    <a href="https://discourse.prefect.io/" alt="Discourse">
+        <img src="https://img.shields.io/badge/discourse-browse_forum-red.svg?color=0052FF&labelColor=090422&logo=discourse" /></a>
+</p>
+
 <h2 id="welcome">Welcome!</h2>
 <p>Prefect integrations with the <a href="http://distributed.dask.org/">Dask.distributed</a> library for distributed computing in Python.</p>
 <p>Provides a <code>DaskTaskRunner</code> that enables flows to run tasks requiring parallel or distributed execution using Dask.</p>
@@ -503,6 +551,10 @@
 <p>Install <code>prefect-dask</code> with <code>pip</code>:</p>
 <div class="highlight"><pre><span></span><code>pip install prefect-dask
 </code></pre></div>
+<p>Then, register to <a href="https://orion-docs.prefect.io/ui/blocks/">view the block</a> on Prefect Cloud:</p>
+<div class="highlight"><pre><span></span><code>prefect block register -m prefect_dask.credentials
+</code></pre></div>
+<p>Note, to use the <code>load</code> method on Blocks, you must already have a block document <a href="https://orion-docs.prefect.io/concepts/blocks/#saving-blocks">saved through code</a> or <a href="https://orion-docs.prefect.io/ui/blocks/">saved through the UI</a>.</p>
 <h2 id="running-tasks-on-dask">Running tasks on Dask</h2>
 <p>The <code>DaskTaskRunner</code> is a parallel task runner that submits tasks to the <a href="http://distributed.dask.org/"><code>dask.distributed</code></a> scheduler. </p>
 <p>By default, a temporary Dask cluster is created for the duration of the flow run.</p>
@@ -595,6 +647,75 @@ warnings and errors.</p>
     <span class="n">cluster_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;n_workers&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s2">&quot;threads_per_worker&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}</span>
 <span class="p">)</span>
 </code></pre></div>
+<h3 id="distributing-dask-collections-across-workers">Distributing Dask collections across workers</h3>
+<p>If you use a Dask collection, such as a <code>dask.DataFrame</code> or <code>dask.Bag</code>, to distribute the work across workers and achieve parallel computations, use one of the context managers <code>get_dask_client</code> or <code>get_async_dask_client</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">dask</span>
+<span class="kn">from</span> <span class="nn">prefect</span> <span class="kn">import</span> <span class="n">flow</span><span class="p">,</span> <span class="n">task</span>
+<span class="kn">from</span> <span class="nn">prefect_dask</span> <span class="kn">import</span> <span class="n">DaskTaskRunner</span><span class="p">,</span> <span class="n">get_dask_client</span>
+
+<span class="nd">@task</span>
+<span class="k">def</span> <span class="nf">compute_task</span><span class="p">():</span>
+    <span class="k">with</span> <span class="n">get_dask_client</span><span class="p">()</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">dask</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">timeseries</span><span class="p">(</span><span class="s2">&quot;2000&quot;</span><span class="p">,</span> <span class="s2">&quot;2001&quot;</span><span class="p">,</span> <span class="n">partition_freq</span><span class="o">=</span><span class="s2">&quot;4w&quot;</span><span class="p">)</span>
+        <span class="n">summary_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">summary_df</span>
+
+<span class="nd">@flow</span><span class="p">(</span><span class="n">task_runner</span><span class="o">=</span><span class="n">DaskTaskRunner</span><span class="p">())</span>
+<span class="k">def</span> <span class="nf">dask_flow</span><span class="p">():</span>
+    <span class="n">prefect_future</span> <span class="o">=</span> <span class="n">compute_task</span><span class="o">.</span><span class="n">submit</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">prefect_future</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+
+<span class="n">dask_flow</span><span class="p">()</span>
+</code></pre></div>
+<p>The context managers can be used the same way in both <code>flow</code> run contexts and <code>task</code> run contexts.</p>
+<div class="admonition warning">
+<p class="admonition-title">Resolving futures in sync client</p>
+<p>Note, by default, <code>dask_collection.compute()</code> returns concrete values while <code>client.compute(dask_collection)</code> returns Dask Futures. Therefore, if you call <code>client.compute</code>, you must resolve all futures before exiting out of the context manager by either:</p>
+<ol>
+<li>
+<p>setting <code>sync=True</code>
+<div class="highlight"><pre><span></span><code><span class="k">with</span> <span class="n">get_dask_client</span><span class="p">()</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">dask</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">timeseries</span><span class="p">(</span><span class="s2">&quot;2000&quot;</span><span class="p">,</span> <span class="s2">&quot;2001&quot;</span><span class="p">,</span> <span class="n">partition_freq</span><span class="o">=</span><span class="s2">&quot;4w&quot;</span><span class="p">)</span>
+    <span class="n">summary_df</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">(),</span> <span class="n">sync</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div></p>
+</li>
+<li>
+<p>calling <code>result()</code>
+<div class="highlight"><pre><span></span><code><span class="k">with</span> <span class="n">get_dask_client</span><span class="p">()</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">dask</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">timeseries</span><span class="p">(</span><span class="s2">&quot;2000&quot;</span><span class="p">,</span> <span class="s2">&quot;2001&quot;</span><span class="p">,</span> <span class="n">partition_freq</span><span class="o">=</span><span class="s2">&quot;4w&quot;</span><span class="p">)</span>
+    <span class="n">summary_df</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">())</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+</code></pre></div>
+For more information, visit the docs on <a href="https://docs.dask.org/en/stable/futures.html#waiting-on-futures">Waiting on Futures</a>.</p>
+</li>
+</ol>
+</div>
+<p>There is also an equivalent context manager for asynchronous tasks and flows: <code>get_async_dask_client</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">asyncio</span>
+
+<span class="kn">import</span> <span class="nn">dask</span>
+<span class="kn">from</span> <span class="nn">prefect</span> <span class="kn">import</span> <span class="n">flow</span><span class="p">,</span> <span class="n">task</span>
+<span class="kn">from</span> <span class="nn">prefect_dask</span> <span class="kn">import</span> <span class="n">DaskTaskRunner</span><span class="p">,</span> <span class="n">get_async_dask_client</span>
+
+<span class="nd">@task</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">compute_task</span><span class="p">():</span>
+    <span class="k">async</span> <span class="k">with</span> <span class="n">get_async_dask_client</span><span class="p">()</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">dask</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">timeseries</span><span class="p">(</span><span class="s2">&quot;2000&quot;</span><span class="p">,</span> <span class="s2">&quot;2001&quot;</span><span class="p">,</span> <span class="n">partition_freq</span><span class="o">=</span><span class="s2">&quot;4w&quot;</span><span class="p">)</span>
+        <span class="n">summary_df</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">())</span>
+    <span class="k">return</span> <span class="n">summary_df</span>
+
+<span class="nd">@flow</span><span class="p">(</span><span class="n">task_runner</span><span class="o">=</span><span class="n">DaskTaskRunner</span><span class="p">())</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">dask_flow</span><span class="p">():</span>
+    <span class="n">prefect_future</span> <span class="o">=</span> <span class="k">await</span> <span class="n">compute_task</span><span class="o">.</span><span class="n">submit</span><span class="p">()</span>
+    <span class="k">return</span> <span class="k">await</span> <span class="n">prefect_future</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+
+<span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">dask_flow</span><span class="p">())</span>
+</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Resolving futures in async client</p>
+<p>With the async client, you do not need to set <code>sync=True</code> or call <code>result()</code>.</p>
+<p>However you must <code>await client.compute(dask_collection)</code> before exiting out of the context manager.</p>
+<p>To invoke <code>compute</code> from the Dask collection, set <code>sync=False</code> and call <code>result()</code> before exiting out of the context manager: <code>await dask_collection.compute(sync=False)</code>.</p>
+</div>
 <h3 id="using-a-temporary-cluster">Using a temporary cluster</h3>
 <p>The <code>DaskTaskRunner</code> is capable of creating a temporary cluster using any of <a href="https://docs.dask.org/en/latest/setup.html">Dask's cluster-manager options</a>. This can be useful when you want each flow run to have its own Dask cluster, allowing for per-flow adaptive scaling.</p>
 <p>To configure, you need to provide a <code>cluster_class</code>. This can be:</p>
@@ -686,6 +807,7 @@ warnings and errors.</p>
 <h2 id="resources">Resources</h2>
 <p>If you encounter any bugs while using <code>prefect-dask</code>, feel free to open an issue in the <a href="https://github.com/PrefectHQ/prefect-dask">prefect-dask</a> repository.</p>
 <p>If you have any questions or issues while using <code>prefect-dask</code>, you can find help in either the <a href="https://discourse.prefect.io/">Prefect Discourse forum</a> or the <a href="https://prefect.io/slack">Prefect Slack community</a>.</p>
+<p>Feel free to ⭐️ or watch <a href="https://github.com/PrefectHQ/prefect-dask"><code>prefect-dask</code></a> for updates too!</p>
 <h2 id="development">Development</h2>
 <p>If you'd like to install a version of <code>prefect-dask</code> for development, clone the repository and perform an editable install with <code>pip</code>:</p>
 <div class="highlight"><pre><span></span><code>git clone https://github.com/PrefectHQ/prefect-dask.git
@@ -701,10 +823,12 @@ pre-commit install
 
 
 
-              
-            </article>
-            
-          </div>
+
+                
+              </article>
+            </div>
+          
+          
         </div>
         
       </main>
@@ -753,10 +877,10 @@ pre-commit install
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": ".", "features": [], "search": "assets/javascripts/workers/search.ecf98df9.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": ".", "features": [], "search": "assets/javascripts/workers/search.5bf1dace.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
     
     
-      <script src="assets/javascripts/bundle.2ab50757.min.js"></script>
+      <script src="assets/javascripts/bundle.078830c0.min.js"></script>
       
     
   </body>
