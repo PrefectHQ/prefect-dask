@@ -23,6 +23,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Security
 
+## 0.2.1
+
+Released on October 3rd, 2022.
+
+### Added
+
+- `get_dask_client` and `get_async_dask_client` allowing for distributed computation within a task - [#33](https://github.com/PrefectHQ/prefect-dask/pull/33)
+
+### Fixed
+
+- Make the task names that appear in the Dask dashboard match the Prefect task names - [#31](https://github.com/PrefectHQ/prefect-dask/pull/31)
+
 ## 0.2.0
 
 Released on September 5th, 2022.
