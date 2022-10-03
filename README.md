@@ -177,9 +177,9 @@ asyncio.run(dask_flow())
 !!! warning "Resolving futures in async client"
     With the async client, you do not need to set `sync=True` or call `result()`.
 
-    However you must `await client.compute` before exiting out of the context manager.
+    However you must `await client.compute(dask_collection)` before exiting out of the context manager.
 
-    Running `await dask_collection.compute()` will result in an error: `TypeError: 'coroutine' object is not iterable`.
+    To invoke `compute` from the Dask collection, set `sync=False` and call `result()` before exiting out of the context manager: `await dask_collection.compute(sync=False)`.
 
 ### Using a temporary cluster
 
