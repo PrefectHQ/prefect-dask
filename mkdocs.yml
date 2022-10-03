@@ -48,3 +48,5 @@ plugins:
 nav:
     - Home: index.md
     - Task Runners: task_runners.md
+    - Utils: utils.md
+  

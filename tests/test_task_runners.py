@@ -7,6 +7,7 @@ from uuid import uuid4
 import cloudpickle
 import distributed
 import pytest
+from prefect import flow, task
 from prefect.states import State
 from prefect.task_runners import TaskConcurrencyType
 from prefect.testing.fixtures import hosted_orion_api, use_hosted_orion  # noqa: F401
@@ -136,3 +137,23 @@ class TestDaskTaskRunner(TaskRunnerStandardTestSuite):
             assert state is not None, "wait timed out"
             assert isinstance(state, State), "wait should return a state"
             assert state.name == "Crashed"
+
+    def test_dask_task_key_has_prefect_task_name(self):
+        task_runner = DaskTaskRunner()
+
+        @task
+        def my_task():
+            return 1
+
+        @flow(task_runner=task_runner)
+        def my_flow():
+            my_task.submit()
+            my_task.submit()
+            my_task.submit()
+
+        my_flow()
+        futures = task_runner._dask_futures.values()
+        # ensure task run name is in key
+        assert all(future.key.startswith("my_task-") for future in futures)
+        # ensure flow run retries is in key
+        assert all(future.key.endswith("-1") for future in futures)
