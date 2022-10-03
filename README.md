@@ -107,6 +107,80 @@ DaskTaskRunner(
 )
 ```
 
+### Distributing Dask collections across workers
+
+If you use a Dask collection, such as a `dask.DataFrame` or `dask.Bag`, to distribute the work across workers and achieve parallel computations, use one of the context managers `get_dask_client` or `get_async_dask_client`:
+
+```python
+import dask
+from prefect import flow, task
+from prefect_dask import DaskTaskRunner, get_dask_client
+
+@task
+def compute_task():
+    with get_dask_client() as client:
+        df = dask.datasets.timeseries("2000", "2001", partition_freq="4w")
+        summary_df = df.describe().compute()
+    return summary_df
+
+@flow(task_runner=DaskTaskRunner())
+def dask_flow():
+    prefect_future = compute_task.submit()
+    return prefect_future.result()
+
+dask_flow()
+```
+
+The context managers can be used the same way in both `flow` run contexts and `task` run contexts.
+
+!!! warning "Resolving futures in sync client"
+    Note, by default, `dask_collection.compute()` returns concrete values while `client.compute(dask_collection)` returns Dask Futures. Therefore, if you call `client.compute`, you must resolve all futures before exiting out of the context manager by either:
+    
+    1. setting `sync=True`
+    ```python
+    with get_dask_client() as client:
+        df = dask.datasets.timeseries("2000", "2001", partition_freq="4w")
+        summary_df = client.compute(df.describe(), sync=True)
+    ```
+
+    2. calling `result()`
+    ```python
+    with get_dask_client() as client:
+        df = dask.datasets.timeseries("2000", "2001", partition_freq="4w")
+        summary_df = client.compute(df.describe()).result()
+    ```
+    For more information, visit the docs on [Waiting on Futures](https://docs.dask.org/en/stable/futures.html#waiting-on-futures).
+
+There is also an equivalent context manager for asynchronous tasks and flows: `get_async_dask_client`.
+
+```python
+import asyncio
+
+import dask
+from prefect import flow, task
+from prefect_dask import DaskTaskRunner, get_async_dask_client
+
+@task
+async def compute_task():
+    async with get_async_dask_client() as client:
+        df = dask.datasets.timeseries("2000", "2001", partition_freq="4w")
+        summary_df = await client.compute(df.describe())
+    return summary_df
+
+@flow(task_runner=DaskTaskRunner())
+async def dask_flow():
+    prefect_future = await compute_task.submit()
+    return await prefect_future.result()
+
+asyncio.run(dask_flow())
+```
+!!! warning "Resolving futures in async client"
+    With the async client, you do not need to set `sync=True` or call `result()`.
+
+    However you must `await client.compute(dask_collection)` before exiting out of the context manager.
+
+    To invoke `compute` from the Dask collection, set `sync=False` and call `result()` before exiting out of the context manager: `await dask_collection.compute(sync=False)`.
+
 ### Using a temporary cluster
 
 The `DaskTaskRunner` is capable of creating a temporary cluster using any of [Dask's cluster-manager options](https://docs.dask.org/en/latest/setup.html). This can be useful when you want each flow run to have its own Dask cluster, allowing for per-flow adaptive scaling.
