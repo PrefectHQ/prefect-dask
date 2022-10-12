@@ -1,0 +1,6 @@
+diff a/prefect_dask/__init__.py b/prefect_dask/__init__.py	(rejected hunks)
+@@ -1,3 +1,4 @@
+ from . import _version
++from .blocks import DaskBlock  # noqa
+ 
+ __version__ = _version.get_versions()["version"]
