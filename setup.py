@@ -27,11 +27,6 @@ setup(
     python_requires=">=3.7",
     install_requires=install_requires,
     extras_require={"dev": dev_requires},
-    entry_points={
-        "prefect.collections": [
-            "prefect_dask = prefect_dask",
-        ]
-    },
     classifiers=[
         "Natural Language :: English",
         "Intended Audience :: Developers",
