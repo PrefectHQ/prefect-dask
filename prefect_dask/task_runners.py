@@ -71,6 +71,7 @@ Example:
     ```
 """
 
+from asyncio import iscoroutine
 from contextlib import AsyncExitStack
 from typing import Awaitable, Callable, Dict, Optional, Union
 from uuid import UUID
@@ -294,8 +295,18 @@ class DaskTaskRunner(BaseTaskRunner):
             self._connect_to = self._cluster = await exit_stack.enter_async_context(
                 self.cluster_class(asynchronous=True, **self.cluster_kwargs)
             )
+
+            # If used with the operator implementation of KubeCluster,
+            # the cluster is not automatically started
+            if self._cluster.status.value != "running":
+                await self._cluster._start()
+
             if self.adapt_kwargs:
-                self._cluster.adapt(**self.adapt_kwargs)
+                # Depending on the cluster type (Cluster or SpecCluster),
+                # adapt should or shouldn't be awaited
+                adapt_response = self._cluster.adapt(**self.adapt_kwargs)
+                if iscoroutine(adapt_response):
+                    await adapt_response
 
         self._client = await exit_stack.enter_async_context(
             distributed.Client(
