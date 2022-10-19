@@ -133,7 +133,7 @@ class TestDaskTaskRunner(TaskRunnerStandardTestSuite):
                 key=test_key,
             )
 
-            state = await task_runner.wait(test_key, 5)
+            state = await (await task_runner.wait(test_key, 5))
             assert state is not None, "wait timed out"
             assert isinstance(state, State), "wait should return a state"
             assert state.name == "Crashed"
