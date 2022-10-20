@@ -12,6 +12,7 @@ from prefect.states import State
 from prefect.task_runners import TaskConcurrencyType
 from prefect.testing.fixtures import hosted_orion_api, use_hosted_orion  # noqa: F401
 from prefect.testing.standard_test_suites import TaskRunnerStandardTestSuite
+from prefect.utilities.annotations import allow_failure
 
 from prefect_dask import DaskTaskRunner
 
@@ -157,3 +158,20 @@ class TestDaskTaskRunner(TaskRunnerStandardTestSuite):
         assert all(future.key.startswith("my_task-") for future in futures)
         # ensure flow run retries is in key
         assert all(future.key.endswith("-1") for future in futures)
+
+
+    @pytest.mark.parametrize("annotation_cls", [allow_failure])
+    def test_works_with_futures_wrapped_in_annotations(self, annotation_cls):
+        task_runner = DaskTaskRunner()
+
+        @task
+        def my_task(value):
+            return value
+
+        @flow(task_runner=task_runner)
+        def my_flow():
+            future = my_task.submit(1)
+            return my_task.submit(annotation_cls(future))
+
+        result = my_flow()
+        assert result == annotation_cls(1)

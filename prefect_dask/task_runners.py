@@ -83,6 +83,7 @@ from prefect.states import exception_to_crashed_state
 from prefect.task_runners import BaseTaskRunner, R, TaskConcurrencyType
 from prefect.utilities.collections import visit_collection
 from prefect.utilities.importtools import from_qualified_name, to_qualified_name
+from prefect.utilities.annotations import BaseAnnotation
 
 
 class DaskTaskRunner(BaseTaskRunner):
@@ -254,11 +255,20 @@ class DaskTaskRunner(BaseTaskRunner):
 
     def _optimize_futures(self, expr):
         def visit_fn(expr):
+            annotation = None
+
+            if isinstance(expr, BaseAnnotation):
+                annotation = type(expr)
+                expr = expr.unwrap()
+
             if isinstance(expr, PrefectFuture):
                 dask_future = self._dask_futures.get(expr.key)
                 if dask_future is not None:
-                    return dask_future
-            # Fallback to return the expression unaltered
+                    expr = dask_future
+
+            if annotation:
+                expr = annotation(expr)
+
             return expr
 
         return visit_collection(expr, visit_fn=visit_fn, return_data=True)
