@@ -37,16 +37,8 @@ These tasks are designed to work with Prefect 2.0. For more information about ho
 Install `prefect-dask` with `pip`:
 
 ```bash
-pip install prefect-dask
+pip install -U prefect-dask
 ```
-
-Then, register to [view the block](https://orion-docs.prefect.io/ui/blocks/) on Prefect Cloud:
-
-```bash
-prefect block register -m prefect_dask.credentials
-```
-
-Note, to use the `load` method on Blocks, you must already have a block document [saved through code](https://orion-docs.prefect.io/concepts/blocks/#saving-blocks) or [saved through the UI](https://orion-docs.prefect.io/ui/blocks/).
 
 ## Running tasks on Dask
 
