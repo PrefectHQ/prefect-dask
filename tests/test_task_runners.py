@@ -159,7 +159,6 @@ class TestDaskTaskRunner(TaskRunnerStandardTestSuite):
         # ensure flow run retries is in key
         assert all(future.key.endswith("-1") for future in futures)
 
-
     @pytest.mark.parametrize("annotation_cls", [allow_failure])
     def test_works_with_futures_wrapped_in_annotations(self, annotation_cls):
         task_runner = DaskTaskRunner()
