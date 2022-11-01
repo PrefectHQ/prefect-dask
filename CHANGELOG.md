@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - `get_dask_client` and `get_async_dask_client` allowing for distributed computation within a task - [#33](https://github.com/PrefectHQ/prefect-dask/pull/33)
+- Add support for futures wrapped in Prefect annotations — [#45](https://github.com/PrefectHQ/prefect-dask/pull/45)
 
 ### Changed
 
