@@ -37,7 +37,7 @@ These tasks are designed to work with Prefect 2.0. For more information about ho
 Install `prefect-dask` with `pip`:
 
 ```bash
-pip install prefect-dask
+pip install -U prefect-dask
 ```
 
 ## Running tasks on Dask
