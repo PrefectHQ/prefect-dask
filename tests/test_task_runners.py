@@ -8,6 +8,8 @@ import cloudpickle
 import distributed
 import pytest
 from prefect import flow, task
+from prefect.client.schemas import TaskRun
+from prefect.orion.schemas.states import StateType
 from prefect.states import State
 from prefect.task_runners import TaskConcurrencyType
 from prefect.testing.fixtures import hosted_orion_api, use_hosted_orion  # noqa: F401
@@ -122,21 +124,21 @@ class TestDaskTaskRunner(TaskRunnerStandardTestSuite):
                 f"{task_runner.concurrency_type} task runners."
             )
 
+        task_run = TaskRun(flow_run_id=uuid4(), task_key="foo", dynamic_key="bar")
+
         async def fake_orchestrate_task_run():
             raise exception
 
-        test_key = uuid4()
-
         async with task_runner.start():
             await task_runner.submit(
+                key=task_run.id,
                 call=partial(fake_orchestrate_task_run),
-                key=test_key,
             )
 
-            state = await task_runner.wait(test_key, 5)
+            state = await task_runner.wait(task_run.id, 5)
             assert state is not None, "wait timed out"
             assert isinstance(state, State), "wait should return a state"
-            assert state.name == "Crashed"
+            assert state.type == StateType.CRASHED
 
     def test_dask_task_key_has_prefect_task_name(self):
         task_runner = DaskTaskRunner()
