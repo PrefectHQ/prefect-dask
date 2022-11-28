@@ -9,8 +9,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- `get_dask_client` and `get_async_dask_client` allowing for distributed computation within a task - [#33](https://github.com/PrefectHQ/prefect-dask/pull/33)
-
 ### Changed
 
 ### Deprecated
@@ -19,7 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Make the task names that appear in the Dask dashboard match the Prefect task names - [#31](https://github.com/PrefectHQ/prefect-dask/pull/31)
+* Updated `DaskTaskRunner` to handle task exceptions correctly in Prefect >= 2.6.0 - [#52](https://github.com/PrefectHQ/prefect-dask/pull/52)
 
 ### Security
 
