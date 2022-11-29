@@ -10,7 +10,7 @@ import cloudpickle
 import distributed
 import prefect.engine
 import pytest
-from distributed import KilledWorker
+from distributed.scheduler import KilledWorker
 from prefect import flow, get_run_logger, task
 from prefect.client.schemas import TaskRun
 from prefect.orion.schemas.states import StateType
