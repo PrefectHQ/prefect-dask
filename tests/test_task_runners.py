@@ -146,8 +146,8 @@ class TestDaskTaskRunner(TaskRunnerStandardTestSuite):
     @pytest.mark.parametrize(
         "exceptions",
         [
-            (KeyboardInterrupt(), KilledWorker("", None, 0)),
-            (ValueError("test"), ValueError("test")),
+            (KeyboardInterrupt(), KilledWorker),
+            (ValueError("test"), ValueError),
         ],
     )
     async def test_exception_to_crashed_state_in_flow_run(
@@ -159,7 +159,7 @@ class TestDaskTaskRunner(TaskRunnerStandardTestSuite):
                 f"{task_runner.concurrency_type} task runners."
             )
 
-        (raised_exception, state_exception) = exceptions
+        (raised_exception, state_exception_type) = exceptions
 
         def throws_exception_before_task_begins(
             task, task_run, parameters, wait_for, result_factory, settings
@@ -186,11 +186,11 @@ class TestDaskTaskRunner(TaskRunnerStandardTestSuite):
 
         # ensure that the type of exception raised by the flow matches the type of
         # exception we expected the task runner to receive.
-        with pytest.raises(type(state_exception)) as exc:
+        with pytest.raises(state_exception_type) as exc:
             await test_flow()
             # If Dask passes the same exception type back, it should pass
             # the equality check
-            if type(raised_exception) == type(state_exception):
+            if type(raised_exception) == state_exception_type:
                 assert exceptions_equal(raised_exception, exc)
 
     def test_dask_task_key_has_prefect_task_name(self):
