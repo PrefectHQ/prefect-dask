@@ -1,9 +1,7 @@
 import asyncio
 import logging
 import sys
-from dataclasses import dataclass
 from functools import partial
-from typing import Type
 from uuid import uuid4
 
 import cloudpickle
@@ -21,18 +19,6 @@ from prefect.testing.standard_test_suites import TaskRunnerStandardTestSuite
 from prefect.testing.utilities import exceptions_equal
 
 from prefect_dask import DaskTaskRunner
-
-
-@dataclass
-class WorkerNodeException:
-    """
-    Used to handle cases where the type of the exception returned to the task runner
-    does not match the type of exception that was raised. This may occur on remote
-    worker nodes when the exception crashes the worker.
-    """
-
-    exception_to_raise: BaseException
-    expected_exception_type: Type[BaseException]
 
 
 @pytest.fixture(scope="session")
@@ -158,17 +144,14 @@ class TestDaskTaskRunner(TaskRunnerStandardTestSuite):
             assert state.type == StateType.CRASHED
 
     @pytest.mark.parametrize(
-        "exception",
+        "exceptions",
         [
-            WorkerNodeException(
-                exception_to_raise=KeyboardInterrupt(),
-                expected_exception_type=KilledWorker,
-            ),
-            ValueError("test"),
+            (KeyboardInterrupt(), KilledWorker("", None, 0)),
+            (ValueError("test"), ValueError("test")),
         ],
     )
     async def test_exception_to_crashed_state_in_flow_run(
-        self, exception, task_runner, monkeypatch
+        self, exceptions, task_runner, monkeypatch
     ):
         if task_runner.concurrency_type != TaskConcurrencyType.PARALLEL:
             pytest.skip(
@@ -176,19 +159,7 @@ class TestDaskTaskRunner(TaskRunnerStandardTestSuite):
                 f"{task_runner.concurrency_type} task runners."
             )
 
-        # If the type is an unwrapped exception, we can check exception equality
-        # later. If not, we will only check that the exception type raised by the
-        # flow run matches expectations.
-        check_exception_equality = isinstance(exception, BaseException)
-
-        if check_exception_equality:
-            exception_to_raise = exception
-            expected_exception_type = type(exception)
-        else:
-            (exception_to_raise, expected_exception_type) = (
-                exception.exception_to_raise,
-                exception.expected_exception_type,
-            )
+        (raised_exception, state_exception) = exceptions
 
         def throws_exception_before_task_begins(
             task, task_run, parameters, wait_for, result_factory, settings
@@ -197,7 +168,7 @@ class TestDaskTaskRunner(TaskRunnerStandardTestSuite):
             Simulates an exception occurring while a remote task runner is attempting
             to unpickle and run a Prefect task.
             """
-            raise exception_to_raise
+            raise raised_exception
 
         monkeypatch.setattr(
             prefect.engine, "begin_task_run", throws_exception_before_task_begins
@@ -214,12 +185,13 @@ class TestDaskTaskRunner(TaskRunnerStandardTestSuite):
             future.wait(10)
 
         # ensure that the type of exception raised by the flow matches the type of
-        # exception we expected the task runner to catch.
-        with pytest.raises(expected_exception_type) as exc:
-            test_flow()
-            # check exception equality if possible
-            if check_exception_equality:
-                assert exceptions_equal(exception_to_raise, exc)
+        # exception we expected the task runner to receive.
+        with pytest.raises(type(state_exception)) as exc:
+            await test_flow()
+            # If Dask passes the same exception type back, it should pass
+            # the equality check
+            if type(raised_exception) == type(state_exception):
+                assert exceptions_equal(raised_exception, exc)
 
     def test_dask_task_key_has_prefect_task_name(self):
         task_runner = DaskTaskRunner()
