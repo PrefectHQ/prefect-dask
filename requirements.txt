@@ -1,3 +1,2 @@
 prefect>=2.6.0
-distributed==2022.2.0; python_version < '3.8'
-distributed>=2022.5.0; python_version >= '3.8'
+distributed @ git+https://github.com/fjetter/distributed.git@move_async_to_thread
