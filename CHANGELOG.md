@@ -17,9 +17,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-* Updated `DaskTaskRunner` to handle task exceptions correctly in Prefect >= 2.6.0 - [#52](https://github.com/PrefectHQ/prefect-dask/pull/52)
-
 ### Security
+
+## 0.2.2
+
+Released on December 1st, 2022.
+
+- Updated `DaskTaskRunner` to handle task exceptions correctly in Prefect >= 2.6.0 - [#52](https://github.com/PrefectHQ/prefect-dask/pull/52)
 
 ## 0.2.1
 
