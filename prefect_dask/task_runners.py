@@ -270,7 +270,7 @@ class DaskTaskRunner(BaseTaskRunner):
         except distributed.TimeoutError:
             return None
         except BaseException as exc:
-            return exception_to_crashed_state(exc)
+            return await exception_to_crashed_state(exc)
 
     async def _start(self, exit_stack: AsyncExitStack):
         """
