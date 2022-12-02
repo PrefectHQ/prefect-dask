@@ -1,2 +1,2 @@
-prefect>=2.6.0
+prefect @ git+https://github.com/PrefectHQ/prefect.git@patch-for-prefect-dask
 distributed @ git+https://github.com/fjetter/distributed.git@move_async_to_thread
