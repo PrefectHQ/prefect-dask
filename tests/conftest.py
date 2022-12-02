@@ -8,6 +8,12 @@ def fetch_state_result():
         yield
 
 
+# this crashes the tests "test_failing_flow_run";
+# all tests pass without this fixture so will comment
+# this out and defer for later investigation since
+# users will not be using this in their code
+# more info on the error below:
+# https://github.com/PrefectHQ/prefect-dask/issues/55
 # @pytest.fixture(scope="session", autouse=True)
 # def prefect_db():
 #     """
