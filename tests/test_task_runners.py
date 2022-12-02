@@ -100,6 +100,13 @@ class TestDaskTaskRunner(TaskRunnerStandardTestSuite):
             request.param._pytestfixturefunction.name or request.param.__name__
         )
 
+    def get_sleep_time(self) -> float:
+        """
+        Return an amount of time to sleep for concurrency tests.
+        The DaskTaskRunner is prone to flaking on concurrency tests.
+        """
+        return 8.0
+
     async def test_is_pickleable_after_start(self, task_runner):
         """
         The task_runner must be picklable as it is attached to `PrefectFuture` objects
@@ -113,7 +120,7 @@ class TestDaskTaskRunner(TaskRunnerStandardTestSuite):
 
     @pytest.mark.parametrize("exception", [KeyboardInterrupt(), ValueError("test")])
     async def test_wait_captures_exceptions_as_crashed_state(
-        self, task_runner, exception
+        self, task_runner: DaskTaskRunner, exception
     ):
         """
         Dask wraps the exception, interrupts will result in "Cancelled" tasks
@@ -138,7 +145,10 @@ class TestDaskTaskRunner(TaskRunnerStandardTestSuite):
                 call=partial(fake_orchestrate_task_run),
             )
 
-            state = await task_runner.wait(task_run.id, 5)
+            # dask has its own retries so need longer timeout
+            # raise exception results in
+            # KeyboardInterrupt distributed.nanny - WARNING - Restarting
+            state = await task_runner.wait(task_run.id, timeout=15)
             assert state is not None, "wait timed out"
             assert isinstance(state, State), "wait should return a state"
             assert state.type == StateType.CRASHED
@@ -162,7 +172,7 @@ class TestDaskTaskRunner(TaskRunnerStandardTestSuite):
         (raised_exception, state_exception_type) = exceptions
 
         def throws_exception_before_task_begins(
-            task, task_run, parameters, wait_for, result_factory, settings
+            task, task_run, parameters, wait_for, result_factory, settings, log_prints
         ):
             """
             Simulates an exception occurring while a remote task runner is attempting
