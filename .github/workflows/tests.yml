@@ -30,8 +30,8 @@ jobs:
           python -m pip install --upgrade --upgrade-strategy eager -e ".[dev]"
 
       - name: Run tests
-#         env:
-#           PREFECT_ORION_DATABASE_CONNECTION_URL: "sqlite+aiosqlite:///./orion-tests.db"
+        env:
+          PREFECT_ORION_DATABASE_CONNECTION_URL: "sqlite+aiosqlite:///./orion-tests.db"
         run: |
           coverage run --branch -m pytest tests -vv
           coverage report
