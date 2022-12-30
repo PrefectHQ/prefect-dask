@@ -197,7 +197,6 @@ asyncio.run(dask_flow())
 
     However you must `await client.compute(dask_collection)` before exiting out of the context manager.
 
-<<<<<<< ours
     To invoke `compute` from the Dask collection, set `sync=False` and call `result()` before exiting out of the context manager: `await dask_collection.compute(sync=False)`.
 
 ### Using a temporary cluster
@@ -302,20 +301,6 @@ def show(x):
 def my_flow():
     with dask.annotate(resources={'GPU': 1}):
         future = show(0)  # this task requires 1 GPU resource on a worker
-=======
-# Use `with_options` to customize options on any existing task or flow
-
-custom_goodbye_prefect_dask = goodbye_prefect_dask.with_options(
-    name="My custom task name",
-    retries=2,
-    retry_delay_seconds=10,
-)
-
-@flow
-def example_flow():
-    hello_prefect_dask
-    custom_goodbye_prefect_dask
->>>>>>> theirs
 
     with dask.annotate(resources={'process': 1}):
         # These tasks each require 1 process on a worker; because we've 
