@@ -1,3 +1,3 @@
-prefect>=2.6.0
+prefect @ git+https://github.com/prefecthq/prefect.git@task_runner_test_suite_quote
 distributed==2022.2.0; python_version < '3.8'
 distributed>=2022.5.0; python_version >= '3.8'
