@@ -112,8 +112,32 @@ However, with just a few minor tweaks, we were able to reduce the runtime by nea
 
 ## Working with Dask Collections
 
-TODO: working with pandas dataframe or something...
+If you have Dask Collections, like a `dask.DataFrame`, and would like to add observability to your work, `prefect-dask` can do that too!
+
+-- TODO: insert more here --
+
+```python
+import dask
+from prefect import flow, task
+from prefect_dask import DaskTaskRunner, get_dask_client
+
+@task
+def compute_task():
+    with get_dask_client() as client:
+        df = dask.datasets.timeseries("2000", "2001", partition_freq="4w")
+        summary_df = df.describe().compute()
+    return summary_df
+
+@flow(task_runner=DaskTaskRunner())
+def dask_flow():
+    prefect_future = compute_task.submit()
+    return prefect_future.result()
+
+dask_flow()
+```
 
 ## Conclusion
 
 It's easy to use Dask to run tasks in parallel and fun to see runtimes reduce significantly!
+
+Get started now by [installing `prefect-dask`](/#python-setup).
