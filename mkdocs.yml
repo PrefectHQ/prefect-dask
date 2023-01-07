@@ -42,7 +42,8 @@ markdown_extensions:
     - pymdownx.highlight:
         use_pygments: true
     - pymdownx.superfences
-    - pymdownx.tabbed
+    - pymdownx.tabbed:
+        alternate_style: true 
 plugins:
   - search
   - gen-files:
@@ -63,7 +64,7 @@ watch:
   - README.md
 
 nav:
+    - Welcome: welcome.md
     - Home: index.md
     - Task Runners: task_runners.md
     - Utils: utils.md
-  
