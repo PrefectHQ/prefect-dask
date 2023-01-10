@@ -64,7 +64,8 @@ watch:
   - README.md
 
 nav:
-    - Welcome: welcome.md
     - Home: index.md
-    - Task Runners: task_runners.md
-    - Utils: utils.md
+    - Usage Guide: usage_guide.md
+    - API Reference:
+      - Task Runners: task_runners.md
+      - Utils: utils.md
