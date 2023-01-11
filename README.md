@@ -24,7 +24,7 @@ The `prefect-dask` collection makes it easy to include distributed processing fo
 
 ## Integrate with Prefect flows
 
-Perhaps you're already working with Prefect flows. Say your flow downloads many images to train your machine learning model. Unfortunately, the it takes a long time to download your flows because your code is running sequentially.
+Perhaps you're already working with Prefect flows. Say your flow downloads many images to train your machine learning model. Unfortunately, it takes a long time to download your flows because your code is running sequentially.
 
 After installing `prefect-dask` you can parallelize your flow in three simple steps:
 
