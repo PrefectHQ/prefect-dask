@@ -24,14 +24,14 @@ The `prefect-dask` collection makes it easy to include distributed processing fo
 
 ## Integrate with Prefect flows
 
-Perhaps you're already working with Prefect flows. It downloads many images to train your machine learning model--the problem is that it runs slow because it's executed sequentially.
+Perhaps you're already working with Prefect flows. Say your flow downloads many images to train your machine learning model. Unfortunately, the it takes a long time to download your flows because your code is running sequentially.
 
-With `prefect-dask`, you can parallelize your flow, and the best part is that it's as easy as:
+After installing `prefect-dask` you can parallelize your flow in three simple steps:
 
-1. Adding the import: `from prefect_dask import DaskTaskRunner`
-2. Specifying the task runner in the flow decorator: `@flow(task_runner=DaskTaskRunner)`
-3. Submitting tasks to the flow's task runner: `a_task.submit(*args, **kwargs)`
-
+1. Add the import: `from prefect_dask import DaskTaskRunner`
+2. Specify the task runner in the flow decorator: `@flow(task_runner=DaskTaskRunner)`
+3. Submit tasks to the flow's task runner: `a_task.submit(*args, **kwargs)`
+The parallelized code  runs in about 1/3 of the time in our test!  And that's without distributing the workload over multiple machines.
 Here's the before and after!
 
 === "Before"
@@ -124,7 +124,7 @@ Here's the before and after!
         download_nino_34_plumes_from_year(2022)
     ```
 
-The original flow completes in **15.2 seconds**, which is okay.
+The original flow completes in 15.2 seconds.
 
 However, with just a few minor tweaks, we were able to reduce the runtime by nearly **three** folds, down to just **5.7** seconds!
 
@@ -241,7 +241,7 @@ Requires an installation of Python 3.7+.
 
 We recommend using a Python virtual environment manager such as pipenv, conda, or virtualenv.
 
-These tasks are designed to work with Prefect 2.0. For more information about how to use Prefect, please refer to the [Prefect documentation](https://docs.prefect.io/).
+These tasks are designed to work with Prefect 2. For more information about how to use Prefect, please refer to the [Prefect documentation](https://docs.prefect.io/).
 
 ### Feedback
 
