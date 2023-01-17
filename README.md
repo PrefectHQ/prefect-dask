@@ -1,6 +1,8 @@
-# prefect-dask
+# prefect-dask - Coordinate, and parallelize, your dataflow
 
 <p align="center">
+    <img src="https://user-images.githubusercontent.com/15331990/211682578-3e341709-6509-4c95-a6af-3b1160fe2961.png" width=40% height=40%>
+    <br>
     <a href="https://pypi.python.org/pypi/prefect-dask/" alt="PyPI version">
         <img alt="PyPI" src="https://img.shields.io/pypi/v/prefect-dask?color=0052FF&labelColor=090422"></a>
     <a href="https://github.com/PrefectHQ/prefect-dask/" alt="Stars">
@@ -16,338 +18,254 @@
         <img src="https://img.shields.io/badge/discourse-browse_forum-red.svg?color=0052FF&labelColor=090422&logo=discourse" /></a>
 </p>
 
-## Welcome!
+Visit the full docs [here](https://PrefectHQ.github.io/prefect-dask) to see additional examples and the API reference.
 
-Prefect integrations with the [Dask.distributed](http://distributed.dask.org/) library for distributed computing in Python.
+The `prefect-dask` collection makes it easy to include distributed processing for your flows. Check out the examples below to get started!
 
-Provides a `DaskTaskRunner` that enables flows to run tasks requiring parallel or distributed execution using Dask.
+## Integrate with Prefect flows
 
-## Getting Started
+Perhaps you're already working with Prefect flows. Say your flow downloads many images to train your machine learning model. Unfortunately, it takes a long time to download your flows because your code is running sequentially.
 
-### Python setup
+After installing `prefect-dask` you can parallelize your flow in three simple steps:
+
+1. Add the import: `from prefect_dask import DaskTaskRunner`
+2. Specify the task runner in the flow decorator: `@flow(task_runner=DaskTaskRunner)`
+3. Submit tasks to the flow's task runner: `a_task.submit(*args, **kwargs)`
+The parallelized code  runs in about 1/3 of the time in our test!  And that's without distributing the workload over multiple machines.
+Here's the before and after!
+
+=== "Before"
+    ```python hl_lines="1"
+    # Completed in 15.2 seconds
+
+    from typing import List
+    from pathlib import Path
+
+    import httpx
+    from prefect import flow, task
+
+    URL_FORMAT = (
+        "https://www.cpc.ncep.noaa.gov/products/NMME/archive/"
+        "{year:04d}{month:02d}0800/current/images/nino34.rescaling.ENSMEAN.png"
+    )
+
+    @task
+    def download_image(year: int, month: int, directory: Path) -> Path:
+        # download image from URL
+        url = URL_FORMAT.format(year=year, month=month)
+        resp = httpx.get(url)
+
+        # save content to directory/YYYYMM.png
+        file_path = (directory / url.split("/")[-1]).with_stem(f"{year:04d}{month:02d}")
+        file_path.write_bytes(resp.content)
+        return file_path
+
+    @flow
+    def download_nino_34_plumes_from_year(year: int) -> List[Path]:
+        # create a directory to hold images
+        directory = Path("data")
+        directory.mkdir(exist_ok=True)
+
+        # download all images
+        file_paths = []
+        for month in range(1, 12 + 1):
+            file_path = download_image(year, month, directory)
+            file_paths.append(file_path)
+        return file_paths
+
+    if __name__ == "__main__":
+        download_nino_34_plumes_from_year(2022)
+    ```
+
+=== "After"
+
+    ```python hl_lines="1 8 26 35"
+    # Completed in 5.7 seconds
+
+    from typing import List
+    from pathlib import Path
+
+    import httpx
+    from prefect import flow, task
+    from prefect_dask import DaskTaskRunner
+
+    URL_FORMAT = (
+        "https://www.cpc.ncep.noaa.gov/products/NMME/archive/"
+        "{year:04d}{month:02d}0800/current/images/nino34.rescaling.ENSMEAN.png"
+    )
+
+    @task
+    def download_image(year: int, month: int, directory: Path) -> Path:
+        # download image from URL
+        url = URL_FORMAT.format(year=year, month=month)
+        resp = httpx.get(url)
+
+        # save content to directory/YYYYMM.png
+        file_path = (directory / url.split("/")[-1]).with_stem(f"{year:04d}{month:02d}")
+        file_path.write_bytes(resp.content)
+        return file_path
+
+    @flow(task_runner=DaskTaskRunner(cluster_kwargs={"processes": False}))
+    def download_nino_34_plumes_from_year(year: int) -> List[Path]:
+        # create a directory to hold images
+        directory = Path("data")
+        directory.mkdir(exist_ok=True)
+
+        # download all images
+        file_paths = []
+        for month in range(1, 12 + 1):
+            file_path = download_image.submit(year, month, directory)
+            file_paths.append(file_path)
+        return file_paths
+
+    if __name__ == "__main__":
+        download_nino_34_plumes_from_year(2022)
+    ```
+
+The original flow completes in 15.2 seconds.
+
+However, with just a few minor tweaks, we were able to reduce the runtime by nearly **three** folds, down to just **5.7** seconds!
+
+## Integrate with Dask client/cluster and collections
+
+Suppose you have an existing Dask client/cluster and collection, like a `dask.dataframe.DataFrame`, and you want to add observability.
+
+With `prefect-dask`, there's no major overhaul necessary because Prefect was designed with incremental adoption in mind! It's as easy as:
+
+1. Adding the imports
+2. Sprinkling a few `task` and `flow` decorators
+3. Specifying the task runner and client's address in the flow decorator
+4. Submitting the tasks to the flow's task runner
+
+=== "Before"
+
+    ```python
+    import dask.dataframe
+    import dask.distributed
+
+
+
+    client = dask.distributed.Client()
+
+
+    def read_data(start: str, end: str) -> dask.dataframe.DataFrame:
+        df = dask.datasets.timeseries(start, end, partition_freq="4w")
+        return df
+
+
+    def process_data(df: dask.dataframe.DataFrame) -> dask.dataframe.DataFrame:
+        with get_dask_client():
+            df_yearly_avg = df.groupby(df.index.year).mean()
+            return df_yearly_avg.compute()
+
+
+    def dask_pipeline():
+        df = read_data("1988", "2022")
+        df_yearly_average = process_data(df)
+        return df_yearly_average
+
+    dask_pipeline()
+    ```
+
+
+=== "After"
+
+    ```python hl_lines="3 4 8 13 19 21 22"
+    import dask.dataframe
+    import dask.distributed
+    from prefect import flow, task
+    from prefect_dask import DaskTaskRunner, get_dask_client
+
+    client = dask.distributed.Client()
+
+    @task
+    def read_data(start: str, end: str) -> dask.dataframe.DataFrame:
+        df = dask.datasets.timeseries(start, end, partition_freq="4w")
+        return df
+
+    @task
+    def process_data(df: dask.dataframe.DataFrame) -> dask.dataframe.DataFrame:
+        with get_dask_client():
+            df_yearly_avg = df.groupby(df.index.year).mean()
+            return df_yearly_avg.compute()
+
+    @flow(task_runner=DaskTaskRunner(address=client.scheduler.address))
+    def dask_pipeline():
+        df = read_data.submit("1988", "2022")
+        df_yearly_average = process_data.submit(df)
+        return df_yearly_average
+
+    dask_pipeline()
+    ```
+
+Now, you can conveniently see when each task completed, both in the terminal and the UI!
+
+```bash
+14:10:09.845 | INFO    | prefect.engine - Created flow run 'chocolate-pony' for flow 'dask-flow'
+14:10:09.847 | INFO    | prefect.task_runner.dask - Connecting to an existing Dask cluster at tcp://127.0.0.1:59255
+14:10:09.857 | INFO    | distributed.scheduler - Receive client connection: Client-8c1e0f24-9133-11ed-800e-86f2469c4e7a
+14:10:09.859 | INFO    | distributed.core - Starting established connection to tcp://127.0.0.1:59516
+14:10:09.862 | INFO    | prefect.task_runner.dask - The Dask dashboard is available at http://127.0.0.1:8787/status
+14:10:11.344 | INFO    | Flow run 'chocolate-pony' - Created task run 'read_data-5bc97744-0' for task 'read_data'
+14:10:11.626 | INFO    | Flow run 'chocolate-pony' - Submitted task run 'read_data-5bc97744-0' for execution.
+14:10:11.795 | INFO    | Flow run 'chocolate-pony' - Created task run 'process_data-090555ba-0' for task 'process_data'
+14:10:11.798 | INFO    | Flow run 'chocolate-pony' - Submitted task run 'process_data-090555ba-0' for execution.
+14:10:13.279 | INFO    | Task run 'read_data-5bc97744-0' - Finished in state Completed()
+14:11:43.539 | INFO    | Task run 'process_data-090555ba-0' - Finished in state Completed()
+14:11:43.883 | INFO    | Flow run 'chocolate-pony' - Finished in state Completed('All states completed.')
+```
+
+## Resources
+
+For additional examples, check out the [Usage Guide](usage_guide)!
+
+### Installation
+
+Get started by installing `prefect-dask`!
+
+=== "pip"
+
+    ```bash
+    pip install -U prefect-dask
+    ```
+
+=== "conda"
+
+    ```bash
+    conda install -c conda-forge prefect-dask
+    ```
 
 Requires an installation of Python 3.7+.
 
 We recommend using a Python virtual environment manager such as pipenv, conda, or virtualenv.
 
-These tasks are designed to work with Prefect 2.0. For more information about how to use Prefect, please refer to the [Prefect documentation](https://orion-docs.prefect.io/).
+These tasks are designed to work with Prefect 2. For more information about how to use Prefect, please refer to the [Prefect documentation](https://docs.prefect.io/).
 
-### Installation
-
-Install `prefect-dask` with `pip`:
-
-```bash
-pip install prefect-dask
-```
-
-Then, register to [view the block](https://orion-docs.prefect.io/ui/blocks/) on Prefect Cloud:
-
-```bash
-prefect block register -m prefect_dask.credentials
-```
-
-Note, to use the `load` method on Blocks, you must already have a block document [saved through code](https://orion-docs.prefect.io/concepts/blocks/#saving-blocks) or [saved through the UI](https://orion-docs.prefect.io/ui/blocks/).
-
-## Running tasks on Dask
-
-The `DaskTaskRunner` is a parallel task runner that submits tasks to the [`dask.distributed`](http://distributed.dask.org/) scheduler. 
-
-By default, a temporary Dask cluster is created for the duration of the flow run.
-
-For example, this flow counts up to 10 in parallel (note that the output is not sequential).
-
-```python
-import time
-
-from prefect import flow, task
-from prefect_dask import DaskTaskRunner
-
-@task
-def shout(number):
-    time.sleep(0.5)
-    print(f"#{number}")
-
-@flow(task_runner=DaskTaskRunner)
-def count_to(highest_number):
-    for number in range(highest_number):
-        shout.submit(number)
-
-if __name__ == "__main__":
-    count_to(10)
-
-# outputs
-#3
-#7
-#2
-#6
-#4
-#0
-#1
-#5
-#8
-#9
-```
-
-If you already have a Dask cluster running, either local or cloud hosted, you can provide the connection URL via an `address` argument.
-
-To configure your flow to use the `DaskTaskRunner`:
-
-1. Make sure the `prefect-dask` collection is installed as described earlier: `pip install prefect-dask`.
-2. In your flow code, import `DaskTaskRunner` from `prefect_dask.task_runners`.
-3. Assign it as the task runner when the flow is defined using the `task_runner=DaskTaskRunner` argument.
-
-For example, this flow uses the `DaskTaskRunner` configured to access an existing Dask cluster at `http://my-dask-cluster`.
-
-```python
-from prefect import flow
-from prefect_dask.task_runners import DaskTaskRunner
-
-@flow(task_runner=DaskTaskRunner(address="http://my-dask-cluster"))
-def my_flow():
-    ...
-```
-
-`DaskTaskRunner` accepts the following optional parameters:
-
-| Parameter      | Description                                                                                                                                                           |
-|----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| cluster        | Currently running Dask cluster, `dask.distributed.Cluster` (or subclass).                                                                                             |
-| address        | Address of a currently running Dask scheduler.                                                                                                                        |
-| cluster_class  | The cluster class to use when creating a temporary Dask cluster. It can be either the full class name (for example, `"distributed.LocalCluster"`), or the class itself. |
-| cluster_kwargs | Additional kwargs to pass to the `cluster_class` when creating a temporary Dask cluster.                                                                              |
-| adapt_kwargs   | Additional kwargs to pass to `cluster.adapt` when creating a temporary Dask cluster. Note that adaptive scaling is only enabled if `adapt_kwargs` are provided.       |
-| client_kwargs  | Additional kwargs to use when creating a [`dask.distributed.Client`](https://distributed.dask.org/en/latest/api.html#client).                                         |
-
-!!! warning "Multiprocessing safety"
-    Note that, because the `DaskTaskRunner` uses multiprocessing, calls to flows
-    in scripts must be guarded with `if __name__ == "__main__":` or you will encounter 
-    warnings and errors.
-
-If you don't provide a `cluster` object or the `address` of a Dask scheduler, Prefect creates a temporary local cluster automatically. The number of workers used is based on the number of cores available to your execution environment. The default provides a mix of processes and threads that should work well for most workloads. If you want to specify this explicitly, you can pass values for `n_workers` or `threads_per_worker` to `cluster_kwargs`.
-
-```python
-# Use 4 worker processes, each with 2 threads
-DaskTaskRunner(
-    cluster_kwargs={"n_workers": 4, "threads_per_worker": 2}
-)
-```
-
-### Distributing Dask collections across workers
-
-If you use a Dask collection, such as a `dask.DataFrame` or `dask.Bag`, to distribute the work across workers and achieve parallel computations, use one of the context managers `get_dask_client` or `get_async_dask_client`:
-
-```python
-import dask
-from prefect import flow, task
-from prefect_dask import DaskTaskRunner, get_dask_client
-
-@task
-def compute_task():
-    with get_dask_client() as client:
-        df = dask.datasets.timeseries("2000", "2001", partition_freq="4w")
-        summary_df = df.describe().compute()
-    return summary_df
-
-@flow(task_runner=DaskTaskRunner())
-def dask_flow():
-    prefect_future = compute_task.submit()
-    return prefect_future.result()
-
-dask_flow()
-```
-
-The context managers can be used the same way in both `flow` run contexts and `task` run contexts.
-
-!!! warning "Resolving futures in sync client"
-    Note, by default, `dask_collection.compute()` returns concrete values while `client.compute(dask_collection)` returns Dask Futures. Therefore, if you call `client.compute`, you must resolve all futures before exiting out of the context manager by either:
-    
-    1. setting `sync=True`
-    ```python
-    with get_dask_client() as client:
-        df = dask.datasets.timeseries("2000", "2001", partition_freq="4w")
-        summary_df = client.compute(df.describe(), sync=True)
-    ```
-
-    2. calling `result()`
-    ```python
-    with get_dask_client() as client:
-        df = dask.datasets.timeseries("2000", "2001", partition_freq="4w")
-        summary_df = client.compute(df.describe()).result()
-    ```
-    For more information, visit the docs on [Waiting on Futures](https://docs.dask.org/en/stable/futures.html#waiting-on-futures).
-
-There is also an equivalent context manager for asynchronous tasks and flows: `get_async_dask_client`.
-
-```python
-import asyncio
-
-import dask
-from prefect import flow, task
-from prefect_dask import DaskTaskRunner, get_async_dask_client
-
-@task
-async def compute_task():
-    async with get_async_dask_client() as client:
-        df = dask.datasets.timeseries("2000", "2001", partition_freq="4w")
-        summary_df = await client.compute(df.describe())
-    return summary_df
-
-@flow(task_runner=DaskTaskRunner())
-async def dask_flow():
-    prefect_future = await compute_task.submit()
-    return await prefect_future.result()
-
-asyncio.run(dask_flow())
-```
-!!! warning "Resolving futures in async client"
-    With the async client, you do not need to set `sync=True` or call `result()`.
-
-    However you must `await client.compute(dask_collection)` before exiting out of the context manager.
-
-    To invoke `compute` from the Dask collection, set `sync=False` and call `result()` before exiting out of the context manager: `await dask_collection.compute(sync=False)`.
-
-### Using a temporary cluster
-
-The `DaskTaskRunner` is capable of creating a temporary cluster using any of [Dask's cluster-manager options](https://docs.dask.org/en/latest/setup.html). This can be useful when you want each flow run to have its own Dask cluster, allowing for per-flow adaptive scaling.
-
-To configure, you need to provide a `cluster_class`. This can be:
-
-- A string specifying the import path to the cluster class (for example, `"dask_cloudprovider.aws.FargateCluster"`)
-- The cluster class itself
-- A function for creating a custom cluster
-
-You can also configure `cluster_kwargs`, which takes a dictionary of keyword arguments to pass to `cluster_class` when starting the flow run.
-
-For example, to configure a flow to use a temporary `dask_cloudprovider.aws.FargateCluster` with 4 workers running with an image named `my-prefect-image`:
-
-```python
-DaskTaskRunner(
-    cluster_class="dask_cloudprovider.aws.FargateCluster",
-    cluster_kwargs={"n_workers": 4, "image": "my-prefect-image"},
-)
-```
-
-### Connecting to an existing cluster
-
-Multiple Prefect flow runs can all use the same existing Dask cluster. You might manage a single long-running Dask cluster (maybe using the Dask [Helm Chart](https://docs.dask.org/en/latest/setup/kubernetes-helm.html)) and configure flows to connect to it during execution. This has a few downsides when compared to using a temporary cluster (as described above):
-
-- All workers in the cluster must have dependencies installed for all flows you intend to run.
-- Multiple flow runs may compete for resources. Dask tries to do a good job sharing resources between tasks, but you may still run into issues.
-
-That said, you may prefer managing a single long-running cluster. 
-
-To configure a `DaskTaskRunner` to connect to an existing cluster, pass in the address of the scheduler to the `address` argument:
-
-```python
-# Connect to an existing cluster running at a specified address
-DaskTaskRunner(address="tcp://...")
-```
-
-You can also pass in a cluster object:
-
-```python
-# Create a local cluster and then connect to it
-cluster = distributed.LocalCluster()
-DaskTaskRunner(cluster=cluster)
-```
-
-When you pass an existing cluster object, this will automatically use the correct address and
-any `distributed.Security` configuration set on the cluster.
-
-### Adaptive scaling
-
-One nice feature of using a `DaskTaskRunner` is the ability to scale adaptively to the workload. Instead of specifying `n_workers` as a fixed number, this lets you specify a minimum and maximum number of workers to use, and the dask cluster will scale up and down as needed.
-
-To do this, you can pass `adapt_kwargs` to `DaskTaskRunner`. This takes the following fields:
-
-- `maximum` (`int` or `None`, optional): the maximum number of workers to scale to. Set to `None` for no maximum.
-- `minimum` (`int` or `None`, optional): the minimum number of workers to scale to. Set to `None` for no minimum.
-
-For example, here we configure a flow to run on a `FargateCluster` scaling up to at most 10 workers.
-
-```python
-DaskTaskRunner(
-    cluster_class="dask_cloudprovider.aws.FargateCluster",
-    adapt_kwargs={"maximum": 10}
-)
-```
-
-### Dask annotations
-
-Dask annotations can be used to further control the behavior of tasks.
-
-For example, we can set the [priority](http://distributed.dask.org/en/stable/priority.html) of tasks in the Dask scheduler:
-
-```python
-import dask
-from prefect import flow, task
-from prefect_dask.task_runners import DaskTaskRunner
-
-@task
-def show(x):
-    print(x)
-
-
-@flow(task_runner=DaskTaskRunner())
-def my_flow():
-    with dask.annotate(priority=-10):
-        future = show(1)  # low priority task
-
-    with dask.annotate(priority=10):
-        future = show(2)  # high priority task
-```
-
-Another common use case is [resource](http://distributed.dask.org/en/stable/resources.html) annotations:
-
-```python
-import dask
-from prefect import flow, task
-from prefect_dask.task_runners import DaskTaskRunner
-
-@task
-def show(x):
-    print(x)
-
-# Create a `LocalCluster` with some resource annotations
-# Annotations are abstract in dask and not inferred from your system.
-# Here, we claim that our system has 1 GPU and 1 process available per worker
-@flow(
-    task_runner=DaskTaskRunner(
-        cluster_kwargs={"n_workers": 1, "resources": {"GPU": 1, "process": 1}}
-    )
-)
-def my_flow():
-    with dask.annotate(resources={'GPU': 1}):
-        future = show(0)  # this task requires 1 GPU resource on a worker
-
-    with dask.annotate(resources={'process': 1}):
-        # These tasks each require 1 process on a worker; because we've 
-        # specified that our cluster has 1 process per worker and 1 worker,
-        # these tasks will run sequentially
-        future = show(1)
-        future = show(2)
-        future = show(3)
-```
-
-## Resources
+### Feedback
 
 If you encounter any bugs while using `prefect-dask`, feel free to open an issue in the [prefect-dask](https://github.com/PrefectHQ/prefect-dask) repository.
 
 If you have any questions or issues while using `prefect-dask`, you can find help in either the [Prefect Discourse forum](https://discourse.prefect.io/) or the [Prefect Slack community](https://prefect.io/slack).
 
-Feel free to ⭐️ or watch [`prefect-dask`](https://github.com/PrefectHQ/prefect-dask) for updates too!
+Feel free to star or watch [`prefect-dask`](https://github.com/PrefectHQ/prefect-dask) for updates too!
 
-## Development
+### Contributing
 
-If you'd like to install a version of `prefect-dask` for development, clone the repository and perform an editable install with `pip`:
+If you'd like to help contribute to fix an issue or add a feature to `prefect-dask`, please [propose changes through a pull request from a fork of the repository](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork).
 
-```bash
-git clone https://github.com/PrefectHQ/prefect-dask.git
+Here are the steps:
 
-cd prefect-dask/
-
+1. [Fork the repository](https://docs.github.com/en/get-started/quickstart/fork-a-repo#forking-a-repository)
+2. [Clone the forked repository](https://docs.github.com/en/get-started/quickstart/fork-a-repo#cloning-your-forked-repository)
+3. Install the repository and its dependencies:
+```
 pip install -e ".[dev]"
-
-# Install linting pre-commit hooks
+```
+4. Make desired changes
+5. Add tests
+6. Insert an entry to [CHANGELOG.md](https://github.com/PrefectHQ/prefect-dask/blob/main/CHANGELOG.md)
+7. Install `pre-commit` to perform quality checks prior to commit:
+```
 pre-commit install
 ```
+8. `git commit`, `git push`, and create a pull request

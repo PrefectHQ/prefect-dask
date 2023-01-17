@@ -6,12 +6,17 @@ from uuid import uuid4
 
 import cloudpickle
 import distributed
+import prefect.engine
 import pytest
-from prefect import flow, task
+from distributed.scheduler import KilledWorker
+from prefect import flow, get_run_logger, task
+from prefect.client.schemas import TaskRun
+from prefect.orion.schemas.states import StateType
 from prefect.states import State
 from prefect.task_runners import TaskConcurrencyType
 from prefect.testing.fixtures import hosted_orion_api, use_hosted_orion  # noqa: F401
 from prefect.testing.standard_test_suites import TaskRunnerStandardTestSuite
+from prefect.testing.utilities import exceptions_equal
 
 from prefect_dask import DaskTaskRunner
 
@@ -132,21 +137,78 @@ class TestDaskTaskRunner(TaskRunnerStandardTestSuite):
                 f"{task_runner.concurrency_type} task runners."
             )
 
+        task_run = TaskRun(flow_run_id=uuid4(), task_key="foo", dynamic_key="bar")
+
         async def fake_orchestrate_task_run():
             raise exception
 
-        test_key = uuid4()
-
         async with task_runner.start():
             await task_runner.submit(
+                key=task_run.id,
                 call=partial(fake_orchestrate_task_run),
-                key=test_key,
             )
 
-            state = await task_runner.wait(test_key, 5)
+            state = await task_runner.wait(task_run.id, 5)
             assert state is not None, "wait timed out"
             assert isinstance(state, State), "wait should return a state"
-            assert state.name == "Crashed"
+            assert state.type == StateType.CRASHED
+
+    @pytest.mark.parametrize(
+        "exceptions",
+        [
+            (KeyboardInterrupt(), KilledWorker),
+            (ValueError("test"), ValueError),
+        ],
+    )
+    async def test_exception_to_crashed_state_in_flow_run(
+        self, exceptions, task_runner, monkeypatch
+    ):
+        if task_runner.concurrency_type != TaskConcurrencyType.PARALLEL:
+            pytest.skip(
+                f"This will abort the run for "
+                f"{task_runner.concurrency_type} task runners."
+            )
+
+        (raised_exception, state_exception_type) = exceptions
+
+        def throws_exception_before_task_begins(
+            task,
+            task_run,
+            parameters,
+            wait_for,
+            result_factory,
+            settings,
+            *args,
+            **kwds,
+        ):
+            """
+            Simulates an exception occurring while a remote task runner is attempting
+            to unpickle and run a Prefect task.
+            """
+            raise raised_exception
+
+        monkeypatch.setattr(
+            prefect.engine, "begin_task_run", throws_exception_before_task_begins
+        )
+
+        @task()
+        def test_task():
+            logger = get_run_logger()
+            logger.info("Dask should raise an exception before this task runs.")
+
+        @flow(task_runner=task_runner)
+        def test_flow():
+            future = test_task.submit()
+            future.wait(10)
+
+        # ensure that the type of exception raised by the flow matches the type of
+        # exception we expected the task runner to receive.
+        with pytest.raises(state_exception_type) as exc:
+            await test_flow()
+            # If Dask passes the same exception type back, it should pass
+            # the equality check
+            if type(raised_exception) == state_exception_type:
+                assert exceptions_equal(raised_exception, exc)
 
     def test_cluster_not_asynchronous(self):
         with pytest.raises(ValueError, match="The cluster must have"):
