@@ -1,4 +1,4 @@
-# prefect-dask - Coordinate, and parallelize, your dataflow
+# Coordinate and parallelize your dataflow with `prefect-dask`
 
 <p align="center">
     <img src="https://user-images.githubusercontent.com/15331990/211682578-3e341709-6509-4c95-a6af-3b1160fe2961.png" width=40% height=40%>
