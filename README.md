@@ -136,8 +136,9 @@ With `prefect-dask`, there's no major overhaul necessary because Prefect was des
 
 1. Adding the imports
 2. Sprinkling a few `task` and `flow` decorators
-3. Specifying the task runner and client's address in the flow decorator
-4. Submitting the tasks to the flow's task runner
+3. Using `get_dask_client` context manager on collections to distribute work across workers
+4. Specifying the task runner and client's address in the flow decorator
+5. Submitting the tasks to the flow's task runner
 
 === "Before"
 
@@ -156,9 +157,8 @@ With `prefect-dask`, there's no major overhaul necessary because Prefect was des
 
 
     def process_data(df: dask.dataframe.DataFrame) -> dask.dataframe.DataFrame:
-        with get_dask_client():
-            df_yearly_avg = df.groupby(df.index.year).mean()
-            return df_yearly_avg.compute()
+        df_yearly_avg = df.groupby(df.index.year).mean()
+        return df_yearly_avg.compute()
 
 
     def dask_pipeline():
@@ -172,7 +172,7 @@ With `prefect-dask`, there's no major overhaul necessary because Prefect was des
 
 === "After"
 
-    ```python hl_lines="3 4 8 13 19 21 22"
+    ```python hl_lines="3 4 8 13 15 19 21 22"
     import dask.dataframe
     import dask.distributed
     from prefect import flow, task
