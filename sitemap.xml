@@ -6,11 +6,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://PrefectHQ.github.io/prefect-dask/resources/</loc>
-         <lastmod>2023-01-17</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://PrefectHQ.github.io/prefect-dask/task_runners/</loc>
          <lastmod>2023-01-17</lastmod>
          <changefreq>daily</changefreq>

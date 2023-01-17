@@ -632,6 +632,7 @@ Here's the before and after!</li>
 <ol>
 <li>Adding the imports</li>
 <li>Sprinkling a few <code>task</code> and <code>flow</code> decorators</li>
+<li>Using <code>get_dask_client</code> context manager on collections to distribute work across workers</li>
 <li>Specifying the task runner and client's address in the flow decorator</li>
 <li>Submitting the tasks to the flow's task runner</li>
 </ol>
@@ -652,9 +653,8 @@ Here's the before and after!</li>
 
 
 <span class="k">def</span> <span class="nf">process_data</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">dask</span><span class="o">.</span><span class="n">dataframe</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">dask</span><span class="o">.</span><span class="n">dataframe</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-    <span class="k">with</span> <span class="n">get_dask_client</span><span class="p">():</span>
-        <span class="n">df_yearly_avg</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">year</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">df_yearly_avg</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
+    <span class="n">df_yearly_avg</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">year</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">df_yearly_avg</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
 
 
 <span class="k">def</span> <span class="nf">dask_pipeline</span><span class="p">():</span>
@@ -680,8 +680,8 @@ Here's the before and after!</li>
 
 <span class="hll"><span class="nd">@task</span>
 </span><span class="k">def</span> <span class="nf">process_data</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">dask</span><span class="o">.</span><span class="n">dataframe</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">dask</span><span class="o">.</span><span class="n">dataframe</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-    <span class="k">with</span> <span class="n">get_dask_client</span><span class="p">():</span>
-        <span class="n">df_yearly_avg</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">year</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="hll">    <span class="k">with</span> <span class="n">get_dask_client</span><span class="p">():</span>
+</span>        <span class="n">df_yearly_avg</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">year</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">df_yearly_avg</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
 
 <span class="hll"><span class="nd">@flow</span><span class="p">(</span><span class="n">task_runner</span><span class="o">=</span><span class="n">DaskTaskRunner</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">client</span><span class="o">.</span><span class="n">scheduler</span><span class="o">.</span><span class="n">address</span><span class="p">))</span>
