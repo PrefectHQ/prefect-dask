@@ -12,10 +12,10 @@
       
       
       
-        <link rel="next" href="task_runners/">
+        <link rel="next" href="usage_guide/">
       
       <link rel="icon" href="img/favicon.ico">
-      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.2">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.5">
     
     
       
@@ -23,7 +23,7 @@
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.f56500e0.min.css">
+      <link rel="stylesheet" href="assets/stylesheets/main.558e4712.min.css">
       
         
         <link rel="stylesheet" href="assets/stylesheets/palette.2505c338.min.css">
@@ -75,7 +75,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#prefect-dask" class="md-skip">
+        <a href="#prefect-dask-coordinate-and-parallelize-your-dataflow" class="md-skip">
           Skip to content
         </a>
       
@@ -170,7 +170,7 @@
           <div class="md-search-result__meta">
             Initializing search
           </div>
-          <ol class="md-search-result__list"></ol>
+          <ol class="md-search-result__list" role="presentation"></ol>
         </div>
       </div>
     </div>
@@ -278,84 +278,16 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#welcome" class="md-nav__link">
-    Welcome!
+  <a href="#integrate-with-prefect-flows" class="md-nav__link">
+    Integrate with Prefect flows
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#getting-started" class="md-nav__link">
-    Getting Started
+  <a href="#integrate-with-dask-clientcluster-and-collections" class="md-nav__link">
+    Integrate with Dask client/cluster and collections
   </a>
-  
-    <nav class="md-nav" aria-label="Getting Started">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#python-setup" class="md-nav__link">
-    Python setup
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#installation" class="md-nav__link">
-    Installation
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#running-tasks-on-dask" class="md-nav__link">
-    Running tasks on Dask
-  </a>
-  
-    <nav class="md-nav" aria-label="Running tasks on Dask">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#distributing-dask-collections-across-workers" class="md-nav__link">
-    Distributing Dask collections across workers
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#using-a-temporary-cluster" class="md-nav__link">
-    Using a temporary cluster
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#connecting-to-an-existing-cluster" class="md-nav__link">
-    Connecting to an existing cluster
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#adaptive-scaling" class="md-nav__link">
-    Adaptive scaling
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#dask-annotations" class="md-nav__link">
-    Dask annotations
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -364,12 +296,32 @@
     Resources
   </a>
   
+    <nav class="md-nav" aria-label="Resources">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    Installation
+  </a>
+  
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
+  <a href="#feedback" class="md-nav__link">
+    Feedback
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#contributing" class="md-nav__link">
     Contributing
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -389,8 +341,8 @@
   
   
     <li class="md-nav__item">
-      <a href="task_runners/" class="md-nav__link">
-        Task Runners
+      <a href="usage_guide/" class="md-nav__link">
+        Usage Guide
       </a>
     </li>
   
@@ -403,10 +355,58 @@
   
   
   
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" tabindex="0" aria-expanded="false">
+          API Reference
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="API Reference" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          API Reference
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="task_runners/" class="md-nav__link">
+        Task Runners
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
     <li class="md-nav__item">
       <a href="utils/" class="md-nav__link">
         Utils
       </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
     </li>
   
 
@@ -438,84 +438,16 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#welcome" class="md-nav__link">
-    Welcome!
+  <a href="#integrate-with-prefect-flows" class="md-nav__link">
+    Integrate with Prefect flows
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#getting-started" class="md-nav__link">
-    Getting Started
+  <a href="#integrate-with-dask-clientcluster-and-collections" class="md-nav__link">
+    Integrate with Dask client/cluster and collections
   </a>
-  
-    <nav class="md-nav" aria-label="Getting Started">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#python-setup" class="md-nav__link">
-    Python setup
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#installation" class="md-nav__link">
-    Installation
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#running-tasks-on-dask" class="md-nav__link">
-    Running tasks on Dask
-  </a>
-  
-    <nav class="md-nav" aria-label="Running tasks on Dask">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#distributing-dask-collections-across-workers" class="md-nav__link">
-    Distributing Dask collections across workers
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#using-a-temporary-cluster" class="md-nav__link">
-    Using a temporary cluster
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#connecting-to-an-existing-cluster" class="md-nav__link">
-    Connecting to an existing cluster
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#adaptive-scaling" class="md-nav__link">
-    Adaptive scaling
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#dask-annotations" class="md-nav__link">
-    Dask annotations
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -524,12 +456,32 @@
     Resources
   </a>
   
+    <nav class="md-nav" aria-label="Resources">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    Installation
+  </a>
+  
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
+  <a href="#feedback" class="md-nav__link">
+    Feedback
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#contributing" class="md-nav__link">
     Contributing
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -552,8 +504,10 @@
 
 
 
-<h1 id="prefect-dask">prefect-dask</h1>
+<h1 id="prefect-dask-coordinate-and-parallelize-your-dataflow">prefect-dask - Coordinate, and parallelize, your dataflow</h1>
 <p align="center">
+    <img src="https://user-images.githubusercontent.com/15331990/211682578-3e341709-6509-4c95-a6af-3b1160fe2961.png" width=40% height=40%>
+    <br>
     <a href="https://pypi.python.org/pypi/prefect-dask/" alt="PyPI version">
         <img alt="PyPI" src="https://img.shields.io/pypi/v/prefect-dask?color=0052FF&labelColor=090422"></a>
     <a href="https://github.com/PrefectHQ/prefect-dask/" alt="Stars">
@@ -569,287 +523,232 @@
         <img src="https://img.shields.io/badge/discourse-browse_forum-red.svg?color=0052FF&labelColor=090422&logo=discourse" /></a>
 </p>
 
-<h2 id="welcome">Welcome!</h2>
-<p>Prefect integrations with the <a href="http://distributed.dask.org/">Dask.distributed</a> library for distributed computing in Python.</p>
-<p>Provides a <code>DaskTaskRunner</code> that enables flows to run tasks requiring parallel or distributed execution using Dask.</p>
-<h2 id="getting-started">Getting Started</h2>
-<h3 id="python-setup">Python setup</h3>
-<p>Requires an installation of Python 3.7+.</p>
-<p>We recommend using a Python virtual environment manager such as pipenv, conda, or virtualenv.</p>
-<p>These tasks are designed to work with Prefect 2.0. For more information about how to use Prefect, please refer to the <a href="https://orion-docs.prefect.io/">Prefect documentation</a>.</p>
-<h3 id="installation">Installation</h3>
-<p>Install <code>prefect-dask</code> with <code>pip</code>:</p>
-<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>-U<span class="w"> </span>prefect-dask
-</code></pre></div>
-<h2 id="running-tasks-on-dask">Running tasks on Dask</h2>
-<p>The <code>DaskTaskRunner</code> is a parallel task runner that submits tasks to the <a href="http://distributed.dask.org/"><code>dask.distributed</code></a> scheduler. </p>
-<p>By default, a temporary Dask cluster is created for the duration of the flow run.</p>
-<p>For example, this flow counts up to 10 in parallel (note that the output is not sequential).</p>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">time</span>
+<p>The <code>prefect-dask</code> collection makes it easy to include distributed processing for your flows. Check out the examples below to get started!</p>
+<h2 id="integrate-with-prefect-flows">Integrate with Prefect flows</h2>
+<p>Perhaps you're already working with Prefect flows. Say your flow downloads many images to train your machine learning model. Unfortunately, it takes a long time to download your flows because your code is running sequentially.</p>
+<p>After installing <code>prefect-dask</code> you can parallelize your flow in three simple steps:</p>
+<ol>
+<li>Add the import: <code>from prefect_dask import DaskTaskRunner</code></li>
+<li>Specify the task runner in the flow decorator: <code>@flow(task_runner=DaskTaskRunner)</code></li>
+<li>Submit tasks to the flow's task runner: <code>a_task.submit(*args, **kwargs)</code>
+The parallelized code  runs in about 1/3 of the time in our test!  And that's without distributing the workload over multiple machines.
+Here's the before and after!</li>
+</ol>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Before</label><label for="__tabbed_1_2">After</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="hll"><span class="c1"># Completed in 15.2 seconds</span>
+</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 
+<span class="kn">import</span> <span class="nn">httpx</span>
 <span class="kn">from</span> <span class="nn">prefect</span> <span class="kn">import</span> <span class="n">flow</span><span class="p">,</span> <span class="n">task</span>
-<span class="kn">from</span> <span class="nn">prefect_dask</span> <span class="kn">import</span> <span class="n">DaskTaskRunner</span>
+
+
+<span class="n">URL_FORMAT</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s2">&quot;https://www.cpc.ncep.noaa.gov/products/NMME/archive/&quot;</span>
+    <span class="s2">&quot;</span><span class="si">{year:04d}{month:02d}</span><span class="s2">0800/current/images/nino34.rescaling.ENSMEAN.png&quot;</span>
+<span class="p">)</span>
 
 <span class="nd">@task</span>
-<span class="k">def</span> <span class="nf">shout</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
-    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;#</span><span class="si">{</span><span class="n">number</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">download_image</span><span class="p">(</span><span class="n">year</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">month</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">directory</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+    <span class="c1"># download image from URL</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">URL_FORMAT</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">year</span><span class="o">=</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="o">=</span><span class="n">month</span><span class="p">)</span>
+    <span class="n">resp</span> <span class="o">=</span> <span class="n">httpx</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
 
-<span class="nd">@flow</span><span class="p">(</span><span class="n">task_runner</span><span class="o">=</span><span class="n">DaskTaskRunner</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">count_to</span><span class="p">(</span><span class="n">highest_number</span><span class="p">):</span>
-    <span class="k">for</span> <span class="n">number</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">highest_number</span><span class="p">):</span>
-        <span class="n">shout</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+    <span class="c1"># save content to directory/YYYYMM.png</span>
+    <span class="n">file_path</span> <span class="o">=</span> <span class="p">(</span><span class="n">directory</span> <span class="o">/</span> <span class="n">url</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">with_stem</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">year</span><span class="si">:</span><span class="s2">04d</span><span class="si">}{</span><span class="n">month</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">file_path</span><span class="o">.</span><span class="n">write_bytes</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">file_path</span>
+
+<span class="nd">@flow</span>
+<span class="k">def</span> <span class="nf">download_nino_34_plumes_from_year</span><span class="p">(</span><span class="n">year</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Path</span><span class="p">]:</span>
+    <span class="c1"># create a directory to hold images</span>
+    <span class="n">directory</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;data&quot;</span><span class="p">)</span>
+    <span class="n">directory</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># download all images</span>
+    <span class="n">file_paths</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">month</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">12</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">file_path</span> <span class="o">=</span> <span class="n">download_image</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">directory</span><span class="p">)</span>
+        <span class="n">file_paths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">file_paths</span>
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-    <span class="n">count_to</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-
-<span class="c1"># outputs</span>
-<span class="c1">#3</span>
-<span class="c1">#7</span>
-<span class="c1">#2</span>
-<span class="c1">#6</span>
-<span class="c1">#4</span>
-<span class="c1">#0</span>
-<span class="c1">#1</span>
-<span class="c1">#5</span>
-<span class="c1">#8</span>
-<span class="c1">#9</span>
+    <span class="n">download_nino_34_plumes_from_year</span><span class="p">(</span><span class="mi">2022</span><span class="p">)</span>
 </code></pre></div>
-<p>If you already have a Dask cluster running, either local or cloud hosted, you can provide the connection URL via an <code>address</code> argument.</p>
-<p>To configure your flow to use the <code>DaskTaskRunner</code>:</p>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="hll"><span class="c1"># Completed in 5.7 seconds</span>
+</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<span class="kn">import</span> <span class="nn">httpx</span>
+<span class="kn">from</span> <span class="nn">prefect</span> <span class="kn">import</span> <span class="n">flow</span><span class="p">,</span> <span class="n">task</span>
+<span class="hll"><span class="kn">from</span> <span class="nn">prefect_dask</span> <span class="kn">import</span> <span class="n">DaskTaskRunner</span>
+</span>
+<span class="n">URL_FORMAT</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s2">&quot;https://www.cpc.ncep.noaa.gov/products/NMME/archive/&quot;</span>
+    <span class="s2">&quot;</span><span class="si">{year:04d}{month:02d}</span><span class="s2">0800/current/images/nino34.rescaling.ENSMEAN.png&quot;</span>
+<span class="p">)</span>
+
+<span class="nd">@task</span>
+<span class="k">def</span> <span class="nf">download_image</span><span class="p">(</span><span class="n">year</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">month</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">directory</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+    <span class="c1"># download image from URL</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">URL_FORMAT</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">year</span><span class="o">=</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="o">=</span><span class="n">month</span><span class="p">)</span>
+    <span class="n">resp</span> <span class="o">=</span> <span class="n">httpx</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+
+    <span class="c1"># save content to directory/YYYYMM.png</span>
+    <span class="n">file_path</span> <span class="o">=</span> <span class="p">(</span><span class="n">directory</span> <span class="o">/</span> <span class="n">url</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">with_stem</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">year</span><span class="si">:</span><span class="s2">04d</span><span class="si">}{</span><span class="n">month</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">file_path</span><span class="o">.</span><span class="n">write_bytes</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">file_path</span>
+
+<span class="hll"><span class="nd">@flow</span><span class="p">(</span><span class="n">task_runner</span><span class="o">=</span><span class="n">DaskTaskRunner</span><span class="p">(</span><span class="n">cluster_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;processes&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}))</span>
+</span><span class="k">def</span> <span class="nf">download_nino_34_plumes_from_year</span><span class="p">(</span><span class="n">year</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Path</span><span class="p">]:</span>
+    <span class="c1"># create a directory to hold images</span>
+    <span class="n">directory</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;data&quot;</span><span class="p">)</span>
+    <span class="n">directory</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># download all images</span>
+    <span class="n">file_paths</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">month</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">12</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+<span class="hll">        <span class="n">file_path</span> <span class="o">=</span> <span class="n">download_image</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">directory</span><span class="p">)</span>
+</span>        <span class="n">file_paths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">file_paths</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">download_nino_34_plumes_from_year</span><span class="p">(</span><span class="mi">2022</span><span class="p">)</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<p>The original flow completes in 15.2 seconds.</p>
+<p>However, with just a few minor tweaks, we were able to reduce the runtime by nearly <strong>three</strong> folds, down to just <strong>5.7</strong> seconds!</p>
+<h2 id="integrate-with-dask-clientcluster-and-collections">Integrate with Dask client/cluster and collections</h2>
+<p>Suppose you have an existing Dask client/cluster and collection, like a <code>dask.dataframe.DataFrame</code>, and you want to add observability.</p>
+<p>With <code>prefect-dask</code>, there's no major overhaul necessary because Prefect was designed with incremental adoption in mind! It's as easy as:</p>
 <ol>
-<li>Make sure the <code>prefect-dask</code> collection is installed as described earlier: <code>pip install prefect-dask</code>.</li>
-<li>In your flow code, import <code>DaskTaskRunner</code> from <code>prefect_dask.task_runners</code>.</li>
-<li>Assign it as the task runner when the flow is defined using the <code>task_runner=DaskTaskRunner</code> argument.</li>
+<li>Adding the imports</li>
+<li>Sprinkling a few <code>task</code> and <code>flow</code> decorators</li>
+<li>Specifying the task runner and client's address in the flow decorator</li>
+<li>Submitting the tasks to the flow's task runner</li>
 </ol>
-<p>For example, this flow uses the <code>DaskTaskRunner</code> configured to access an existing Dask cluster at <code>http://my-dask-cluster</code>.</p>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">prefect</span> <span class="kn">import</span> <span class="n">flow</span>
-<span class="kn">from</span> <span class="nn">prefect_dask.task_runners</span> <span class="kn">import</span> <span class="n">DaskTaskRunner</span>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Before</label><label for="__tabbed_2_2">After</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">dask.dataframe</span>
+<span class="kn">import</span> <span class="nn">dask.distributed</span>
 
-<span class="nd">@flow</span><span class="p">(</span><span class="n">task_runner</span><span class="o">=</span><span class="n">DaskTaskRunner</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="s2">&quot;http://my-dask-cluster&quot;</span><span class="p">))</span>
-<span class="k">def</span> <span class="nf">my_flow</span><span class="p">():</span>
-    <span class="o">...</span>
+
+
+<span class="n">client</span> <span class="o">=</span> <span class="n">dask</span><span class="o">.</span><span class="n">distributed</span><span class="o">.</span><span class="n">Client</span><span class="p">()</span>
+
+
+<span class="k">def</span> <span class="nf">read_data</span><span class="p">(</span><span class="n">start</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">end</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">dask</span><span class="o">.</span><span class="n">dataframe</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">dask</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">timeseries</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">partition_freq</span><span class="o">=</span><span class="s2">&quot;4w&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">df</span>
+
+
+<span class="k">def</span> <span class="nf">process_data</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">dask</span><span class="o">.</span><span class="n">dataframe</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">dask</span><span class="o">.</span><span class="n">dataframe</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="k">with</span> <span class="n">get_dask_client</span><span class="p">():</span>
+        <span class="n">df_yearly_avg</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">year</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">df_yearly_avg</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
+
+
+<span class="k">def</span> <span class="nf">dask_pipeline</span><span class="p">():</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">read_data</span><span class="p">(</span><span class="s2">&quot;1988&quot;</span><span class="p">,</span> <span class="s2">&quot;2022&quot;</span><span class="p">)</span>
+    <span class="n">df_yearly_average</span> <span class="o">=</span> <span class="n">process_data</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">df_yearly_average</span>
+
+<span class="n">dask_pipeline</span><span class="p">()</span>
 </code></pre></div>
-<p><code>DaskTaskRunner</code> accepts the following optional parameters:</p>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>address</td>
-<td>Address of a currently running Dask scheduler.</td>
-</tr>
-<tr>
-<td>cluster_class</td>
-<td>The cluster class to use when creating a temporary Dask cluster. It can be either the full class name (for example, <code>"distributed.LocalCluster"</code>), or the class itself.</td>
-</tr>
-<tr>
-<td>cluster_kwargs</td>
-<td>Additional kwargs to pass to the <code>cluster_class</code> when creating a temporary Dask cluster.</td>
-</tr>
-<tr>
-<td>adapt_kwargs</td>
-<td>Additional kwargs to pass to <code>cluster.adapt</code> when creating a temporary Dask cluster. Note that adaptive scaling is only enabled if <code>adapt_kwargs</code> are provided.</td>
-</tr>
-<tr>
-<td>client_kwargs</td>
-<td>Additional kwargs to use when creating a <a href="https://distributed.dask.org/en/latest/api.html#client"><code>dask.distributed.Client</code></a>.</td>
-</tr>
-</tbody>
-</table>
-<div class="admonition warning">
-<p class="admonition-title">Multiprocessing safety</p>
-<p>Note that, because the <code>DaskTaskRunner</code> uses multiprocessing, calls to flows
-in scripts must be guarded with <code>if __name__ == "__main__":</code> or you will encounter 
-warnings and errors.</p>
 </div>
-<p>If you don't provide the <code>address</code> of a Dask scheduler, Prefect creates a temporary local cluster automatically. The number of workers used is based on the number of cores available to your execution environment. The default provides a mix of processes and threads that should work well for most workloads. If you want to specify this explicitly, you can pass values for <code>n_workers</code> or <code>threads_per_worker</code> to <code>cluster_kwargs</code>.</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># Use 4 worker processes, each with 2 threads</span>
-<span class="n">DaskTaskRunner</span><span class="p">(</span>
-    <span class="n">cluster_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;n_workers&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s2">&quot;threads_per_worker&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}</span>
-<span class="p">)</span>
-</code></pre></div>
-<h3 id="distributing-dask-collections-across-workers">Distributing Dask collections across workers</h3>
-<p>If you use a Dask collection, such as a <code>dask.DataFrame</code> or <code>dask.Bag</code>, to distribute the work across workers and achieve parallel computations, use one of the context managers <code>get_dask_client</code> or <code>get_async_dask_client</code>:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">dask</span>
-<span class="kn">from</span> <span class="nn">prefect</span> <span class="kn">import</span> <span class="n">flow</span><span class="p">,</span> <span class="n">task</span>
-<span class="kn">from</span> <span class="nn">prefect_dask</span> <span class="kn">import</span> <span class="n">DaskTaskRunner</span><span class="p">,</span> <span class="n">get_dask_client</span>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">dask.dataframe</span>
+<span class="kn">import</span> <span class="nn">dask.distributed</span>
+<span class="hll"><span class="kn">from</span> <span class="nn">prefect</span> <span class="kn">import</span> <span class="n">flow</span><span class="p">,</span> <span class="n">task</span>
+</span><span class="hll"><span class="kn">from</span> <span class="nn">prefect_dask</span> <span class="kn">import</span> <span class="n">DaskTaskRunner</span><span class="p">,</span> <span class="n">get_dask_client</span>
+</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">dask</span><span class="o">.</span><span class="n">distributed</span><span class="o">.</span><span class="n">Client</span><span class="p">()</span>
 
-<span class="nd">@task</span>
-<span class="k">def</span> <span class="nf">compute_task</span><span class="p">():</span>
-    <span class="k">with</span> <span class="n">get_dask_client</span><span class="p">()</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
-        <span class="n">df</span> <span class="o">=</span> <span class="n">dask</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">timeseries</span><span class="p">(</span><span class="s2">&quot;2000&quot;</span><span class="p">,</span> <span class="s2">&quot;2001&quot;</span><span class="p">,</span> <span class="n">partition_freq</span><span class="o">=</span><span class="s2">&quot;4w&quot;</span><span class="p">)</span>
-        <span class="n">summary_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
-    <span class="k">return</span> <span class="n">summary_df</span>
+<span class="hll"><span class="nd">@task</span>
+</span><span class="k">def</span> <span class="nf">read_data</span><span class="p">(</span><span class="n">start</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">end</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">dask</span><span class="o">.</span><span class="n">dataframe</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">dask</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">timeseries</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">partition_freq</span><span class="o">=</span><span class="s2">&quot;4w&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">df</span>
 
-<span class="nd">@flow</span><span class="p">(</span><span class="n">task_runner</span><span class="o">=</span><span class="n">DaskTaskRunner</span><span class="p">())</span>
-<span class="k">def</span> <span class="nf">dask_flow</span><span class="p">():</span>
-    <span class="n">prefect_future</span> <span class="o">=</span> <span class="n">compute_task</span><span class="o">.</span><span class="n">submit</span><span class="p">()</span>
-    <span class="k">return</span> <span class="n">prefect_future</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+<span class="hll"><span class="nd">@task</span>
+</span><span class="k">def</span> <span class="nf">process_data</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">dask</span><span class="o">.</span><span class="n">dataframe</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">dask</span><span class="o">.</span><span class="n">dataframe</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="k">with</span> <span class="n">get_dask_client</span><span class="p">():</span>
+        <span class="n">df_yearly_avg</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">year</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">df_yearly_avg</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
 
-<span class="n">dask_flow</span><span class="p">()</span>
+<span class="hll"><span class="nd">@flow</span><span class="p">(</span><span class="n">task_runner</span><span class="o">=</span><span class="n">DaskTaskRunner</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">client</span><span class="o">.</span><span class="n">scheduler</span><span class="o">.</span><span class="n">address</span><span class="p">))</span>
+</span><span class="k">def</span> <span class="nf">dask_pipeline</span><span class="p">():</span>
+<span class="hll">    <span class="n">df</span> <span class="o">=</span> <span class="n">read_data</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="s2">&quot;1988&quot;</span><span class="p">,</span> <span class="s2">&quot;2022&quot;</span><span class="p">)</span>
+</span><span class="hll">    <span class="n">df_yearly_average</span> <span class="o">=</span> <span class="n">process_data</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</span>    <span class="k">return</span> <span class="n">df_yearly_average</span>
+
+<span class="n">dask_pipeline</span><span class="p">()</span>
 </code></pre></div>
-<p>The context managers can be used the same way in both <code>flow</code> run contexts and <code>task</code> run contexts.</p>
-<div class="admonition warning">
-<p class="admonition-title">Resolving futures in sync client</p>
-<p>Note, by default, <code>dask_collection.compute()</code> returns concrete values while <code>client.compute(dask_collection)</code> returns Dask Futures. Therefore, if you call <code>client.compute</code>, you must resolve all futures before exiting out of the context manager by either:</p>
-<ol>
-<li>
-<p>setting <code>sync=True</code>
-<div class="highlight"><pre><span></span><code><span class="k">with</span> <span class="n">get_dask_client</span><span class="p">()</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">dask</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">timeseries</span><span class="p">(</span><span class="s2">&quot;2000&quot;</span><span class="p">,</span> <span class="s2">&quot;2001&quot;</span><span class="p">,</span> <span class="n">partition_freq</span><span class="o">=</span><span class="s2">&quot;4w&quot;</span><span class="p">)</span>
-    <span class="n">summary_df</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">(),</span> <span class="n">sync</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</code></pre></div></p>
-</li>
-<li>
-<p>calling <code>result()</code>
-<div class="highlight"><pre><span></span><code><span class="k">with</span> <span class="n">get_dask_client</span><span class="p">()</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">dask</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">timeseries</span><span class="p">(</span><span class="s2">&quot;2000&quot;</span><span class="p">,</span> <span class="s2">&quot;2001&quot;</span><span class="p">,</span> <span class="n">partition_freq</span><span class="o">=</span><span class="s2">&quot;4w&quot;</span><span class="p">)</span>
-    <span class="n">summary_df</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">())</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
-</code></pre></div>
-For more information, visit the docs on <a href="https://docs.dask.org/en/stable/futures.html#waiting-on-futures">Waiting on Futures</a>.</p>
-</li>
-</ol>
 </div>
-<p>There is also an equivalent context manager for asynchronous tasks and flows: <code>get_async_dask_client</code>.</p>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">asyncio</span>
-
-<span class="kn">import</span> <span class="nn">dask</span>
-<span class="kn">from</span> <span class="nn">prefect</span> <span class="kn">import</span> <span class="n">flow</span><span class="p">,</span> <span class="n">task</span>
-<span class="kn">from</span> <span class="nn">prefect_dask</span> <span class="kn">import</span> <span class="n">DaskTaskRunner</span><span class="p">,</span> <span class="n">get_async_dask_client</span>
-
-<span class="nd">@task</span>
-<span class="k">async</span> <span class="k">def</span> <span class="nf">compute_task</span><span class="p">():</span>
-    <span class="k">async</span> <span class="k">with</span> <span class="n">get_async_dask_client</span><span class="p">()</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
-        <span class="n">df</span> <span class="o">=</span> <span class="n">dask</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">timeseries</span><span class="p">(</span><span class="s2">&quot;2000&quot;</span><span class="p">,</span> <span class="s2">&quot;2001&quot;</span><span class="p">,</span> <span class="n">partition_freq</span><span class="o">=</span><span class="s2">&quot;4w&quot;</span><span class="p">)</span>
-        <span class="n">summary_df</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">())</span>
-    <span class="k">return</span> <span class="n">summary_df</span>
-
-<span class="nd">@flow</span><span class="p">(</span><span class="n">task_runner</span><span class="o">=</span><span class="n">DaskTaskRunner</span><span class="p">())</span>
-<span class="k">async</span> <span class="k">def</span> <span class="nf">dask_flow</span><span class="p">():</span>
-    <span class="n">prefect_future</span> <span class="o">=</span> <span class="k">await</span> <span class="n">compute_task</span><span class="o">.</span><span class="n">submit</span><span class="p">()</span>
-    <span class="k">return</span> <span class="k">await</span> <span class="n">prefect_future</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
-
-<span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">dask_flow</span><span class="p">())</span>
-</code></pre></div>
-<div class="admonition warning">
-<p class="admonition-title">Resolving futures in async client</p>
-<p>With the async client, you do not need to set <code>sync=True</code> or call <code>result()</code>.</p>
-<p>However you must <code>await client.compute(dask_collection)</code> before exiting out of the context manager.</p>
-<p>To invoke <code>compute</code> from the Dask collection, set <code>sync=False</code> and call <code>result()</code> before exiting out of the context manager: <code>await dask_collection.compute(sync=False)</code>.</p>
 </div>
-<h3 id="using-a-temporary-cluster">Using a temporary cluster</h3>
-<p>The <code>DaskTaskRunner</code> is capable of creating a temporary cluster using any of <a href="https://docs.dask.org/en/latest/setup.html">Dask's cluster-manager options</a>. This can be useful when you want each flow run to have its own Dask cluster, allowing for per-flow adaptive scaling.</p>
-<p>To configure, you need to provide a <code>cluster_class</code>. This can be:</p>
-<ul>
-<li>A string specifying the import path to the cluster class (for example, <code>"dask_cloudprovider.aws.FargateCluster"</code>)</li>
-<li>The cluster class itself</li>
-<li>A function for creating a custom cluster</li>
-</ul>
-<p>You can also configure <code>cluster_kwargs</code>, which takes a dictionary of keyword arguments to pass to <code>cluster_class</code> when starting the flow run.</p>
-<p>For example, to configure a flow to use a temporary <code>dask_cloudprovider.aws.FargateCluster</code> with 4 workers running with an image named <code>my-prefect-image</code>:</p>
-<div class="highlight"><pre><span></span><code><span class="n">DaskTaskRunner</span><span class="p">(</span>
-    <span class="n">cluster_class</span><span class="o">=</span><span class="s2">&quot;dask_cloudprovider.aws.FargateCluster&quot;</span><span class="p">,</span>
-    <span class="n">cluster_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;n_workers&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s2">&quot;image&quot;</span><span class="p">:</span> <span class="s2">&quot;my-prefect-image&quot;</span><span class="p">},</span>
-<span class="p">)</span>
+</div>
+<p>Now, you can conveniently see when each task completed, both in the terminal and the UI!</p>
+<div class="highlight"><pre><span></span><code><span class="m">14</span>:10:09.845<span class="w"> </span><span class="p">|</span><span class="w"> </span>INFO<span class="w">    </span><span class="p">|</span><span class="w"> </span>prefect.engine<span class="w"> </span>-<span class="w"> </span>Created<span class="w"> </span>flow<span class="w"> </span>run<span class="w"> </span><span class="s1">&#39;chocolate-pony&#39;</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>flow<span class="w"> </span><span class="s1">&#39;dask-flow&#39;</span>
+<span class="m">14</span>:10:09.847<span class="w"> </span><span class="p">|</span><span class="w"> </span>INFO<span class="w">    </span><span class="p">|</span><span class="w"> </span>prefect.task_runner.dask<span class="w"> </span>-<span class="w"> </span>Connecting<span class="w"> </span>to<span class="w"> </span>an<span class="w"> </span>existing<span class="w"> </span>Dask<span class="w"> </span>cluster<span class="w"> </span>at<span class="w"> </span>tcp://127.0.0.1:59255
+<span class="m">14</span>:10:09.857<span class="w"> </span><span class="p">|</span><span class="w"> </span>INFO<span class="w">    </span><span class="p">|</span><span class="w"> </span>distributed.scheduler<span class="w"> </span>-<span class="w"> </span>Receive<span class="w"> </span>client<span class="w"> </span>connection:<span class="w"> </span>Client-8c1e0f24-9133-11ed-800e-86f2469c4e7a
+<span class="m">14</span>:10:09.859<span class="w"> </span><span class="p">|</span><span class="w"> </span>INFO<span class="w">    </span><span class="p">|</span><span class="w"> </span>distributed.core<span class="w"> </span>-<span class="w"> </span>Starting<span class="w"> </span>established<span class="w"> </span>connection<span class="w"> </span>to<span class="w"> </span>tcp://127.0.0.1:59516
+<span class="m">14</span>:10:09.862<span class="w"> </span><span class="p">|</span><span class="w"> </span>INFO<span class="w">    </span><span class="p">|</span><span class="w"> </span>prefect.task_runner.dask<span class="w"> </span>-<span class="w"> </span>The<span class="w"> </span>Dask<span class="w"> </span>dashboard<span class="w"> </span>is<span class="w"> </span>available<span class="w"> </span>at<span class="w"> </span>http://127.0.0.1:8787/status
+<span class="m">14</span>:10:11.344<span class="w"> </span><span class="p">|</span><span class="w"> </span>INFO<span class="w">    </span><span class="p">|</span><span class="w"> </span>Flow<span class="w"> </span>run<span class="w"> </span><span class="s1">&#39;chocolate-pony&#39;</span><span class="w"> </span>-<span class="w"> </span>Created<span class="w"> </span>task<span class="w"> </span>run<span class="w"> </span><span class="s1">&#39;read_data-5bc97744-0&#39;</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>task<span class="w"> </span><span class="s1">&#39;read_data&#39;</span>
+<span class="m">14</span>:10:11.626<span class="w"> </span><span class="p">|</span><span class="w"> </span>INFO<span class="w">    </span><span class="p">|</span><span class="w"> </span>Flow<span class="w"> </span>run<span class="w"> </span><span class="s1">&#39;chocolate-pony&#39;</span><span class="w"> </span>-<span class="w"> </span>Submitted<span class="w"> </span>task<span class="w"> </span>run<span class="w"> </span><span class="s1">&#39;read_data-5bc97744-0&#39;</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>execution.
+<span class="m">14</span>:10:11.795<span class="w"> </span><span class="p">|</span><span class="w"> </span>INFO<span class="w">    </span><span class="p">|</span><span class="w"> </span>Flow<span class="w"> </span>run<span class="w"> </span><span class="s1">&#39;chocolate-pony&#39;</span><span class="w"> </span>-<span class="w"> </span>Created<span class="w"> </span>task<span class="w"> </span>run<span class="w"> </span><span class="s1">&#39;process_data-090555ba-0&#39;</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>task<span class="w"> </span><span class="s1">&#39;process_data&#39;</span>
+<span class="m">14</span>:10:11.798<span class="w"> </span><span class="p">|</span><span class="w"> </span>INFO<span class="w">    </span><span class="p">|</span><span class="w"> </span>Flow<span class="w"> </span>run<span class="w"> </span><span class="s1">&#39;chocolate-pony&#39;</span><span class="w"> </span>-<span class="w"> </span>Submitted<span class="w"> </span>task<span class="w"> </span>run<span class="w"> </span><span class="s1">&#39;process_data-090555ba-0&#39;</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>execution.
+<span class="m">14</span>:10:13.279<span class="w"> </span><span class="p">|</span><span class="w"> </span>INFO<span class="w">    </span><span class="p">|</span><span class="w"> </span>Task<span class="w"> </span>run<span class="w"> </span><span class="s1">&#39;read_data-5bc97744-0&#39;</span><span class="w"> </span>-<span class="w"> </span>Finished<span class="w"> </span><span class="k">in</span><span class="w"> </span>state<span class="w"> </span>Completed<span class="o">()</span>
+<span class="m">14</span>:11:43.539<span class="w"> </span><span class="p">|</span><span class="w"> </span>INFO<span class="w">    </span><span class="p">|</span><span class="w"> </span>Task<span class="w"> </span>run<span class="w"> </span><span class="s1">&#39;process_data-090555ba-0&#39;</span><span class="w"> </span>-<span class="w"> </span>Finished<span class="w"> </span><span class="k">in</span><span class="w"> </span>state<span class="w"> </span>Completed<span class="o">()</span>
+<span class="m">14</span>:11:43.883<span class="w"> </span><span class="p">|</span><span class="w"> </span>INFO<span class="w">    </span><span class="p">|</span><span class="w"> </span>Flow<span class="w"> </span>run<span class="w"> </span><span class="s1">&#39;chocolate-pony&#39;</span><span class="w"> </span>-<span class="w"> </span>Finished<span class="w"> </span><span class="k">in</span><span class="w"> </span>state<span class="w"> </span>Completed<span class="o">(</span><span class="s1">&#39;All states completed.&#39;</span><span class="o">)</span>
 </code></pre></div>
-<h3 id="connecting-to-an-existing-cluster">Connecting to an existing cluster</h3>
-<p>Multiple Prefect flow runs can all use the same existing Dask cluster. You might manage a single long-running Dask cluster (maybe using the Dask <a href="https://docs.dask.org/en/latest/setup/kubernetes-helm.html">Helm Chart</a>) and configure flows to connect to it during execution. This has a few downsides when compared to using a temporary cluster (as described above):</p>
-<ul>
-<li>All workers in the cluster must have dependencies installed for all flows you intend to run.</li>
-<li>Multiple flow runs may compete for resources. Dask tries to do a good job sharing resources between tasks, but you may still run into issues.</li>
-</ul>
-<p>That said, you may prefer managing a single long-running cluster. </p>
-<p>To configure a <code>DaskTaskRunner</code> to connect to an existing cluster, pass in the address of the scheduler to the <code>address</code> argument:</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># Connect to an existing cluster running at a specified address</span>
-<span class="n">DaskTaskRunner</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="s2">&quot;tcp://...&quot;</span><span class="p">)</span>
-</code></pre></div>
-<h3 id="adaptive-scaling">Adaptive scaling</h3>
-<p>One nice feature of using a <code>DaskTaskRunner</code> is the ability to scale adaptively to the workload. Instead of specifying <code>n_workers</code> as a fixed number, this lets you specify a minimum and maximum number of workers to use, and the dask cluster will scale up and down as needed.</p>
-<p>To do this, you can pass <code>adapt_kwargs</code> to <code>DaskTaskRunner</code>. This takes the following fields:</p>
-<ul>
-<li><code>maximum</code> (<code>int</code> or <code>None</code>, optional): the maximum number of workers to scale to. Set to <code>None</code> for no maximum.</li>
-<li><code>minimum</code> (<code>int</code> or <code>None</code>, optional): the minimum number of workers to scale to. Set to <code>None</code> for no minimum.</li>
-</ul>
-<p>For example, here we configure a flow to run on a <code>FargateCluster</code> scaling up to at most 10 workers.</p>
-<div class="highlight"><pre><span></span><code><span class="n">DaskTaskRunner</span><span class="p">(</span>
-    <span class="n">cluster_class</span><span class="o">=</span><span class="s2">&quot;dask_cloudprovider.aws.FargateCluster&quot;</span><span class="p">,</span>
-    <span class="n">adapt_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;maximum&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">}</span>
-<span class="p">)</span>
-</code></pre></div>
-<h3 id="dask-annotations">Dask annotations</h3>
-<p>Dask annotations can be used to further control the behavior of tasks.</p>
-<p>For example, we can set the <a href="http://distributed.dask.org/en/stable/priority.html">priority</a> of tasks in the Dask scheduler:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">dask</span>
-<span class="kn">from</span> <span class="nn">prefect</span> <span class="kn">import</span> <span class="n">flow</span><span class="p">,</span> <span class="n">task</span>
-<span class="kn">from</span> <span class="nn">prefect_dask.task_runners</span> <span class="kn">import</span> <span class="n">DaskTaskRunner</span>
-
-<span class="nd">@task</span>
-<span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-
-
-<span class="nd">@flow</span><span class="p">(</span><span class="n">task_runner</span><span class="o">=</span><span class="n">DaskTaskRunner</span><span class="p">())</span>
-<span class="k">def</span> <span class="nf">my_flow</span><span class="p">():</span>
-    <span class="k">with</span> <span class="n">dask</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">priority</span><span class="o">=-</span><span class="mi">10</span><span class="p">):</span>
-        <span class="n">future</span> <span class="o">=</span> <span class="n">show</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># low priority task</span>
-
-    <span class="k">with</span> <span class="n">dask</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">priority</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
-        <span class="n">future</span> <span class="o">=</span> <span class="n">show</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># high priority task</span>
-</code></pre></div>
-<p>Another common use case is <a href="http://distributed.dask.org/en/stable/resources.html">resource</a> annotations:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">dask</span>
-<span class="kn">from</span> <span class="nn">prefect</span> <span class="kn">import</span> <span class="n">flow</span><span class="p">,</span> <span class="n">task</span>
-<span class="kn">from</span> <span class="nn">prefect_dask.task_runners</span> <span class="kn">import</span> <span class="n">DaskTaskRunner</span>
-
-<span class="nd">@task</span>
-<span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-
-<span class="c1"># Create a `LocalCluster` with some resource annotations</span>
-<span class="c1"># Annotations are abstract in dask and not inferred from your system.</span>
-<span class="c1"># Here, we claim that our system has 1 GPU and 1 process available per worker</span>
-<span class="nd">@flow</span><span class="p">(</span>
-    <span class="n">task_runner</span><span class="o">=</span><span class="n">DaskTaskRunner</span><span class="p">(</span>
-        <span class="n">cluster_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;n_workers&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;resources&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;GPU&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;process&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}}</span>
-    <span class="p">)</span>
-<span class="p">)</span>
-<span class="k">def</span> <span class="nf">my_flow</span><span class="p">():</span>
-    <span class="k">with</span> <span class="n">dask</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">resources</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;GPU&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}):</span>
-        <span class="n">future</span> <span class="o">=</span> <span class="n">show</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># this task requires 1 GPU resource on a worker</span>
-
-    <span class="k">with</span> <span class="n">dask</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">resources</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;process&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}):</span>
-        <span class="c1"># These tasks each require 1 process on a worker; because we&#39;ve </span>
-        <span class="c1"># specified that our cluster has 1 process per worker and 1 worker,</span>
-        <span class="c1"># these tasks will run sequentially</span>
-        <span class="n">future</span> <span class="o">=</span> <span class="n">show</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">future</span> <span class="o">=</span> <span class="n">show</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-        <span class="n">future</span> <span class="o">=</span> <span class="n">show</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-</code></pre></div>
-<p>For more tips on how to use tasks and flows in a Collection, check out <a href="https://orion-docs.prefect.io/collections/usage/">Using Collections</a>!</p>
 <h2 id="resources">Resources</h2>
+<p>For additional examples, check out the <a href="usage_guide">Usage Guide</a>!</p>
+<h3 id="installation">Installation</h3>
+<p>Get started by installing <code>prefect-dask</code>!</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">pip</label><label for="__tabbed_3_2">conda</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>-U<span class="w"> </span>prefect-dask
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>conda-forge<span class="w"> </span>prefect-dask
+</code></pre></div>
+</div>
+</div>
+</div>
+<p>Requires an installation of Python 3.7+.</p>
+<p>We recommend using a Python virtual environment manager such as pipenv, conda, or virtualenv.</p>
+<p>These tasks are designed to work with Prefect 2. For more information about how to use Prefect, please refer to the <a href="https://docs.prefect.io/">Prefect documentation</a>.</p>
+<h3 id="feedback">Feedback</h3>
 <p>If you encounter any bugs while using <code>prefect-dask</code>, feel free to open an issue in the <a href="https://github.com/PrefectHQ/prefect-dask">prefect-dask</a> repository.</p>
 <p>If you have any questions or issues while using <code>prefect-dask</code>, you can find help in either the <a href="https://discourse.prefect.io/">Prefect Discourse forum</a> or the <a href="https://prefect.io/slack">Prefect Slack community</a>.</p>
 <p>Feel free to star or watch <a href="https://github.com/PrefectHQ/prefect-dask"><code>prefect-dask</code></a> for updates too!</p>
-<h2 id="contributing">Contributing</h2>
+<h3 id="contributing">Contributing</h3>
 <p>If you'd like to help contribute to fix an issue or add a feature to <code>prefect-dask</code>, please <a href="https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork">propose changes through a pull request from a fork of the repository</a>.</p>
-<p>Here are the steps:
-1. <a href="https://docs.github.com/en/get-started/quickstart/fork-a-repo#forking-a-repository">Fork the repository</a>
-2. <a href="https://docs.github.com/en/get-started/quickstart/fork-a-repo#cloning-your-forked-repository">Clone the forked repository</a>
-3. Install the repository and its dependencies:
+<p>Here are the steps:</p>
+<ol>
+<li><a href="https://docs.github.com/en/get-started/quickstart/fork-a-repo#forking-a-repository">Fork the repository</a></li>
+<li><a href="https://docs.github.com/en/get-started/quickstart/fork-a-repo#cloning-your-forked-repository">Clone the forked repository</a></li>
+<li>Install the repository and its dependencies:
 <div class="highlight"><pre><span></span><code>pip install -e &quot;.[dev]&quot;
-</code></pre></div>
-4. Make desired changes
-5. Add tests
-6. Insert an entry to <a href="https://github.com/PrefectHQ/prefect-dask/blob/main/CHANGELOG.md">CHANGELOG.md</a>
-7. Install <code>pre-commit</code> to perform quality checks prior to commit:
+</code></pre></div></li>
+<li>Make desired changes</li>
+<li>Add tests</li>
+<li>Insert an entry to <a href="https://github.com/PrefectHQ/prefect-dask/blob/main/CHANGELOG.md">CHANGELOG.md</a></li>
+<li>Install <code>pre-commit</code> to perform quality checks prior to commit:
 <div class="highlight"><pre><span></span><code>pre-commit install
-</code></pre></div>
-8. <code>git commit</code>, <code>git push</code>, and create a pull request</p>
+</code></pre></div></li>
+<li><code>git commit</code>, <code>git push</code>, and create a pull request</li>
+</ol>
 
 
 
@@ -878,6 +777,91 @@ For more information, visit the docs on <a href="https://docs.dask.org/en/stable
   
 </div>
       
+        <div class="md-social">
+  
+    
+    
+      
+      
+    
+    <a href="https://www.prefect.io/slack/" target="_blank" rel="noopener" title="www.prefect.io" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M94.12 315.1c0 25.9-21.16 47.06-47.06 47.06S0 341 0 315.1c0-25.9 21.16-47.06 47.06-47.06h47.06v47.06zm23.72 0c0-25.9 21.16-47.06 47.06-47.06s47.06 21.16 47.06 47.06v117.84c0 25.9-21.16 47.06-47.06 47.06s-47.06-21.16-47.06-47.06V315.1zm47.06-188.98c-25.9 0-47.06-21.16-47.06-47.06S139 32 164.9 32s47.06 21.16 47.06 47.06v47.06H164.9zm0 23.72c25.9 0 47.06 21.16 47.06 47.06s-21.16 47.06-47.06 47.06H47.06C21.16 243.96 0 222.8 0 196.9s21.16-47.06 47.06-47.06H164.9zm188.98 47.06c0-25.9 21.16-47.06 47.06-47.06 25.9 0 47.06 21.16 47.06 47.06s-21.16 47.06-47.06 47.06h-47.06V196.9zm-23.72 0c0 25.9-21.16 47.06-47.06 47.06-25.9 0-47.06-21.16-47.06-47.06V79.06c0-25.9 21.16-47.06 47.06-47.06 25.9 0 47.06 21.16 47.06 47.06V196.9zM283.1 385.88c25.9 0 47.06 21.16 47.06 47.06 0 25.9-21.16 47.06-47.06 47.06-25.9 0-47.06-21.16-47.06-47.06v-47.06h47.06zm0-23.72c-25.9 0-47.06-21.16-47.06-47.06 0-25.9 21.16-47.06 47.06-47.06h117.84c25.9 0 47.06 21.16 47.06 47.06 0 25.9-21.16 47.06-47.06 47.06H283.1z"/></svg>
+    </a>
+  
+    
+    
+      
+      
+    
+    <a href="https://discourse.prefect.io/" target="_blank" rel="noopener" title="discourse.prefect.io" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M225.9 32C103.3 32 0 130.5 0 252.1 0 256 .1 480 .1 480l225.8-.2c122.7 0 222.1-102.3 222.1-223.9C448 134.3 348.6 32 225.9 32zM224 384c-19.4 0-37.9-4.3-54.4-12.1L88.5 392l22.9-75c-9.8-18.1-15.4-38.9-15.4-61 0-70.7 57.3-128 128-128s128 57.3 128 128-57.3 128-128 128z"/></svg>
+    </a>
+  
+    
+    
+      
+      
+    
+    <a href="https://www.youtube.com/c/PrefectIO/videos" target="_blank" rel="noopener" title="www.youtube.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z"/></svg>
+    </a>
+  
+    
+    
+      
+      
+    
+    <a href="https://prefect.io/guide/" target="_blank" rel="noopener" title="prefect.io" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M456 32H152c-30.9 0-56 25.13-56 56v320c0 13.22-10.77 24-24 24s-24-10.8-24-24V112c0-13.25-10.75-24-24-24S0 98.75 0 112v296c0 39.7 32.3 72 72 72h352c48.53 0 88-39.47 88-88V88c0-30.87-25.1-56-56-56zm8 360c0 22.06-17.94 40-40 40H139.9c2.6-7.5 4.1-15.6 4.1-24V88c0-4.406 3.594-8 8-8h304c4.406 0 8 3.594 8 8v304zM264 272h-64c-13.2 0-24 10.8-24 24s10.8 24 24 24h64c13.3 0 24-10.7 24-24s-10.7-24-24-24zm144 0h-64c-13.2 0-24 10.8-24 24s10.8 24 24 24h64c13.25 0 24-10.75 24-24s-10.7-24-24-24zm-144 80h-64c-13.25 0-24 10.75-24 24s10.75 24 24 24h64c13.25 0 24-10.75 24-24s-10.7-24-24-24zm144 0h-64c-13.2 0-24 10.8-24 24s10.75 24 24 24h64c13.25 0 24-10.75 24-24s-10.7-24-24-24zm-8-240H208c-17.67 0-32 14.33-32 32v64c0 17.67 14.33 32 32 32h192c17.67 0 32-14.33 32-32v-64c0-17.7-14.3-32-32-32z"/></svg>
+    </a>
+  
+    
+    
+      
+      
+    
+    <a href="https://twitter.com/PrefectIO" target="_blank" rel="noopener" title="twitter.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg>
+    </a>
+  
+    
+    
+      
+      
+    
+    <a href="https://www.linkedin.com/company/prefect/" target="_blank" rel="noopener" title="www.linkedin.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg>
+    </a>
+  
+    
+    
+      
+      
+    
+    <a href="https://github.com/PrefectHQ/prefect" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+    </a>
+  
+    
+    
+      
+      
+    
+    <a href="https://hub.docker.com/r/prefecthq/prefect/" target="_blank" rel="noopener" title="hub.docker.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M349.9 236.3h-66.1v-59.4h66.1v59.4zm0-204.3h-66.1v60.7h66.1V32zm78.2 144.8H362v59.4h66.1v-59.4zm-156.3-72.1h-66.1v60.1h66.1v-60.1zm78.1 0h-66.1v60.1h66.1v-60.1zm276.8 100c-14.4-9.7-47.6-13.2-73.1-8.4-3.3-24-16.7-44.9-41.1-63.7l-14-9.3-9.3 14c-18.4 27.8-23.4 73.6-3.7 103.8-8.7 4.7-25.8 11.1-48.4 10.7H2.4c-8.7 50.8 5.8 116.8 44 162.1 37.1 43.9 92.7 66.2 165.4 66.2 157.4 0 273.9-72.5 328.4-204.2 21.4.4 67.6.1 91.3-45.2 1.5-2.5 6.6-13.2 8.5-17.1l-13.3-8.9zm-511.1-27.9h-66v59.4h66.1v-59.4zm78.1 0h-66.1v59.4h66.1v-59.4zm78.1 0h-66.1v59.4h66.1v-59.4zm-78.1-72.1h-66.1v60.1h66.1v-60.1z"/></svg>
+    </a>
+  
+    
+    
+      
+      
+    
+    <a href="https://pypi.org/project/prefect/" target="_blank" rel="noopener" title="pypi.org" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.8 200.5c-7.7-30.9-22.3-54.2-53.4-54.2h-40.1v47.4c0 36.8-31.2 67.8-66.8 67.8H172.7c-29.2 0-53.4 25-53.4 54.3v101.8c0 29 25.2 46 53.4 54.3 33.8 9.9 66.3 11.7 106.8 0 26.9-7.8 53.4-23.5 53.4-54.3v-40.7H226.2v-13.6h160.2c31.1 0 42.6-21.7 53.4-54.2 11.2-33.5 10.7-65.7 0-108.6zM286.2 404c11.1 0 20.1 9.1 20.1 20.3 0 11.3-9 20.4-20.1 20.4-11 0-20.1-9.2-20.1-20.4.1-11.3 9.1-20.3 20.1-20.3zM167.8 248.1h106.8c29.7 0 53.4-24.5 53.4-54.3V91.9c0-29-24.4-50.7-53.4-55.6-35.8-5.9-74.7-5.6-106.8.1-45.2 8-53.4 24.7-53.4 55.6v40.7h106.9v13.6h-147c-31.1 0-58.3 18.7-66.8 54.2-9.8 40.7-10.2 66.1 0 108.6 7.6 31.6 25.7 54.2 56.8 54.2H101v-48.8c0-35.3 30.5-66.4 66.8-66.4zm-6.7-142.6c-11.1 0-20.1-9.1-20.1-20.3.1-11.3 9-20.4 20.1-20.4 11 0 20.1 9.2 20.1 20.4s-9 20.3-20.1 20.3z"/></svg>
+    </a>
+  
+</div>
+      
     </div>
   </div>
 </footer>
@@ -887,10 +871,10 @@ For more information, visit the docs on <a href="https://docs.dask.org/en/stable
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": ".", "features": [], "search": "assets/javascripts/workers/search.12658920.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": ".", "features": [], "search": "assets/javascripts/workers/search.e5c33ebb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="assets/javascripts/bundle.5cf534bf.min.js"></script>
+      <script src="assets/javascripts/bundle.51d95adb.min.js"></script>
       
     
   </body>

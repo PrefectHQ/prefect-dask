@@ -8,10 +8,8 @@
       
       
       
-        <link rel="canonical" href="https://PrefectHQ.github.io/prefect-dask/utils/">
+        <link rel="canonical" href="https://PrefectHQ.github.io/prefect-dask/resources/">
       
-      
-        <link rel="prev" href="../task_runners/">
       
       
       <link rel="icon" href="../img/favicon.ico">
@@ -19,7 +17,7 @@
     
     
       
-        <title>Utils - prefect-dask</title>
+        <title>Resources - prefect-dask</title>
       
     
     
@@ -75,7 +73,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#prefect_dask.utils" class="md-skip">
+        <a href="#resources" class="md-skip">
           Skip to content
         </a>
       
@@ -107,7 +105,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Utils
+              Resources
             
           </span>
         </div>
@@ -272,20 +270,18 @@
 
   
   
-    
-  
   
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
       
       
       
-      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+      <input class="md-nav__toggle md-toggle " data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
       
       
       
-        <label class="md-nav__link" for="__nav_3" tabindex="0" aria-expanded="true">
+        <label class="md-nav__link" for="__nav_3" tabindex="0" aria-expanded="false">
           API Reference
           <span class="md-nav__icon md-icon"></span>
         </label>
@@ -315,72 +311,11 @@
               
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Utils
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../utils/" class="md-nav__link">
         Utils
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#prefect_dask.utils-functions" class="md-nav__link">
-    Functions
-  </a>
-  
-    <nav class="md-nav" aria-label="Functions">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#prefect_dask.utils.get_async_dask_client" class="md-nav__link">
-    get_async_dask_client()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#prefect_dask.utils.get_dask_client" class="md-nav__link">
-    get_dask_client()
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -409,8 +344,6 @@
   
   
   
-    
-  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -419,29 +352,29 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#prefect_dask.utils-functions" class="md-nav__link">
-    Functions
+  <a href="#resources" class="md-nav__link">
+    Resources
   </a>
   
-    <nav class="md-nav" aria-label="Functions">
+    <nav class="md-nav" aria-label="Resources">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#prefect_dask.utils.get_async_dask_client" class="md-nav__link">
-    get_async_dask_client()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#prefect_dask.utils.get_dask_client" class="md-nav__link">
-    get_dask_client()
+  <a href="#issues-and-bugs" class="md-nav__link">
+    Issues and Bugs
   </a>
   
 </li>
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contributing" class="md-nav__link">
+    Contributing
+  </a>
   
 </li>
       
@@ -464,468 +397,28 @@
 
 
 
-<div class="doc doc-object doc-module">
-
-
-
-<h1 id="prefect_dask.utils" class="doc doc-heading">
-          <code>prefect_dask.utils</code>
-
-
-</h1>
-
-  <div class="doc doc-contents first">
-  
-      <p>Utils to use alongside prefect-dask.</p>
-
-  
-
-  <div class="doc doc-children">
-
-
-
-
-
-
-
-<h2 id="prefect_dask.utils-functions">Functions</h2>
-
-<div class="doc doc-object doc-function">
-
-
-
-<h3 id="prefect_dask.utils.get_async_dask_client" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">get_async_dask_client</span></code>
-  
-  <span class="doc doc-labels">
-      <small class="doc doc-label doc-label-async"><code>async</code></small>
-  </span>
-
-</h3>
-
-
-  <div class="doc doc-contents ">
-  
-      <p>Yields a temporary asynchronous dask client; this is useful
-for parallelizing operations on dask collections,
-such as a <code>dask.DataFrame</code> or <code>dask.Bag</code>.</p>
-<p>Without invoking this, workers do not automatically get a client to connect
-to the full cluster. Therefore, it will attempt perform work within the
-worker itself serially, and potentially overwhelming the single worker.</p>
-
-  <p><strong>Parameters:</strong></p>
-  <table>
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-        <th>Default</th>
-      </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td><code>timeout</code></td>
-          <td>
-                <code><span title="typing.Optional">Optional</span>[<span title="typing.Union">Union</span>[int, float, str, <span title="datetime.timedelta">timedelta</span>]]</code>
-          </td>
-          <td><p>Timeout after which to error out; has no effect in
-flow run contexts because the client has already started;
-Defaults to the <code>distributed.comm.timeouts.connect</code>
-configuration value.</p></td>
-          <td>
-                <code>None</code>
-          </td>
-        </tr>
-        <tr>
-          <td><code>client_kwargs</code></td>
-          <td>
-                <code><span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>]</code>
-          </td>
-          <td><p>Additional keyword arguments to pass to
-<code>distributed.Client</code>, and overwrites inherited keyword arguments
-from the task runner, if any.</p></td>
-          <td>
-                <code>{}</code>
-          </td>
-        </tr>
-    </tbody>
-  </table>
-
-  <p><strong>Yields:</strong></p>
-  <table>
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td>
-                <code><span title="distributed.Client">Client</span></code>
-          </td>
-          <td><p>A temporary asynchronous dask client.</p></td>
-        </tr>
-    </tbody>
-  </table>
-
-<p><strong>Examples:</strong></p>
-    <p>Use <code>get_async_dask_client</code> to distribute work across workers.
-<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">dask</span>
-<span class="kn">from</span> <span class="nn">prefect</span> <span class="kn">import</span> <span class="n">flow</span><span class="p">,</span> <span class="n">task</span>
-<span class="kn">from</span> <span class="nn">prefect_dask</span> <span class="kn">import</span> <span class="n">DaskTaskRunner</span><span class="p">,</span> <span class="n">get_async_dask_client</span>
-
-<span class="nd">@task</span>
-<span class="k">async</span> <span class="k">def</span> <span class="nf">compute_task</span><span class="p">():</span>
-    <span class="k">async</span> <span class="k">with</span> <span class="n">get_async_dask_client</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="s2">&quot;120s&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
-        <span class="n">df</span> <span class="o">=</span> <span class="n">dask</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">timeseries</span><span class="p">(</span><span class="s2">&quot;2000&quot;</span><span class="p">,</span> <span class="s2">&quot;2001&quot;</span><span class="p">,</span> <span class="n">partition_freq</span><span class="o">=</span><span class="s2">&quot;4w&quot;</span><span class="p">)</span>
-        <span class="n">summary_df</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">())</span>
-    <span class="k">return</span> <span class="n">summary_df</span>
-
-<span class="nd">@flow</span><span class="p">(</span><span class="n">task_runner</span><span class="o">=</span><span class="n">DaskTaskRunner</span><span class="p">())</span>
-<span class="k">async</span> <span class="k">def</span> <span class="nf">dask_flow</span><span class="p">():</span>
-    <span class="n">prefect_future</span> <span class="o">=</span> <span class="k">await</span> <span class="n">compute_task</span><span class="o">.</span><span class="n">submit</span><span class="p">()</span>
-    <span class="k">return</span> <span class="k">await</span> <span class="n">prefect_future</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
-
-<span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">dask_flow</span><span class="p">())</span>
-</code></pre></div></p>
-
-      <details class="quote">
-        <summary>Source code in <code>prefect_dask/utils.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">107</span>
-<span class="normal">108</span>
-<span class="normal">109</span>
-<span class="normal">110</span>
-<span class="normal">111</span>
-<span class="normal">112</span>
-<span class="normal">113</span>
-<span class="normal">114</span>
-<span class="normal">115</span>
-<span class="normal">116</span>
-<span class="normal">117</span>
-<span class="normal">118</span>
-<span class="normal">119</span>
-<span class="normal">120</span>
-<span class="normal">121</span>
-<span class="normal">122</span>
-<span class="normal">123</span>
-<span class="normal">124</span>
-<span class="normal">125</span>
-<span class="normal">126</span>
-<span class="normal">127</span>
-<span class="normal">128</span>
-<span class="normal">129</span>
-<span class="normal">130</span>
-<span class="normal">131</span>
-<span class="normal">132</span>
-<span class="normal">133</span>
-<span class="normal">134</span>
-<span class="normal">135</span>
-<span class="normal">136</span>
-<span class="normal">137</span>
-<span class="normal">138</span>
-<span class="normal">139</span>
-<span class="normal">140</span>
-<span class="normal">141</span>
-<span class="normal">142</span>
-<span class="normal">143</span>
-<span class="normal">144</span>
-<span class="normal">145</span>
-<span class="normal">146</span>
-<span class="normal">147</span>
-<span class="normal">148</span>
-<span class="normal">149</span>
-<span class="normal">150</span>
-<span class="normal">151</span>
-<span class="normal">152</span>
-<span class="normal">153</span>
-<span class="normal">154</span>
-<span class="normal">155</span>
-<span class="normal">156</span>
-<span class="normal">157</span>
-<span class="normal">158</span>
-<span class="normal">159</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@asynccontextmanager</span>
-<span class="k">async</span> <span class="k">def</span> <span class="nf">get_async_dask_client</span><span class="p">(</span>
-    <span class="n">timeout</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">timedelta</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="o">**</span><span class="n">client_kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Client</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Yields a temporary asynchronous dask client; this is useful</span>
-<span class="sd">    for parallelizing operations on dask collections,</span>
-<span class="sd">    such as a `dask.DataFrame` or `dask.Bag`.</span>
-
-<span class="sd">    Without invoking this, workers do not automatically get a client to connect</span>
-<span class="sd">    to the full cluster. Therefore, it will attempt perform work within the</span>
-<span class="sd">    worker itself serially, and potentially overwhelming the single worker.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        timeout: Timeout after which to error out; has no effect in</span>
-<span class="sd">            flow run contexts because the client has already started;</span>
-<span class="sd">            Defaults to the `distributed.comm.timeouts.connect`</span>
-<span class="sd">            configuration value.</span>
-<span class="sd">        client_kwargs: Additional keyword arguments to pass to</span>
-<span class="sd">            `distributed.Client`, and overwrites inherited keyword arguments</span>
-<span class="sd">            from the task runner, if any.</span>
-
-<span class="sd">    Yields:</span>
-<span class="sd">        A temporary asynchronous dask client.</span>
-
-<span class="sd">    Examples:</span>
-<span class="sd">        Use `get_async_dask_client` to distribute work across workers.</span>
-<span class="sd">        ```python</span>
-<span class="sd">        import dask</span>
-<span class="sd">        from prefect import flow, task</span>
-<span class="sd">        from prefect_dask import DaskTaskRunner, get_async_dask_client</span>
-
-<span class="sd">        @task</span>
-<span class="sd">        async def compute_task():</span>
-<span class="sd">            async with get_async_dask_client(timeout=&quot;120s&quot;) as client:</span>
-<span class="sd">                df = dask.datasets.timeseries(&quot;2000&quot;, &quot;2001&quot;, partition_freq=&quot;4w&quot;)</span>
-<span class="sd">                summary_df = await client.compute(df.describe())</span>
-<span class="sd">            return summary_df</span>
-
-<span class="sd">        @flow(task_runner=DaskTaskRunner())</span>
-<span class="sd">        async def dask_flow():</span>
-<span class="sd">            prefect_future = await compute_task.submit()</span>
-<span class="sd">            return await prefect_future.result()</span>
-
-<span class="sd">        asyncio.run(dask_flow())</span>
-<span class="sd">        ```</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">client_kwargs</span> <span class="o">=</span> <span class="n">_generate_client_kwargs</span><span class="p">(</span>
-        <span class="n">async_client</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">,</span> <span class="o">**</span><span class="n">client_kwargs</span>
-    <span class="p">)</span>
-    <span class="k">async</span> <span class="k">with</span> <span class="n">Client</span><span class="p">(</span><span class="o">**</span><span class="n">client_kwargs</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
-        <span class="k">yield</span> <span class="n">client</span>
-</code></pre></div></td></tr></table></div>
-      </details>
-  </div>
-
-</div>
-
-<div class="doc doc-object doc-function">
-
-
-
-<h3 id="prefect_dask.utils.get_dask_client" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">get_dask_client</span></code>
-
-</h3>
-
-
-  <div class="doc doc-contents ">
-  
-      <p>Yields a temporary synchronous dask client; this is useful
-for parallelizing operations on dask collections,
-such as a <code>dask.DataFrame</code> or <code>dask.Bag</code>.</p>
-<p>Without invoking this, workers do not automatically get a client to connect
-to the full cluster. Therefore, it will attempt perform work within the
-worker itself serially, and potentially overwhelming the single worker.</p>
-<p>When in an async context, we recommend using <code>get_async_dask_client</code> instead.</p>
-
-  <p><strong>Parameters:</strong></p>
-  <table>
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-        <th>Default</th>
-      </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td><code>timeout</code></td>
-          <td>
-                <code><span title="typing.Optional">Optional</span>[<span title="typing.Union">Union</span>[int, float, str, <span title="datetime.timedelta">timedelta</span>]]</code>
-          </td>
-          <td><p>Timeout after which to error out; has no effect in
-flow run contexts because the client has already started;
-Defaults to the <code>distributed.comm.timeouts.connect</code>
-configuration value.</p></td>
-          <td>
-                <code>None</code>
-          </td>
-        </tr>
-        <tr>
-          <td><code>client_kwargs</code></td>
-          <td>
-                <code><span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>]</code>
-          </td>
-          <td><p>Additional keyword arguments to pass to
-<code>distributed.Client</code>, and overwrites inherited keyword arguments
-from the task runner, if any.</p></td>
-          <td>
-                <code>{}</code>
-          </td>
-        </tr>
-    </tbody>
-  </table>
-
-  <p><strong>Yields:</strong></p>
-  <table>
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td>
-                <code><span title="distributed.Client">Client</span></code>
-          </td>
-          <td><p>A temporary synchronous dask client.</p></td>
-        </tr>
-    </tbody>
-  </table>
-
-<p><strong>Examples:</strong></p>
-    <p>Use <code>get_dask_client</code> to distribute work across workers.
-<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">dask</span>
-<span class="kn">from</span> <span class="nn">prefect</span> <span class="kn">import</span> <span class="n">flow</span><span class="p">,</span> <span class="n">task</span>
-<span class="kn">from</span> <span class="nn">prefect_dask</span> <span class="kn">import</span> <span class="n">DaskTaskRunner</span><span class="p">,</span> <span class="n">get_dask_client</span>
-
-<span class="nd">@task</span>
-<span class="k">def</span> <span class="nf">compute_task</span><span class="p">():</span>
-    <span class="k">with</span> <span class="n">get_dask_client</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="s2">&quot;120s&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
-        <span class="n">df</span> <span class="o">=</span> <span class="n">dask</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">timeseries</span><span class="p">(</span><span class="s2">&quot;2000&quot;</span><span class="p">,</span> <span class="s2">&quot;2001&quot;</span><span class="p">,</span> <span class="n">partition_freq</span><span class="o">=</span><span class="s2">&quot;4w&quot;</span><span class="p">)</span>
-        <span class="n">summary_df</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">())</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
-    <span class="k">return</span> <span class="n">summary_df</span>
-
-<span class="nd">@flow</span><span class="p">(</span><span class="n">task_runner</span><span class="o">=</span><span class="n">DaskTaskRunner</span><span class="p">())</span>
-<span class="k">def</span> <span class="nf">dask_flow</span><span class="p">():</span>
-    <span class="n">prefect_future</span> <span class="o">=</span> <span class="n">compute_task</span><span class="o">.</span><span class="n">submit</span><span class="p">()</span>
-    <span class="k">return</span> <span class="n">prefect_future</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
-
-<span class="n">dask_flow</span><span class="p">()</span>
-</code></pre></div></p>
-
-      <details class="quote">
-        <summary>Source code in <code>prefect_dask/utils.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 50</span>
-<span class="normal"> 51</span>
-<span class="normal"> 52</span>
-<span class="normal"> 53</span>
-<span class="normal"> 54</span>
-<span class="normal"> 55</span>
-<span class="normal"> 56</span>
-<span class="normal"> 57</span>
-<span class="normal"> 58</span>
-<span class="normal"> 59</span>
-<span class="normal"> 60</span>
-<span class="normal"> 61</span>
-<span class="normal"> 62</span>
-<span class="normal"> 63</span>
-<span class="normal"> 64</span>
-<span class="normal"> 65</span>
-<span class="normal"> 66</span>
-<span class="normal"> 67</span>
-<span class="normal"> 68</span>
-<span class="normal"> 69</span>
-<span class="normal"> 70</span>
-<span class="normal"> 71</span>
-<span class="normal"> 72</span>
-<span class="normal"> 73</span>
-<span class="normal"> 74</span>
-<span class="normal"> 75</span>
-<span class="normal"> 76</span>
-<span class="normal"> 77</span>
-<span class="normal"> 78</span>
-<span class="normal"> 79</span>
-<span class="normal"> 80</span>
-<span class="normal"> 81</span>
-<span class="normal"> 82</span>
-<span class="normal"> 83</span>
-<span class="normal"> 84</span>
-<span class="normal"> 85</span>
-<span class="normal"> 86</span>
-<span class="normal"> 87</span>
-<span class="normal"> 88</span>
-<span class="normal"> 89</span>
-<span class="normal"> 90</span>
-<span class="normal"> 91</span>
-<span class="normal"> 92</span>
-<span class="normal"> 93</span>
-<span class="normal"> 94</span>
-<span class="normal"> 95</span>
-<span class="normal"> 96</span>
-<span class="normal"> 97</span>
-<span class="normal"> 98</span>
-<span class="normal"> 99</span>
-<span class="normal">100</span>
-<span class="normal">101</span>
-<span class="normal">102</span>
-<span class="normal">103</span>
-<span class="normal">104</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@contextmanager</span>
-<span class="k">def</span> <span class="nf">get_dask_client</span><span class="p">(</span>
-    <span class="n">timeout</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">timedelta</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="o">**</span><span class="n">client_kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Client</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Yields a temporary synchronous dask client; this is useful</span>
-<span class="sd">    for parallelizing operations on dask collections,</span>
-<span class="sd">    such as a `dask.DataFrame` or `dask.Bag`.</span>
-
-<span class="sd">    Without invoking this, workers do not automatically get a client to connect</span>
-<span class="sd">    to the full cluster. Therefore, it will attempt perform work within the</span>
-<span class="sd">    worker itself serially, and potentially overwhelming the single worker.</span>
-
-<span class="sd">    When in an async context, we recommend using `get_async_dask_client` instead.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        timeout: Timeout after which to error out; has no effect in</span>
-<span class="sd">            flow run contexts because the client has already started;</span>
-<span class="sd">            Defaults to the `distributed.comm.timeouts.connect`</span>
-<span class="sd">            configuration value.</span>
-<span class="sd">        client_kwargs: Additional keyword arguments to pass to</span>
-<span class="sd">            `distributed.Client`, and overwrites inherited keyword arguments</span>
-<span class="sd">            from the task runner, if any.</span>
-
-<span class="sd">    Yields:</span>
-<span class="sd">        A temporary synchronous dask client.</span>
-
-<span class="sd">    Examples:</span>
-<span class="sd">        Use `get_dask_client` to distribute work across workers.</span>
-<span class="sd">        ```python</span>
-<span class="sd">        import dask</span>
-<span class="sd">        from prefect import flow, task</span>
-<span class="sd">        from prefect_dask import DaskTaskRunner, get_dask_client</span>
-
-<span class="sd">        @task</span>
-<span class="sd">        def compute_task():</span>
-<span class="sd">            with get_dask_client(timeout=&quot;120s&quot;) as client:</span>
-<span class="sd">                df = dask.datasets.timeseries(&quot;2000&quot;, &quot;2001&quot;, partition_freq=&quot;4w&quot;)</span>
-<span class="sd">                summary_df = client.compute(df.describe()).result()</span>
-<span class="sd">            return summary_df</span>
-
-<span class="sd">        @flow(task_runner=DaskTaskRunner())</span>
-<span class="sd">        def dask_flow():</span>
-<span class="sd">            prefect_future = compute_task.submit()</span>
-<span class="sd">            return prefect_future.result()</span>
-
-<span class="sd">        dask_flow()</span>
-<span class="sd">        ```</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">client_kwargs</span> <span class="o">=</span> <span class="n">_generate_client_kwargs</span><span class="p">(</span>
-        <span class="n">async_client</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">,</span> <span class="o">**</span><span class="n">client_kwargs</span>
-    <span class="p">)</span>
-    <span class="k">with</span> <span class="n">Client</span><span class="p">(</span><span class="o">**</span><span class="n">client_kwargs</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
-        <span class="k">yield</span> <span class="n">client</span>
-</code></pre></div></td></tr></table></div>
-      </details>
-  </div>
-
-</div>
-
-
-
-  </div>
-
-  </div>
-
-</div>
+  <h1>Resources</h1>
+
+<h2 id="resources">Resources</h2>
+<h3 id="issues-and-bugs">Issues and Bugs</h3>
+<p>If you encounter any bugs while using <code>prefect-dask</code>, feel free to open an issue in the <a href="https://github.com/PrefectHQ/prefect-dask">prefect-dask</a> repository.</p>
+<p>If you have any questions or issues while using <code>prefect-dask</code>, you can find help in either the <a href="https://discourse.prefect.io/">Prefect Discourse forum</a> or the <a href="https://prefect.io/slack">Prefect Slack community</a>.</p>
+<p>Feel free to star or watch <a href="https://github.com/PrefectHQ/prefect-dask"><code>prefect-dask</code></a> for updates too!</p>
+<h2 id="contributing">Contributing</h2>
+<p>If you'd like to help contribute to fix an issue or add a feature to <code>prefect-dask</code>, please <a href="https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork">propose changes through a pull request from a fork of the repository</a>.</p>
+<p>Here are the steps:
+1. <a href="https://docs.github.com/en/get-started/quickstart/fork-a-repo#forking-a-repository">Fork the repository</a>
+2. <a href="https://docs.github.com/en/get-started/quickstart/fork-a-repo#cloning-your-forked-repository">Clone the forked repository</a>
+3. Install the repository and its dependencies:
+<div class="highlight"><pre><span></span><code>pip install -e &quot;.[dev]&quot;
+</code></pre></div>
+4. Make desired changes
+5. Add tests
+6. Insert an entry to <a href="https://github.com/PrefectHQ/prefect-dask/blob/main/CHANGELOG.md">CHANGELOG.md</a>
+7. Install <code>pre-commit</code> to perform quality checks prior to commit:
+<div class="highlight"><pre><span></span><code>pre-commit install
+</code></pre></div>
+8. <code>git commit</code>, <code>git push</code>, and create a pull request</p>
 
 
 
