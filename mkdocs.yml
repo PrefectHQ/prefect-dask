@@ -47,11 +47,16 @@ markdown_extensions:
     - pymdownx.superfences
     - pymdownx.tabbed:
         alternate_style: true 
+    - pymdownx.inlinehilite
+    - pymdownx.snippets
 plugins:
   - search
   - gen-files:
       scripts:
         - docs/gen_ref_pages.py
+        - docs/gen_home_page.py
+        - docs/gen_examples_catalog.py
+        - docs/gen_blocks_catalog.py
   - mkdocstrings:
       handlers:
         python:
@@ -69,6 +74,8 @@ watch:
 nav:
     - Home: index.md
     - Usage Guide: usage_guide.md
+    - Blocks Catalog: blocks_catalog.md
+    - Examples Catalog: examples_catalog.md
     - API Reference:
       - Task Runners: task_runners.md
       - Utils: utils.md
