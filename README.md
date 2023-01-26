@@ -22,7 +22,9 @@ Visit the full docs [here](https://PrefectHQ.github.io/prefect-dask) to see addi
 
 The `prefect-dask` collection makes it easy to include distributed processing for your flows. Check out the examples below to get started!
 
-## Integrate with Prefect flows
+## Getting Started
+
+### Integrate with Prefect flows
 
 Perhaps you're already working with Prefect flows. Say your flow downloads many images to train your machine learning model. Unfortunately, it takes a long time to download your flows because your code is running sequentially.
 
@@ -129,7 +131,7 @@ The original flow completes in 15.2 seconds.
 
 However, with just a few minor tweaks, we were able to reduce the runtime by nearly **three** folds, down to just **5.7** seconds!
 
-## Integrate with Dask client/cluster and collections
+### Integrate with Dask client/cluster and collections
 
 Suppose you have an existing Dask client/cluster and collection, like a `dask.dataframe.DataFrame`, and you want to add observability.
 
@@ -158,6 +160,7 @@ With `prefect-dask`, there's no major overhaul necessary because Prefect was des
 
 
     def process_data(df: dask.dataframe.DataFrame) -> dask.dataframe.DataFrame:
+
         df_yearly_avg = df.groupby(df.index.year).mean()
         return df_yearly_avg.compute()
 
