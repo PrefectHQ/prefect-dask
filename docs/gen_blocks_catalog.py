@@ -34,10 +34,15 @@ def find_module_blocks():
 def insert_blocks_catalog(generated_file):
     module_blocks = find_module_blocks()
     if len(module_blocks) == 0:
+        generated_file.write(
+            "# Blocks Catalog\nNo blocks are available in this Collection."
+        )
         return
     generated_file.write(
         dedent(
             f"""
+            # Blocks Catalog
+
             Below is a list of Blocks available for registration in
             `prefect-dask`.
 
