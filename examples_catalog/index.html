@@ -8,20 +8,20 @@
       
       
       
-        <link rel="canonical" href="https://PrefectHQ.github.io/prefect-dask/usage_guide/">
+        <link rel="canonical" href="https://PrefectHQ.github.io/prefect-dask/examples_catalog/">
       
       
-        <link rel="prev" href="..">
+        <link rel="prev" href="../blocks_catalog/">
       
       
-        <link rel="next" href="../blocks_catalog/">
+        <link rel="next" href="../task_runners/">
       
       <link rel="icon" href="../img/favicon.ico">
       <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.6">
     
     
       
-        <title>Usage Guide - prefect-dask</title>
+        <title>Examples Catalog - prefect-dask</title>
       
     
     
@@ -89,7 +89,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#usage-guide" class="md-skip">
+        <a href="#examples-catalog" class="md-skip">
           Skip to content
         </a>
       
@@ -121,7 +121,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Usage Guide
+              Examples Catalog
             
           </span>
         </div>
@@ -271,87 +271,11 @@
 
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Usage Guide
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../usage_guide/" class="md-nav__link">
         Usage Guide
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#running-tasks-on-dask" class="md-nav__link">
-    Running tasks on Dask
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#distributing-dask-collections-across-workers" class="md-nav__link">
-    Distributing Dask collections across workers
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#using-a-temporary-cluster" class="md-nav__link">
-    Using a temporary cluster
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#connecting-to-an-existing-cluster" class="md-nav__link">
-    Connecting to an existing cluster
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#adaptive-scaling" class="md-nav__link">
-    Adaptive scaling
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#dask-annotations" class="md-nav__link">
-    Dask annotations
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -377,11 +301,59 @@
 
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../examples_catalog/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Examples Catalog
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Examples Catalog
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#task-runners-module" class="md-nav__link">
+    Task Runners Module
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#utils-module" class="md-nav__link">
+    Utils Module
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -476,43 +448,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#running-tasks-on-dask" class="md-nav__link">
-    Running tasks on Dask
+  <a href="#task-runners-module" class="md-nav__link">
+    Task Runners Module
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#distributing-dask-collections-across-workers" class="md-nav__link">
-    Distributing Dask collections across workers
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#using-a-temporary-cluster" class="md-nav__link">
-    Using a temporary cluster
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#connecting-to-an-existing-cluster" class="md-nav__link">
-    Connecting to an existing cluster
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#adaptive-scaling" class="md-nav__link">
-    Adaptive scaling
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#dask-annotations" class="md-nav__link">
-    Dask annotations
+  <a href="#utils-module" class="md-nav__link">
+    Utils Module
   </a>
   
 </li>
@@ -531,17 +475,41 @@
                 
                   
 
-  
-  
 
 
+<h1 id="examples-catalog">Examples Catalog</h1>
+<p>Below is a list of examples for <code>prefect-dask</code>.</p>
+<h2 id="task-runners-module"><a class="autorefs autorefs-internal" href="../task_runners/#prefect_dask.task_runners">Task Runners Module</a></h2>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">time</span>
 
-<h1 id="usage-guide">Usage Guide</h1>
-<p>Below is a guide on how to use <code>prefect-dask</code> effectively.</p>
-<h2 id="running-tasks-on-dask">Running tasks on Dask</h2>
-<p>The <code>DaskTaskRunner</code> is a parallel task runner that submits tasks to the <a href="http://distributed.dask.org/"><code>dask.distributed</code></a> scheduler. </p>
-<p>By default, a temporary Dask cluster is created for the duration of the flow run.</p>
-<p>For example, this flow counts up to 10 in parallel (note that the output is not sequential).</p>
+<span class="kn">from</span> <span class="nn">prefect</span> <span class="kn">import</span> <span class="n">flow</span><span class="p">,</span> <span class="n">task</span>
+
+<span class="nd">@task</span>
+<span class="k">def</span> <span class="nf">shout</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;#</span><span class="si">{</span><span class="n">number</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="nd">@flow</span>
+<span class="k">def</span> <span class="nf">count_to</span><span class="p">(</span><span class="n">highest_number</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">number</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">highest_number</span><span class="p">):</span>
+        <span class="n">shout</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">count_to</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="c1"># outputs</span>
+<span class="c1">#0</span>
+<span class="c1">#1</span>
+<span class="c1">#2</span>
+<span class="c1">#3</span>
+<span class="c1">#4</span>
+<span class="c1">#5</span>
+<span class="c1">#6</span>
+<span class="c1">#7</span>
+<span class="c1">#8</span>
+<span class="c1">#9</span>
+</code></pre></div>
+<p>Switching to a <code>DaskTaskRunner</code>:
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">time</span>
 
 <span class="kn">from</span> <span class="nn">prefect</span> <span class="kn">import</span> <span class="n">flow</span><span class="p">,</span> <span class="n">task</span>
@@ -572,75 +540,38 @@
 <span class="c1">#8</span>
 <span class="c1">#9</span>
 </code></pre></div>
-<p>If you already have a Dask cluster running, either local or cloud hosted, you can provide the connection URL via an <code>address</code> argument.</p>
-<p>To configure your flow to use the <code>DaskTaskRunner</code>:</p>
-<ol>
-<li>Make sure the <code>prefect-dask</code> collection is installed as described earlier: <code>pip install prefect-dask</code>.</li>
-<li>In your flow code, import <code>DaskTaskRunner</code> from <code>prefect_dask.task_runners</code>.</li>
-<li>Assign it as the task runner when the flow is defined using the <code>task_runner=DaskTaskRunner</code> argument.</li>
-</ol>
-<p>For example, this flow uses the <code>DaskTaskRunner</code> configured to access an existing Dask cluster at <code>http://my-dask-cluster</code>.</p>
+Using a temporary local dask cluster:
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">prefect</span> <span class="kn">import</span> <span class="n">flow</span>
 <span class="kn">from</span> <span class="nn">prefect_dask.task_runners</span> <span class="kn">import</span> <span class="n">DaskTaskRunner</span>
 
-<span class="nd">@flow</span><span class="p">(</span><span class="n">task_runner</span><span class="o">=</span><span class="n">DaskTaskRunner</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="s2">&quot;http://my-dask-cluster&quot;</span><span class="p">))</span>
+<span class="nd">@flow</span><span class="p">(</span><span class="n">task_runner</span><span class="o">=</span><span class="n">DaskTaskRunner</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">my_flow</span><span class="p">():</span>
     <span class="o">...</span>
-</code></pre></div>
-<p><code>DaskTaskRunner</code> accepts the following optional parameters:</p>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>address</td>
-<td>Address of a currently running Dask scheduler.</td>
-</tr>
-<tr>
-<td>cluster_class</td>
-<td>The cluster class to use when creating a temporary Dask cluster. It can be either the full class name (for example, <code>"distributed.LocalCluster"</code>), or the class itself.</td>
-</tr>
-<tr>
-<td>cluster_kwargs</td>
-<td>Additional kwargs to pass to the <code>cluster_class</code> when creating a temporary Dask cluster.</td>
-</tr>
-<tr>
-<td>adapt_kwargs</td>
-<td>Additional kwargs to pass to <code>cluster.adapt</code> when creating a temporary Dask cluster. Note that adaptive scaling is only enabled if <code>adapt_kwargs</code> are provided.</td>
-</tr>
-<tr>
-<td>client_kwargs</td>
-<td>Additional kwargs to use when creating a <a href="https://distributed.dask.org/en/latest/api.html#client"><code>dask.distributed.Client</code></a>.</td>
-</tr>
-</tbody>
-</table>
-<div class="admonition warning">
-<p class="admonition-title">Multiprocessing safety</p>
-<p>Note that, because the <code>DaskTaskRunner</code> uses multiprocessing, calls to flows
-in scripts must be guarded with <code>if __name__ == "__main__":</code> or you will encounter 
-warnings and errors.</p>
-</div>
-<p>If you don't provide the <code>address</code> of a Dask scheduler, Prefect creates a temporary local cluster automatically. The number of workers used is based on the number of cores available to your execution environment. The default provides a mix of processes and threads that should work well for most workloads. If you want to specify this explicitly, you can pass values for <code>n_workers</code> or <code>threads_per_worker</code> to <code>cluster_kwargs</code>.</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># Use 4 worker processes, each with 2 threads</span>
-<span class="n">DaskTaskRunner</span><span class="p">(</span>
-    <span class="n">cluster_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;n_workers&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s2">&quot;threads_per_worker&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}</span>
+</code></pre></div></p>
+<p>Using a temporary cluster running elsewhere. Any Dask cluster class should
+work, here we use <a href="https://cloudprovider.dask.org">dask-cloudprovider</a>:
+<div class="highlight"><pre><span></span><code><span class="n">DaskTaskRunner</span><span class="p">(</span>
+    <span class="n">cluster_class</span><span class="o">=</span><span class="s2">&quot;dask_cloudprovider.FargateCluster&quot;</span><span class="p">,</span>
+    <span class="n">cluster_kwargs</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;image&quot;</span><span class="p">:</span> <span class="s2">&quot;prefecthq/prefect:latest&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;n_workers&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+    <span class="p">},</span>
 <span class="p">)</span>
-</code></pre></div>
-<h2 id="distributing-dask-collections-across-workers">Distributing Dask collections across workers</h2>
-<p>If you use a Dask collection, such as a <code>dask.DataFrame</code> or <code>dask.Bag</code>, to distribute the work across workers and achieve parallel computations, use one of the context managers <code>get_dask_client</code> or <code>get_async_dask_client</code>:</p>
+</code></pre></div></p>
+<p>Connecting to an existing dask cluster:
+<div class="highlight"><pre><span></span><code><span class="n">DaskTaskRunner</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="s2">&quot;192.0.2.255:8786&quot;</span><span class="p">)</span>
+</code></pre></div></p>
+<h2 id="utils-module"><a class="autorefs autorefs-internal" href="../utils/#prefect_dask.utils">Utils Module</a></h2>
+<p>Use <code>get_dask_client</code> to distribute work across workers.
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">dask</span>
 <span class="kn">from</span> <span class="nn">prefect</span> <span class="kn">import</span> <span class="n">flow</span><span class="p">,</span> <span class="n">task</span>
 <span class="kn">from</span> <span class="nn">prefect_dask</span> <span class="kn">import</span> <span class="n">DaskTaskRunner</span><span class="p">,</span> <span class="n">get_dask_client</span>
 
 <span class="nd">@task</span>
 <span class="k">def</span> <span class="nf">compute_task</span><span class="p">():</span>
-    <span class="k">with</span> <span class="n">get_dask_client</span><span class="p">()</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
+    <span class="k">with</span> <span class="n">get_dask_client</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="s2">&quot;120s&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
         <span class="n">df</span> <span class="o">=</span> <span class="n">dask</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">timeseries</span><span class="p">(</span><span class="s2">&quot;2000&quot;</span><span class="p">,</span> <span class="s2">&quot;2001&quot;</span><span class="p">,</span> <span class="n">partition_freq</span><span class="o">=</span><span class="s2">&quot;4w&quot;</span><span class="p">)</span>
-        <span class="n">summary_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
+        <span class="n">summary_df</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">())</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">summary_df</span>
 
 <span class="nd">@flow</span><span class="p">(</span><span class="n">task_runner</span><span class="o">=</span><span class="n">DaskTaskRunner</span><span class="p">())</span>
@@ -650,38 +581,14 @@ warnings and errors.</p>
 
 <span class="n">dask_flow</span><span class="p">()</span>
 </code></pre></div>
-<p>The context managers can be used the same way in both <code>flow</code> run contexts and <code>task</code> run contexts.</p>
-<div class="admonition warning">
-<p class="admonition-title">Resolving futures in sync client</p>
-<p>Note, by default, <code>dask_collection.compute()</code> returns concrete values while <code>client.compute(dask_collection)</code> returns Dask Futures. Therefore, if you call <code>client.compute</code>, you must resolve all futures before exiting out of the context manager by either:</p>
-<ol>
-<li>
-<p>setting <code>sync=True</code>
-<div class="highlight"><pre><span></span><code><span class="k">with</span> <span class="n">get_dask_client</span><span class="p">()</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">dask</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">timeseries</span><span class="p">(</span><span class="s2">&quot;2000&quot;</span><span class="p">,</span> <span class="s2">&quot;2001&quot;</span><span class="p">,</span> <span class="n">partition_freq</span><span class="o">=</span><span class="s2">&quot;4w&quot;</span><span class="p">)</span>
-    <span class="n">summary_df</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">(),</span> <span class="n">sync</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</code></pre></div></p>
-</li>
-<li>
-<p>calling <code>result()</code>
-<div class="highlight"><pre><span></span><code><span class="k">with</span> <span class="n">get_dask_client</span><span class="p">()</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">dask</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">timeseries</span><span class="p">(</span><span class="s2">&quot;2000&quot;</span><span class="p">,</span> <span class="s2">&quot;2001&quot;</span><span class="p">,</span> <span class="n">partition_freq</span><span class="o">=</span><span class="s2">&quot;4w&quot;</span><span class="p">)</span>
-    <span class="n">summary_df</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">())</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
-</code></pre></div>
-For more information, visit the docs on <a href="https://docs.dask.org/en/stable/futures.html#waiting-on-futures">Waiting on Futures</a>.</p>
-</li>
-</ol>
-</div>
-<p>There is also an equivalent context manager for asynchronous tasks and flows: <code>get_async_dask_client</code>.</p>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">asyncio</span>
-
-<span class="kn">import</span> <span class="nn">dask</span>
+Use <code>get_async_dask_client</code> to distribute work across workers.
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">dask</span>
 <span class="kn">from</span> <span class="nn">prefect</span> <span class="kn">import</span> <span class="n">flow</span><span class="p">,</span> <span class="n">task</span>
 <span class="kn">from</span> <span class="nn">prefect_dask</span> <span class="kn">import</span> <span class="n">DaskTaskRunner</span><span class="p">,</span> <span class="n">get_async_dask_client</span>
 
 <span class="nd">@task</span>
 <span class="k">async</span> <span class="k">def</span> <span class="nf">compute_task</span><span class="p">():</span>
-    <span class="k">async</span> <span class="k">with</span> <span class="n">get_async_dask_client</span><span class="p">()</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
+    <span class="k">async</span> <span class="k">with</span> <span class="n">get_async_dask_client</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="s2">&quot;120s&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
         <span class="n">df</span> <span class="o">=</span> <span class="n">dask</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">timeseries</span><span class="p">(</span><span class="s2">&quot;2000&quot;</span><span class="p">,</span> <span class="s2">&quot;2001&quot;</span><span class="p">,</span> <span class="n">partition_freq</span><span class="o">=</span><span class="s2">&quot;4w&quot;</span><span class="p">)</span>
         <span class="n">summary_df</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">())</span>
     <span class="k">return</span> <span class="n">summary_df</span>
@@ -692,102 +599,7 @@ For more information, visit the docs on <a href="https://docs.dask.org/en/stable
     <span class="k">return</span> <span class="k">await</span> <span class="n">prefect_future</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
 
 <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">dask_flow</span><span class="p">())</span>
-</code></pre></div>
-<div class="admonition warning">
-<p class="admonition-title">Resolving futures in async client</p>
-<p>With the async client, you do not need to set <code>sync=True</code> or call <code>result()</code>.</p>
-<p>However you must <code>await client.compute(dask_collection)</code> before exiting out of the context manager.</p>
-<p>To invoke <code>compute</code> from the Dask collection, set <code>sync=False</code> and call <code>result()</code> before exiting out of the context manager: <code>await dask_collection.compute(sync=False)</code>.</p>
-</div>
-<h2 id="using-a-temporary-cluster">Using a temporary cluster</h2>
-<p>The <code>DaskTaskRunner</code> is capable of creating a temporary cluster using any of <a href="https://docs.dask.org/en/latest/setup.html">Dask's cluster-manager options</a>. This can be useful when you want each flow run to have its own Dask cluster, allowing for per-flow adaptive scaling.</p>
-<p>To configure, you need to provide a <code>cluster_class</code>. This can be:</p>
-<ul>
-<li>A string specifying the import path to the cluster class (for example, <code>"dask_cloudprovider.aws.FargateCluster"</code>)</li>
-<li>The cluster class itself</li>
-<li>A function for creating a custom cluster</li>
-</ul>
-<p>You can also configure <code>cluster_kwargs</code>, which takes a dictionary of keyword arguments to pass to <code>cluster_class</code> when starting the flow run.</p>
-<p>For example, to configure a flow to use a temporary <code>dask_cloudprovider.aws.FargateCluster</code> with 4 workers running with an image named <code>my-prefect-image</code>:</p>
-<div class="highlight"><pre><span></span><code><span class="n">DaskTaskRunner</span><span class="p">(</span>
-    <span class="n">cluster_class</span><span class="o">=</span><span class="s2">&quot;dask_cloudprovider.aws.FargateCluster&quot;</span><span class="p">,</span>
-    <span class="n">cluster_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;n_workers&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s2">&quot;image&quot;</span><span class="p">:</span> <span class="s2">&quot;my-prefect-image&quot;</span><span class="p">},</span>
-<span class="p">)</span>
-</code></pre></div>
-<h2 id="connecting-to-an-existing-cluster">Connecting to an existing cluster</h2>
-<p>Multiple Prefect flow runs can all use the same existing Dask cluster. You might manage a single long-running Dask cluster (maybe using the Dask <a href="https://docs.dask.org/en/latest/setup/kubernetes-helm.html">Helm Chart</a>) and configure flows to connect to it during execution. This has a few downsides when compared to using a temporary cluster (as described above):</p>
-<ul>
-<li>All workers in the cluster must have dependencies installed for all flows you intend to run.</li>
-<li>Multiple flow runs may compete for resources. Dask tries to do a good job sharing resources between tasks, but you may still run into issues.</li>
-</ul>
-<p>That said, you may prefer managing a single long-running cluster. </p>
-<p>To configure a <code>DaskTaskRunner</code> to connect to an existing cluster, pass in the address of the scheduler to the <code>address</code> argument:</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># Connect to an existing cluster running at a specified address</span>
-<span class="n">DaskTaskRunner</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="s2">&quot;tcp://...&quot;</span><span class="p">)</span>
-</code></pre></div>
-<h2 id="adaptive-scaling">Adaptive scaling</h2>
-<p>One nice feature of using a <code>DaskTaskRunner</code> is the ability to scale adaptively to the workload. Instead of specifying <code>n_workers</code> as a fixed number, this lets you specify a minimum and maximum number of workers to use, and the dask cluster will scale up and down as needed.</p>
-<p>To do this, you can pass <code>adapt_kwargs</code> to <code>DaskTaskRunner</code>. This takes the following fields:</p>
-<ul>
-<li><code>maximum</code> (<code>int</code> or <code>None</code>, optional): the maximum number of workers to scale to. Set to <code>None</code> for no maximum.</li>
-<li><code>minimum</code> (<code>int</code> or <code>None</code>, optional): the minimum number of workers to scale to. Set to <code>None</code> for no minimum.</li>
-</ul>
-<p>For example, here we configure a flow to run on a <code>FargateCluster</code> scaling up to at most 10 workers.</p>
-<div class="highlight"><pre><span></span><code><span class="n">DaskTaskRunner</span><span class="p">(</span>
-    <span class="n">cluster_class</span><span class="o">=</span><span class="s2">&quot;dask_cloudprovider.aws.FargateCluster&quot;</span><span class="p">,</span>
-    <span class="n">adapt_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;maximum&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">}</span>
-<span class="p">)</span>
-</code></pre></div>
-<h2 id="dask-annotations">Dask annotations</h2>
-<p>Dask annotations can be used to further control the behavior of tasks.</p>
-<p>For example, we can set the <a href="http://distributed.dask.org/en/stable/priority.html">priority</a> of tasks in the Dask scheduler:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">dask</span>
-<span class="kn">from</span> <span class="nn">prefect</span> <span class="kn">import</span> <span class="n">flow</span><span class="p">,</span> <span class="n">task</span>
-<span class="kn">from</span> <span class="nn">prefect_dask.task_runners</span> <span class="kn">import</span> <span class="n">DaskTaskRunner</span>
-
-<span class="nd">@task</span>
-<span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-
-
-<span class="nd">@flow</span><span class="p">(</span><span class="n">task_runner</span><span class="o">=</span><span class="n">DaskTaskRunner</span><span class="p">())</span>
-<span class="k">def</span> <span class="nf">my_flow</span><span class="p">():</span>
-    <span class="k">with</span> <span class="n">dask</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">priority</span><span class="o">=-</span><span class="mi">10</span><span class="p">):</span>
-        <span class="n">future</span> <span class="o">=</span> <span class="n">show</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># low priority task</span>
-
-    <span class="k">with</span> <span class="n">dask</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">priority</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
-        <span class="n">future</span> <span class="o">=</span> <span class="n">show</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># high priority task</span>
-</code></pre></div>
-<p>Another common use case is <a href="http://distributed.dask.org/en/stable/resources.html">resource</a> annotations:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">dask</span>
-<span class="kn">from</span> <span class="nn">prefect</span> <span class="kn">import</span> <span class="n">flow</span><span class="p">,</span> <span class="n">task</span>
-<span class="kn">from</span> <span class="nn">prefect_dask.task_runners</span> <span class="kn">import</span> <span class="n">DaskTaskRunner</span>
-
-<span class="nd">@task</span>
-<span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-
-<span class="c1"># Create a `LocalCluster` with some resource annotations</span>
-<span class="c1"># Annotations are abstract in dask and not inferred from your system.</span>
-<span class="c1"># Here, we claim that our system has 1 GPU and 1 process available per worker</span>
-<span class="nd">@flow</span><span class="p">(</span>
-    <span class="n">task_runner</span><span class="o">=</span><span class="n">DaskTaskRunner</span><span class="p">(</span>
-        <span class="n">cluster_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;n_workers&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;resources&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;GPU&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;process&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}}</span>
-    <span class="p">)</span>
-<span class="p">)</span>
-<span class="k">def</span> <span class="nf">my_flow</span><span class="p">():</span>
-    <span class="k">with</span> <span class="n">dask</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">resources</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;GPU&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}):</span>
-        <span class="n">future</span> <span class="o">=</span> <span class="n">show</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># this task requires 1 GPU resource on a worker</span>
-
-    <span class="k">with</span> <span class="n">dask</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">resources</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;process&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}):</span>
-        <span class="c1"># These tasks each require 1 process on a worker; because we&#39;ve </span>
-        <span class="c1"># specified that our cluster has 1 process per worker and 1 worker,</span>
-        <span class="c1"># these tasks will run sequentially</span>
-        <span class="n">future</span> <span class="o">=</span> <span class="n">show</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">future</span> <span class="o">=</span> <span class="n">show</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-        <span class="n">future</span> <span class="o">=</span> <span class="n">show</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-</code></pre></div>
-<p>For more tips on how to use tasks and flows in a Collection, check out <a href="https://orion-docs.prefect.io/collections/usage/">Using Collections</a>!</p>
+</code></pre></div></p>
 
 
   
