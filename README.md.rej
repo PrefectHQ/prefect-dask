@@ -1,0 +1,117 @@
+diff a/README.md b/README.md	(rejected hunks)
+@@ -1,8 +1,8 @@
+ # prefect-dask
+ 
+-Visit the full docs [here](https://PrefectHQ.github.io/prefect-dask) to see additional examples and the API reference.
+-
+ <p align="center">
++    <!--- Insert a cover image here -->
++    <!--- <br> -->
+     <a href="https://pypi.python.org/pypi/prefect-dask/" alt="PyPI version">
+         <img alt="PyPI" src="https://img.shields.io/pypi/v/prefect-dask?color=0052FF&labelColor=090422"></a>
+     <a href="https://github.com/PrefectHQ/prefect-dask/" alt="Stars">
+@@ -18,19 +18,26 @@ Visit the full docs [here](https://PrefectHQ.github.io/prefect-dask) to see addi
+         <img src="https://img.shields.io/badge/discourse-browse_forum-red.svg?color=0052FF&labelColor=090422&logo=discourse" /></a>
+ </p>
+ 
+-## Welcome!
++Visit the full docs [here](https://PrefectHQ.github.io/prefect-dask) to see additional examples and the API reference.
+ 
+ Prefect integrations with the Dask execution framework.
+ 
+-## Getting Started
+ 
+-### Python setup
++<!--- ### Add a real-world example of how to use this Collection here
+ 
+-Requires an installation of Python 3.7+.
++Offer some motivation on why this helps.
+ 
+-We recommend using a Python virtual environment manager such as pipenv, conda or virtualenv.
++After installing `prefect-dask` and [saving the credentials](#saving-credentials-to-block), you can easily use it within your flows to help you achieve the aforementioned benefits!
+ 
+-These tasks are designed to work with Prefect 2.0. For more information about how to use Prefect, please refer to the [Prefect documentation](https://orion-docs.prefect.io/).
++```python
++from prefect import flow, get_run_logger
++```
++
++--->
++
++## Resources
++
++For more tips on how to use tasks and flows in a Collection, check out [Using Collections](https://orion-docs.prefect.io/collections/usage/)!
+ 
+ ### Installation
+ 
+@@ -40,36 +47,38 @@ Install `prefect-dask` with `pip`:
+ pip install prefect-dask
+ ```
+ 
+-A list of available blocks in `prefect-dask` and their setup instructions can be found [here](https://PrefectHQ.github.io/prefect-dask/#blocks-catalog).
++A list of available blocks in `prefect-dask` and their setup instructions can be found [here](https://PrefectHQ.github.io/prefect-dask/blocks-catalog).
+ 
+-### Write and run a flow
++Requires an installation of Python 3.7+.
++
++We recommend using a Python virtual environment manager such as pipenv, conda or virtualenv.
++
++These tasks are designed to work with Prefect 2.0. For more information about how to use Prefect, please refer to the [Prefect documentation](https://orion-docs.prefect.io/).
++
++<!--- ### Saving credentials to block
++
++Replace this with actual instructions on how to get API key or token.
++
++1. Head over to 
++2. Login to your SERVICE account
++3. Click "+ Create new secret key"
++4. Copy the generated API key
++5. Create a short script, replacing the placeholders (or do so in the UI)
+ 
+ ```python
+-from prefect import flow
+-from prefect_dask.tasks import (
+-    goodbye_prefect_dask,
+-    hello_prefect_dask,
+-)
+-
+-# Use `with_options` to customize options on any existing task or flow
+-
+-custom_goodbye_prefect_dask = goodbye_prefect_dask.with_options(
+-    name="My custom task name",
+-    retries=2,
+-    retry_delay_seconds=10,
+-)
+-
+-@flow
+-def example_flow():
+-    hello_prefect_dask
+-    custom_goodbye_prefect_dask
+-
+-example_flow()
++from prefect_dask import Block`
++Block(api_key="API_KEY_PLACEHOLDER").save("BLOCK_NAME_PLACEHOLDER")
+ ```
+ 
+-For more tips on how to use tasks and flows in a Collection, check out [Using Collections](https://orion-docs.prefect.io/collections/usage/)!
++Congrats! You can now easily load the saved block, which holds your credentials:
+ 
+-## Resources
++```python
++from prefect_dask import Block
++Block.load("BLOCK_NAME_PLACEHOLDER")
++```
++--->
++
++### Feedback
+ 
+ If you encounter any bugs while using `prefect-dask`, feel free to open an issue in the [prefect-dask](https://github.com/PrefectHQ/prefect-dask) repository.
+ 
+@@ -77,7 +86,7 @@ If you have any questions or issues while using `prefect-dask`, you can find hel
+ 
+ Feel free to star or watch [`prefect-dask`](https://github.com/PrefectHQ/prefect-dask) for updates too!
+ 
+-## Contributing
++### Contributing
+ 
+ If you'd like to help contribute to fix an issue or add a feature to `prefect-dask`, please [propose changes through a pull request from a fork of the repository](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork).
+ 

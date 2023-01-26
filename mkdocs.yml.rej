@@ -1,0 +1,19 @@
+diff a/mkdocs.yml b/mkdocs.yml	(rejected hunks)
+@@ -43,6 +46,9 @@ markdown_extensions:
+         use_pygments: true
+     - pymdownx.superfences
+     - pymdownx.tabbed
++    - pymdownx.inlinehilite
++    - pymdownx.snippets
++
+ plugins:
+   - search
+   - gen-files:
+@@ -87,4 +93,7 @@ extra:
+           link: https://hub.docker.com/r/prefecthq/prefect/
+         - icon: fontawesome/brands/python
+           link: https://pypi.org/project/prefect/
++    analytics:
++        provider: google
++        property: G-8CSMBCQDKN
+ 
