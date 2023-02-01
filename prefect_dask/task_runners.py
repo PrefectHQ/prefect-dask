@@ -71,6 +71,7 @@ Example:
     ```
 """
 
+import inspect
 from contextlib import AsyncExitStack
 from typing import Awaitable, Callable, Dict, Optional, Union
 from uuid import UUID
@@ -296,7 +297,9 @@ class DaskTaskRunner(BaseTaskRunner):
                 self.cluster_class(asynchronous=True, **self.cluster_kwargs)
             )
             if self.adapt_kwargs:
-                self._cluster.adapt(**self.adapt_kwargs)
+                adapt_response = self._cluster.adapt(**self.adapt_kwargs)
+                if inspect.isawaitable(adapt_response):
+                    await adapt_response
 
         self._client = await exit_stack.enter_async_context(
             distributed.Client(
