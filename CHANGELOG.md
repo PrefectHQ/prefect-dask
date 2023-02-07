@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Updated `DaskTaskRunner` to await the `adapt` method call of a dask cluster instance if it's an asynchronous method - [#77](https://github.com/PrefectHQ/prefect-dask/pull/77)
+
 ### Security
 
 ## 0.2.2
