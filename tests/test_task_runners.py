@@ -8,6 +8,7 @@ import cloudpickle
 import distributed
 import prefect.engine
 import pytest
+from distributed import LocalCluster
 from distributed.scheduler import KilledWorker
 from prefect import flow, get_run_logger, task
 from prefect.client.schemas import TaskRun
@@ -219,3 +220,29 @@ class TestDaskTaskRunner(TaskRunnerStandardTestSuite):
         assert all(future.key.startswith("my_task-") for future in futures)
         # ensure flow run retries is in key
         assert all(future.key.endswith("-1") for future in futures)
+
+    async def test_dask_cluster_adapt_is_properly_called(self):
+        # mock of cluster instances with synchronous adapt method like
+        # dask_kubernetes.classic.kubecluster.KubeCluster
+        class MockDaskCluster(LocalCluster):
+            def __init__(self, asynchronous: bool):
+                self._adapt_called = False
+                super().__init__(asynchronous=asynchronous)
+
+            def adapt(self, **kwargs):
+                self._adapt_called = True
+
+        # mock of cluster instances with asynchronous adapt method like
+        # dask_kubernetes.operator.kubecluster.KubeCluster
+        class AsyncMockDaskCluster(MockDaskCluster):
+            async def adapt(self, **kwargs):
+                self._adapt_called = True
+
+        for task_runner_class in [MockDaskCluster, AsyncMockDaskCluster]:
+            # the adapt_kwargs argument triggers the calls to the adapt method
+            task_runner = DaskTaskRunner(
+                cluster_class=task_runner_class,
+                adapt_kwargs={"minimum": 1, "maximum": 1},
+            )
+            async with task_runner.start():
+                assert task_runner._cluster._adapt_called
