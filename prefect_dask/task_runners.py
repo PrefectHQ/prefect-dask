@@ -1,6 +1,6 @@
 """
 Interface and implementations of the Dask Task Runner.
-[Task Runners](https://orion-docs.prefect.io/api-ref/prefect/task-runners/)
+[Task Runners](https://docs.prefect.io/api-ref/prefect/task-runners/)
 in Prefect are responsible for managing the execution of Prefect task runs.
 Generally speaking, users are not expected to interact with
 task runners outside of configuring and initializing them for a flow.
@@ -79,7 +79,7 @@ from uuid import UUID
 import distributed
 from prefect.context import FlowRunContext
 from prefect.futures import PrefectFuture
-from prefect.orion.schemas.states import State
+from prefect.server.schemas.states import State
 from prefect.states import exception_to_crashed_state
 from prefect.task_runners import BaseTaskRunner, R, TaskConcurrencyType
 from prefect.utilities.collections import visit_collection

@@ -7,15 +7,15 @@ from uuid import uuid4
 import cloudpickle
 import distributed
 import prefect.engine
+import prefect.testing.fixtures
 import pytest
 from distributed import LocalCluster
 from distributed.scheduler import KilledWorker
 from prefect import flow, get_run_logger, task
 from prefect.client.schemas import TaskRun
-from prefect.orion.schemas.states import StateType
+from prefect.server.schemas.states import StateType
 from prefect.states import State
 from prefect.task_runners import TaskConcurrencyType
-from prefect.testing.fixtures import hosted_orion_api, use_hosted_orion  # noqa: F401
 from prefect.testing.standard_test_suites import TaskRunnerStandardTestSuite
 from prefect.testing.utilities import exceptions_equal
 
