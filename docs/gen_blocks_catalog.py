@@ -47,7 +47,7 @@ def insert_blocks_catalog(generated_file):
             `prefect-dask`.
 
             To register blocks in this module to
-            [view and edit them](https://orion-docs.prefect.io/ui/blocks/)
+            [view and edit them](https://docs.prefect.io/ui/blocks/)
             on Prefect Cloud:
             ```bash
             prefect block register -m {COLLECTION_SLUG}
@@ -57,8 +57,8 @@ def insert_blocks_catalog(generated_file):
     )
     generated_file.write(
         "Note, to use the `load` method on Blocks, you must already have a block document "  # noqa
-        "[saved through code](https://orion-docs.prefect.io/concepts/blocks/#saving-blocks) "  # noqa
-        "or [saved through the UI](https://orion-docs.prefect.io/ui/blocks/).\n"
+        "[saved through code](https://docs.prefect.io/concepts/blocks/#saving-blocks) "  # noqa
+        "or [saved through the UI](https://docs.prefect.io/ui/blocks/).\n"
     )
     for module_nesting, block_names in module_blocks.items():
         module_path = f"{COLLECTION_SLUG}." + " ".join(module_nesting)
