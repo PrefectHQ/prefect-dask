@@ -1,6 +1,5 @@
 import pytest
 from prefect.settings import PREFECT_ASYNC_FETCH_STATE_RESULT, temporary_settings
-
 from prefect.testing.utilities import prefect_test_harness
 
 
