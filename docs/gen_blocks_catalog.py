@@ -46,13 +46,14 @@ def insert_blocks_catalog(generated_file):
             Below is a list of Blocks available for registration in
             `prefect-dask`.
 
-            To register blocks in this module to
             [view and edit them](https://docs.prefect.io/ui/blocks/)
-            on Prefect Cloud:
+            on Prefect Cloud, first [install the required packages](
+            https://PrefectHQ.github.io/prefect-dask/#installation),
+            then
             ```bash
             prefect block register -m {COLLECTION_SLUG}
             ```
-            """
+            """  # noqa
         )
     )
     generated_file.write(
