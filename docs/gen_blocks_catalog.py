@@ -46,19 +46,20 @@ def insert_blocks_catalog(generated_file):
             Below is a list of Blocks available for registration in
             `prefect-dask`.
 
-            To register blocks in this module to
-            [view and edit them](https://orion-docs.prefect.io/ui/blocks/)
-            on Prefect Cloud:
+            [view and edit them](https://docs.prefect.io/ui/blocks/)
+            on Prefect Cloud, first [install the required packages](
+            https://PrefectHQ.github.io/prefect-dask/#installation),
+            then
             ```bash
             prefect block register -m {COLLECTION_SLUG}
             ```
-            """
+            """  # noqa
         )
     )
     generated_file.write(
         "Note, to use the `load` method on Blocks, you must already have a block document "  # noqa
-        "[saved through code](https://orion-docs.prefect.io/concepts/blocks/#saving-blocks) "  # noqa
-        "or [saved through the UI](https://orion-docs.prefect.io/ui/blocks/).\n"
+        "[saved through code](https://docs.prefect.io/concepts/blocks/#saving-blocks) "  # noqa
+        "or [saved through the UI](https://docs.prefect.io/ui/blocks/).\n"
     )
     for module_nesting, block_names in module_blocks.items():
         module_path = f"{COLLECTION_SLUG}." + " ".join(module_nesting)

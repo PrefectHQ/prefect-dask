@@ -1,6 +1,6 @@
 """
 Interface and implementations of the Dask Task Runner.
-[Task Runners](https://orion-docs.prefect.io/api-ref/prefect/task-runners/)
+[Task Runners](https://docs.prefect.io/api-ref/prefect/task-runners/)
 in Prefect are responsible for managing the execution of Prefect task runs.
 Generally speaking, users are not expected to interact with
 task runners outside of configuring and initializing them for a flow.
@@ -71,6 +71,7 @@ Example:
     ```
 """
 
+import inspect
 from contextlib import AsyncExitStack
 from typing import Awaitable, Callable, Dict, Optional, Union
 from uuid import UUID
@@ -78,7 +79,7 @@ from uuid import UUID
 import distributed
 from prefect.context import FlowRunContext
 from prefect.futures import PrefectFuture
-from prefect.orion.schemas.states import State
+from prefect.server.schemas.states import State
 from prefect.states import exception_to_crashed_state
 from prefect.task_runners import BaseTaskRunner, R, TaskConcurrencyType
 from prefect.utilities.collections import visit_collection
@@ -296,7 +297,9 @@ class DaskTaskRunner(BaseTaskRunner):
                 self.cluster_class(asynchronous=True, **self.cluster_kwargs)
             )
             if self.adapt_kwargs:
-                self._cluster.adapt(**self.adapt_kwargs)
+                adapt_response = self._cluster.adapt(**self.adapt_kwargs)
+                if inspect.isawaitable(adapt_response):
+                    await adapt_response
 
         self._client = await exit_stack.enter_async_context(
             distributed.Client(
