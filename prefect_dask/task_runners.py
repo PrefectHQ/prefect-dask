@@ -215,7 +215,7 @@ class DaskTaskRunner(BaseTaskRunner):
         Create a new instance of the task runner with the same settings.
         """
         return type(self)(
-            address=self.addres,
+            address=self.address,
             cluster_class=self.cluster_class,
             cluster_kwargs=self.cluster_kwargs,
             adapt_kwargs=self.adapt_kwargs,
