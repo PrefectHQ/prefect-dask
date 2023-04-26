@@ -15,7 +15,10 @@ from prefect.client.schemas import TaskRun
 from prefect.server.schemas.states import StateType
 from prefect.states import State
 from prefect.task_runners import TaskConcurrencyType
-from prefect.testing.fixtures import hosted_orion_api, use_hosted_orion  # noqa: F401
+from prefect.testing.fixtures import (  # noqa: F401
+    hosted_api_server,
+    use_hosted_api_server,
+)
 from prefect.testing.standard_test_suites import TaskRunnerStandardTestSuite
 from prefect.testing.utilities import exceptions_equal
 
@@ -62,7 +65,7 @@ def event_loop(request):
 
 
 @pytest.fixture
-def dask_task_runner_with_existing_cluster(use_hosted_orion):  # noqa
+def dask_task_runner_with_existing_cluster(use_hosted_api_server):  # noqa
     """
     Generate a dask task runner that's connected to a local cluster
     """
