@@ -30,7 +30,7 @@ def _generate_client_kwargs(
     elif flow_run_context:
         task_runner = flow_run_context.task_runner
         input_client_kwargs = task_runner.client_kwargs
-        address = task_runner._connect_to
+        address = task_runner._client.scheduler_info()["address"]
         asynchronous = flow_run_context.flow.isasync
     else:
         # this else clause allows users to debug or test
