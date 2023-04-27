@@ -210,6 +210,33 @@ class DaskTaskRunner(BaseTaskRunner):
             else TaskConcurrencyType.CONCURRENT
         )
 
+    def duplicate(self):
+        """
+        Create a new instance of the task runner with the same settings.
+        """
+        return type(self)(
+            address=self.address,
+            cluster_class=self.cluster_class,
+            cluster_kwargs=self.cluster_kwargs,
+            adapt_kwargs=self.adapt_kwargs,
+            client_kwargs=self.client_kwargs,
+        )
+
+    def __eq__(self, other: object) -> bool:
+        """
+        Check if an instance has the same settings as this task runner.
+        """
+        if type(self) == type(other):
+            return (
+                self.address == other.address
+                and self.cluster_class == other.cluster_class
+                and self.cluster_kwargs == other.cluster_kwargs
+                and self.adapt_kwargs == other.adapt_kwargs
+                and self.client_kwargs == other.client_kwargs
+            )
+        else:
+            return NotImplemented
+
     async def submit(
         self,
         key: UUID,
