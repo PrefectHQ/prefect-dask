@@ -30,6 +30,7 @@ Released on April 27th, 2023.
 ### Fixed
 
 - Capped `distributed` version to `2023.3.1` due to issues with `get_dask_client` and `get_async_dask_client` with newer versions - [#93](https://github.com/PrefectHQ/prefect-dask/pull/93)
+- Bug preventing using a retrieved async client and a local cluster - [#93](https://github.com/PrefectHQ/prefect-dask/pull/93)
 
 ## 0.2.3
 
