@@ -16,7 +16,7 @@ class TestDaskSyncClient:
                 result = client.compute(delayed_num).result()
             return result
 
-        @flow(task_runner=DaskTaskRunner())
+        @flow(task_runner=DaskTaskRunner)
         def test_flow():
             future = test_task.submit()
             return future.result()
@@ -24,7 +24,7 @@ class TestDaskSyncClient:
         assert test_flow() == 42
 
     def test_from_flow(self):
-        @flow(task_runner=DaskTaskRunner())
+        @flow(task_runner=DaskTaskRunner)
         def test_flow():
             delayed_num = dask.delayed(42)
             with get_dask_client() as client:
@@ -62,7 +62,7 @@ class TestDaskAsyncClient:
                 result = await client.compute(delayed_num).result()
             return result
 
-        @flow(task_runner=DaskTaskRunner())
+        @flow(task_runner=DaskTaskRunner)
         async def test_flow():
             future = await test_task.submit()
             return await future.result()
@@ -75,7 +75,7 @@ class TestDaskAsyncClient:
             with get_async_dask_client():
                 pass
 
-        @flow(task_runner=DaskTaskRunner())
+        @flow(task_runner=DaskTaskRunner)
         def test_flow():
             test_task.submit()
 
@@ -83,7 +83,7 @@ class TestDaskAsyncClient:
             test_flow()
 
     async def test_from_flow(self):
-        @flow(task_runner=DaskTaskRunner())
+        @flow(task_runner=DaskTaskRunner)
         async def test_flow():
             delayed_num = dask.delayed(42)
             async with get_async_dask_client() as client:
@@ -94,7 +94,7 @@ class TestDaskAsyncClient:
         assert (await test_flow()) == 42
 
     def test_from_sync_flow_error(self):
-        @flow(task_runner=DaskTaskRunner())
+        @flow(task_runner=DaskTaskRunner)
         def test_flow():
             with get_async_dask_client():
                 pass

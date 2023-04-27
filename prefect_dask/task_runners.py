@@ -268,11 +268,7 @@ class DaskTaskRunner(BaseTaskRunner):
     async def wait(self, key: UUID, timeout: float = None) -> Optional[State]:
         future = self._get_dask_future(key)
         try:
-            result = future.result(timeout=timeout)
-            if inspect.isawaitable(result):
-                return await result
-            else:
-                return result
+            await future.result(timeout=timeout)
         except distributed.TimeoutError:
             return None
         except BaseException as exc:
