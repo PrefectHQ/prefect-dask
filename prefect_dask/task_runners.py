@@ -1,6 +1,6 @@
 """
 Interface and implementations of the Dask Task Runner.
-[Task Runners](https://orion-docs.prefect.io/api-ref/prefect/task-runners/)
+[Task Runners](https://docs.prefect.io/api-ref/prefect/task-runners/)
 in Prefect are responsible for managing the execution of Prefect task runs.
 Generally speaking, users are not expected to interact with
 task runners outside of configuring and initializing them for a flow.
@@ -71,6 +71,7 @@ Example:
     ```
 """
 
+import inspect
 from contextlib import AsyncExitStack
 from typing import Awaitable, Callable, Dict, Optional, Union
 from uuid import UUID
@@ -78,7 +79,7 @@ from uuid import UUID
 import distributed
 from prefect.context import FlowRunContext
 from prefect.futures import PrefectFuture
-from prefect.orion.schemas.states import State
+from prefect.server.schemas.states import State
 from prefect.states import exception_to_crashed_state
 from prefect.task_runners import BaseTaskRunner, R, TaskConcurrencyType
 from prefect.utilities.collections import visit_collection
@@ -124,6 +125,7 @@ class DaskTaskRunner(BaseTaskRunner):
         ```python
         from prefect import flow
         from prefect_dask.task_runners import DaskTaskRunner
+
         @flow(task_runner=DaskTaskRunner)
         def my_flow():
             ...
@@ -221,6 +223,33 @@ class DaskTaskRunner(BaseTaskRunner):
             else TaskConcurrencyType.CONCURRENT
         )
 
+    def duplicate(self):
+        """
+        Create a new instance of the task runner with the same settings.
+        """
+        return type(self)(
+            address=self.address,
+            cluster_class=self.cluster_class,
+            cluster_kwargs=self.cluster_kwargs,
+            adapt_kwargs=self.adapt_kwargs,
+            client_kwargs=self.client_kwargs,
+        )
+
+    def __eq__(self, other: object) -> bool:
+        """
+        Check if an instance has the same settings as this task runner.
+        """
+        if type(self) == type(other):
+            return (
+                self.address == other.address
+                and self.cluster_class == other.cluster_class
+                and self.cluster_kwargs == other.cluster_kwargs
+                and self.adapt_kwargs == other.adapt_kwargs
+                and self.client_kwargs == other.client_kwargs
+            )
+        else:
+            return NotImplemented
+
     async def submit(
         self,
         key: UUID,
@@ -314,7 +343,9 @@ class DaskTaskRunner(BaseTaskRunner):
                 self.cluster_class(asynchronous=True, **self.cluster_kwargs)
             )
             if self.adapt_kwargs:
-                self._cluster.adapt(**self.adapt_kwargs)
+                adapt_response = self._cluster.adapt(**self.adapt_kwargs)
+                if inspect.isawaitable(adapt_response):
+                    await adapt_response
 
         self._client = await exit_stack.enter_async_context(
             distributed.Client(

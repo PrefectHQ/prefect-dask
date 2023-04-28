@@ -22,6 +22,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Security
 
+## 0.2.4
+
+Released on April 27th, 2023.
+
+## Added
+
+- `DaskTaskRunner.duplicate` to support using the `DaskTaskRunner` in concurrent flow runs - [#93](https://github.com/PrefectHQ/prefect-dask/pull/93)
+
+### Fixed
+
+- Capped `distributed` version to `2023.3.1` due to issues with `get_dask_client` and `get_async_dask_client` with newer versions - [#93](https://github.com/PrefectHQ/prefect-dask/pull/93)
+- Bug preventing using a retrieved async client and a local cluster - [#93](https://github.com/PrefectHQ/prefect-dask/pull/93)
+
+## 0.2.3
+
+Released on February 21st, 2023.
+
+### Fixed
+
+- Updated `prefect.orion` imports to `prefect.server` - [#82](https://github.com/PrefectHQ/prefect-dask/pull/82)
+- Updated `DaskTaskRunner` to await the `adapt` method call of a dask cluster instance if it's an asynchronous method - [#77](https://github.com/PrefectHQ/prefect-dask/pull/77)
+
 ## 0.2.2
 
 Released on December 1st, 2022.
