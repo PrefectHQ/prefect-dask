@@ -38,7 +38,6 @@ The parallelized code  runs in about 1/3 of the time in our test!  And that's wi
 Here's the before and after!
 
 === "Before"
-
     ```python hl_lines="1"
     # Completed in 15.2 seconds
 
@@ -47,7 +46,6 @@ Here's the before and after!
 
     import httpx
     from prefect import flow, task
-
 
     URL_FORMAT = (
         "https://www.cpc.ncep.noaa.gov/products/NMME/archive/"

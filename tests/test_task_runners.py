@@ -65,7 +65,16 @@ def event_loop(request):
 
 
 @pytest.fixture
-def dask_task_runner_with_existing_cluster(use_hosted_api_server):  # noqa
+async def dask_task_runner_with_existing_cluster(use_hosted_api_server):  # noqa
+    """
+    Generate a dask task runner that's connected to a local cluster
+    """
+    async with distributed.LocalCluster(n_workers=2, asynchronous=True) as cluster:
+        yield DaskTaskRunner(cluster=cluster)
+
+
+@pytest.fixture
+def dask_task_runner_with_existing_cluster_address(use_hosted_api_server):  # noqa
     """
     Generate a dask task runner that's connected to a local cluster
     """
@@ -95,6 +104,7 @@ class TestDaskTaskRunner(TaskRunnerStandardTestSuite):
         params=[
             default_dask_task_runner,
             dask_task_runner_with_existing_cluster,
+            dask_task_runner_with_existing_cluster_address,
             dask_task_runner_with_process_pool,
             dask_task_runner_with_thread_pool,
         ]
@@ -203,6 +213,11 @@ class TestDaskTaskRunner(TaskRunnerStandardTestSuite):
             # the equality check
             if type(raised_exception) == state_exception_type:
                 assert exceptions_equal(raised_exception, exc)
+
+    def test_cluster_not_asynchronous(self):
+        with pytest.raises(ValueError, match="The cluster must have"):
+            with distributed.LocalCluster(n_workers=2) as cluster:
+                DaskTaskRunner(cluster=cluster)
 
     def test_dask_task_key_has_prefect_task_name(self):
         task_runner = DaskTaskRunner()
