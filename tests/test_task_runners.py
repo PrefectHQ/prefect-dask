@@ -73,6 +73,7 @@ async def dask_task_runner_with_existing_cluster(use_hosted_api_server):  # noqa
         yield DaskTaskRunner(cluster=cluster)
 
 
+@pytest.fixture
 def dask_task_runner_with_existing_cluster_address(use_hosted_api_server):  # noqa
     """
     Generate a dask task runner that's connected to a local cluster
