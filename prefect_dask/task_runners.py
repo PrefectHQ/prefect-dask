@@ -316,8 +316,6 @@ class DaskTaskRunner(BaseTaskRunner):
         try:
             async for _, res in future:
                 return res
-        except distributed.TimeoutError:
-            return None
         except BaseException as exc:
             return await exception_to_crashed_state(exc)
 
