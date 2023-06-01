@@ -211,7 +211,7 @@ class DaskTaskRunner(BaseTaskRunner):
         # Runtime attributes
         self._client: "distributed.Client" = None
         self._cluster: "distributed.deploy.Cluster" = cluster
-        self._dask_futures: Dict[str, "distributed.Future"] = {}
+        self._dask_futures: Dict[str, "distributed.as_completed"] = {}
 
         super().__init__()
 
@@ -276,18 +276,24 @@ class DaskTaskRunner(BaseTaskRunner):
         else:
             dask_key = key
 
-        self._dask_futures[key] = self._client.submit(
-            call.func,
-            key=dask_key,
-            # Dask defaults to treating functions are pure, but we set this here for
-            # explicit expectations. If this task run is submitted to Dask twice, the
-            # result of the first run should be returned. Subsequent runs would return
-            # `Abort` exceptions if they were submitted again.
-            pure=True,
-            **call_kwargs,
+        self._dask_futures[key] = distributed.as_completed(
+            futures=[
+                self._client.submit(
+                    call.func,
+                    key=dask_key,
+                    # Dask defaults to treating functions are pure, but we set this here
+                    # for explicit expectations. If this task run is submitted to Dask
+                    # twice, the result of the first run should be returned. Subsequent
+                    # runs would return `Abort` exceptions if they were submitted again.
+                    pure=True,
+                    **call_kwargs,
+                )
+            ],
+            loop=self._client.loop,
+            with_results=True,
         )
 
-    def _get_dask_future(self, key: UUID) -> "distributed.Future":
+    def _get_dask_future(self, key: UUID) -> "distributed.as_completed":
         """
         Retrieve the dask future corresponding to a Prefect future.
         The Dask future is for the `run_fn`, which should return a `State`.
@@ -308,7 +314,8 @@ class DaskTaskRunner(BaseTaskRunner):
     async def wait(self, key: UUID, timeout: float = None) -> Optional[State]:
         future = self._get_dask_future(key)
         try:
-            return await future.result(timeout=timeout)
+            async for _, res in future:
+                return res
         except distributed.TimeoutError:
             return None
         except BaseException as exc:
