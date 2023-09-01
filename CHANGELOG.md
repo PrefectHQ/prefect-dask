@@ -9,9 +9,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Updated `DaskTaskRunner` to accept `dask.deploy.Cluster` object for connecting to existing cluster - [#29](https://github.com/PrefectHQ/prefect-dask/pull/29)
-- `get_dask_client` and `get_async_dask_client` allowing for distributed computation within a task - [#33](https://github.com/PrefectHQ/prefect-dask/pull/33)
-
 ### Changed
 
 ### Deprecated
@@ -21,6 +18,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 ### Security
+
+## 0.2.5
+
+Released on September 1st, 2023.
+
+### Changed
+
+- Updated `DaskTaskRunner` to accept `dask.deploy.Cluster` object for connecting to existing cluster - [#29](https://github.com/PrefectHQ/prefect-dask/pull/29)
+- Removed `distributed` upper version pin - [#117](https://github.com/PrefectHQ/prefect-dask/pull/117)
 
 ## 0.2.4
 
