@@ -114,6 +114,15 @@ class TestDaskTaskRunner(TaskRunnerStandardTestSuite):
             request.param._pytestfixturefunction.name or request.param.__name__
         )
 
+    def test_sync_task_timeout(self, task_runner):
+        """
+        This test is inherited from the prefect testing module and it may not
+        appropriately skip on Windows. Here we skip it explicitly.
+        """
+        if sys.platform.startswith("win"):
+            pytest.skip("cancellation due to timeouts is not supported on Windows")
+        super().test_async_task_timeout(task_runner)
+
     async def test_is_pickleable_after_start(self, task_runner):
         """
         The task_runner must be picklable as it is attached to `PrefectFuture` objects

@@ -274,7 +274,7 @@ class DaskTaskRunner(BaseTaskRunner):
             # the failed run's key, therefore not retrieving from the Dask cache.
             dask_key = f"{task_run.name}-{task_run.id.hex}-{flow_run.run_count}"
         else:
-            dask_key = key
+            dask_key = str(key)
 
         self._dask_futures[key] = self._client.submit(
             call.func,
