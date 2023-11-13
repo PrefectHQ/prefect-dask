@@ -18,7 +18,7 @@
       
       
       <link rel="icon" href="../img/favicon.ico">
-      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.2.6">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.8">
     
     
       
@@ -26,10 +26,10 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.0e669242.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.4b4a2bd9.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.85d0ee34.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.356b1318.min.css">
       
       
 
@@ -406,14 +406,16 @@
     
     
     
+    
+    
     <li class="md-nav__item md-nav__item--nested">
       
         
         
         
-        
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
         
+          
           <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
             
   
@@ -619,26 +621,7 @@ work, here we use <a href="https://cloudprovider.dask.org">dask-cloudprovider</a
 <div class="highlight"><pre><span></span><code><span class="n">DaskTaskRunner</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="s2">&quot;192.0.2.255:8786&quot;</span><span class="p">)</span>
 </code></pre></div></p>
 <h2 id="utils-module"><a class="autorefs autorefs-internal" href="../utils/#prefect_dask.utils">Utils Module</a></h2>
-<p>Use <code>get_dask_client</code> to distribute work across workers.
-<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">dask</span>
-<span class="kn">from</span> <span class="nn">prefect</span> <span class="kn">import</span> <span class="n">flow</span><span class="p">,</span> <span class="n">task</span>
-<span class="kn">from</span> <span class="nn">prefect_dask</span> <span class="kn">import</span> <span class="n">DaskTaskRunner</span><span class="p">,</span> <span class="n">get_dask_client</span>
-
-<span class="nd">@task</span>
-<span class="k">def</span> <span class="nf">compute_task</span><span class="p">():</span>
-    <span class="k">with</span> <span class="n">get_dask_client</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="s2">&quot;120s&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
-        <span class="n">df</span> <span class="o">=</span> <span class="n">dask</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">timeseries</span><span class="p">(</span><span class="s2">&quot;2000&quot;</span><span class="p">,</span> <span class="s2">&quot;2001&quot;</span><span class="p">,</span> <span class="n">partition_freq</span><span class="o">=</span><span class="s2">&quot;4w&quot;</span><span class="p">)</span>
-        <span class="n">summary_df</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">())</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
-    <span class="k">return</span> <span class="n">summary_df</span>
-
-<span class="nd">@flow</span><span class="p">(</span><span class="n">task_runner</span><span class="o">=</span><span class="n">DaskTaskRunner</span><span class="p">())</span>
-<span class="k">def</span> <span class="nf">dask_flow</span><span class="p">():</span>
-    <span class="n">prefect_future</span> <span class="o">=</span> <span class="n">compute_task</span><span class="o">.</span><span class="n">submit</span><span class="p">()</span>
-    <span class="k">return</span> <span class="n">prefect_future</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
-
-<span class="n">dask_flow</span><span class="p">()</span>
-</code></pre></div>
-Use <code>get_async_dask_client</code> to distribute work across workers.
+<p>Use <code>get_async_dask_client</code> to distribute work across workers.
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">dask</span>
 <span class="kn">from</span> <span class="nn">prefect</span> <span class="kn">import</span> <span class="n">flow</span><span class="p">,</span> <span class="n">task</span>
 <span class="kn">from</span> <span class="nn">prefect_dask</span> <span class="kn">import</span> <span class="n">DaskTaskRunner</span><span class="p">,</span> <span class="n">get_async_dask_client</span>
@@ -656,6 +639,25 @@ Use <code>get_async_dask_client</code> to distribute work across workers.
     <span class="k">return</span> <span class="k">await</span> <span class="n">prefect_future</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
 
 <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">dask_flow</span><span class="p">())</span>
+</code></pre></div>
+Use <code>get_dask_client</code> to distribute work across workers.
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">dask</span>
+<span class="kn">from</span> <span class="nn">prefect</span> <span class="kn">import</span> <span class="n">flow</span><span class="p">,</span> <span class="n">task</span>
+<span class="kn">from</span> <span class="nn">prefect_dask</span> <span class="kn">import</span> <span class="n">DaskTaskRunner</span><span class="p">,</span> <span class="n">get_dask_client</span>
+
+<span class="nd">@task</span>
+<span class="k">def</span> <span class="nf">compute_task</span><span class="p">():</span>
+    <span class="k">with</span> <span class="n">get_dask_client</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="s2">&quot;120s&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">dask</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">timeseries</span><span class="p">(</span><span class="s2">&quot;2000&quot;</span><span class="p">,</span> <span class="s2">&quot;2001&quot;</span><span class="p">,</span> <span class="n">partition_freq</span><span class="o">=</span><span class="s2">&quot;4w&quot;</span><span class="p">)</span>
+        <span class="n">summary_df</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">())</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">summary_df</span>
+
+<span class="nd">@flow</span><span class="p">(</span><span class="n">task_runner</span><span class="o">=</span><span class="n">DaskTaskRunner</span><span class="p">())</span>
+<span class="k">def</span> <span class="nf">dask_flow</span><span class="p">():</span>
+    <span class="n">prefect_future</span> <span class="o">=</span> <span class="n">compute_task</span><span class="o">.</span><span class="n">submit</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">prefect_future</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+
+<span class="n">dask_flow</span><span class="p">()</span>
 </code></pre></div></p>
 
 
@@ -799,10 +801,11 @@ Use <code>get_async_dask_client</code> to distribute work across workers.
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "content.code.annotate"], "search": "../assets/javascripts/workers/search.dfff1995.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "content.code.annotate"], "search": "../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.78eede0e.min.js"></script>
+      <script src="../assets/javascripts/bundle.81fa17fe.min.js"></script>
       
     
   </body>
