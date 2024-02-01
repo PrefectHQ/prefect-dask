@@ -1,21 +1,18 @@
-# Coordinate and parallelize your dataflow with `prefect-dask`
+# `prefect-dask`
 
 <p align="center">
-    <img src="https://user-images.githubusercontent.com/15331990/211682578-3e341709-6509-4c95-a6af-3b1160fe2961.png" width=40% height=40%>
-    <br>
     <a href="https://pypi.python.org/pypi/prefect-dask/" alt="PyPI version">
-        <img alt="PyPI" src="https://img.shields.io/pypi/v/prefect-dask?color=0052FF&labelColor=090422"></a>
+        <img alt="PyPI" src="https://img.shields.io/pypi/v/prefect-dask?color=26272B&labelColor=090422"></a>
     <a href="https://github.com/PrefectHQ/prefect-dask/" alt="Stars">
-        <img src="https://img.shields.io/github/stars/PrefectHQ/prefect-dask?color=0052FF&labelColor=090422" /></a>
+        <img src="https://img.shields.io/github/stars/PrefectHQ/prefect-dask?color=26272B&labelColor=090422" /></a>
     <a href="https://pepy.tech/badge/prefect-dask/" alt="Downloads">
-        <img src="https://img.shields.io/pypi/dm/prefect-dask?color=0052FF&labelColor=090422" /></a>
+        <img src="https://img.shields.io/pypi/dm/prefect-dask?color=26272B&labelColor=090422" /></a>
     <a href="https://github.com/PrefectHQ/prefect-dask/pulse" alt="Activity">
-        <img src="https://img.shields.io/github/commit-activity/m/PrefectHQ/prefect-dask?color=0052FF&labelColor=090422" /></a>
+        <img src="https://img.shields.io/github/commit-activity/m/PrefectHQ/prefect-dask?color=26272B&labelColor=090422" /></a>
     <br>
     <a href="https://prefect-community.slack.com" alt="Slack">
-        <img src="https://img.shields.io/badge/slack-join_community-red.svg?color=0052FF&labelColor=090422&logo=slack" /></a>
-    <a href="https://discourse.prefect.io/" alt="Discourse">
-        <img src="https://img.shields.io/badge/discourse-browse_forum-red.svg?color=0052FF&labelColor=090422&logo=discourse" /></a>
+        <img src="https://img.shields.io/badge/slack-join_community-red.svg?color=26272B&labelColor=090422&logo=slack" /></a>
+
 </p>
 
 Visit the full docs [here](https://PrefectHQ.github.io/prefect-dask) to see additional examples and the API reference.
