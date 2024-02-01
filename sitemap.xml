@@ -2,32 +2,32 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://PrefectHQ.github.io/prefect-dask/</loc>
-         <lastmod>2023-11-13</lastmod>
+         <lastmod>2024-02-01</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://PrefectHQ.github.io/prefect-dask/blocks_catalog/</loc>
-         <lastmod>2023-11-13</lastmod>
+         <lastmod>2024-02-01</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://PrefectHQ.github.io/prefect-dask/examples_catalog/</loc>
-         <lastmod>2023-11-13</lastmod>
+         <lastmod>2024-02-01</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://PrefectHQ.github.io/prefect-dask/task_runners/</loc>
-         <lastmod>2023-11-13</lastmod>
+         <lastmod>2024-02-01</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://PrefectHQ.github.io/prefect-dask/usage_guide/</loc>
-         <lastmod>2023-11-13</lastmod>
+         <lastmod>2024-02-01</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://PrefectHQ.github.io/prefect-dask/utils/</loc>
-         <lastmod>2023-11-13</lastmod>
+         <lastmod>2024-02-01</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>
