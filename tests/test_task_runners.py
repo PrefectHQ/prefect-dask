@@ -275,6 +275,25 @@ class TestDaskTaskRunner(TaskRunnerStandardTestSuite):
             async with task_runner.start():
                 assert task_runner._cluster._adapt_called
 
+    async def test_task_runner_can_execute_sync_task_in_async_flow(self, task_runner):
+        """
+        This is a regression test for https://github.com/PrefectHQ/prefect/issues/7422
+        """
+
+        @task
+        def identity(x):
+            return x
+
+        @flow(task_runner=task_runner)
+        async def test_flow() -> int:
+            mapped_futures = identity.map(range(1, 4))
+            single_future = identity.submit(1)
+
+            return sum([fut.result() for fut in mapped_futures + [single_future]])
+
+        result = await test_flow()
+        assert result == 7  # 1 + 2 + 3 + 1
+
     class TestInputArguments:
         async def test_dataclasses_can_be_passed_to_task_runners(self, task_runner):
             """
