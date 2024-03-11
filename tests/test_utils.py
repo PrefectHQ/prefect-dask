@@ -79,7 +79,7 @@ class TestDaskAsyncClient:
         def test_flow():
             test_task.submit()
 
-        with pytest.raises(AttributeError, match="__enter__"):
+        with pytest.raises(TypeError, match="not support the context manager protocol"):
             test_flow()
 
     async def test_from_flow(self):
@@ -99,7 +99,7 @@ class TestDaskAsyncClient:
             with get_async_dask_client():
                 pass
 
-        with pytest.raises(AttributeError, match="__enter__"):
+        with pytest.raises(TypeError, match="not support the context manager protocol"):
             test_flow()
 
     async def test_outside_run_context(self):

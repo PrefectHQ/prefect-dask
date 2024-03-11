@@ -4,7 +4,7 @@ Utils to use alongside prefect-dask.
 
 from contextlib import asynccontextmanager, contextmanager
 from datetime import timedelta
-from typing import Any, Dict, Optional, Union
+from typing import Any, AsyncGenerator, Dict, Generator, Optional, Union
 
 from distributed import Client, get_client
 from prefect.context import FlowRunContext, TaskRunContext
@@ -51,7 +51,7 @@ def _generate_client_kwargs(
 def get_dask_client(
     timeout: Optional[Union[int, float, str, timedelta]] = None,
     **client_kwargs: Dict[str, Any],
-) -> Client:
+) -> Generator[Client, None, None]:
     """
     Yields a temporary synchronous dask client; this is useful
     for parallelizing operations on dask collections,
@@ -108,7 +108,7 @@ def get_dask_client(
 async def get_async_dask_client(
     timeout: Optional[Union[int, float, str, timedelta]] = None,
     **client_kwargs: Dict[str, Any],
-) -> Client:
+) -> AsyncGenerator[Client, None]:
     """
     Yields a temporary asynchronous dask client; this is useful
     for parallelizing operations on dask collections,
