@@ -297,9 +297,9 @@ class TestDaskTaskRunner(TaskRunnerStandardTestSuite):
                 foos = get_dataclass_values(n)
                 future = print_foo.submit(foos[0])
                 futures = print_foo.map(foos)
-                
+
                 return [fut.result() for fut in futures + [future]]
-            
+
             results = test_dask_flow()
-            
+
             assert results == [Foo(value=i) for i in range(3)] + [Foo(value=0)]
