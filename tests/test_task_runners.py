@@ -2,6 +2,7 @@ import asyncio
 import logging
 import sys
 from functools import partial
+from typing import List
 from uuid import uuid4
 
 import cloudpickle
@@ -295,7 +296,7 @@ class TestDaskTaskRunner(TaskRunnerStandardTestSuite):
                 return x
 
             @flow(task_runner=task_runner)
-            def test_dask_flow(n: int = 3) -> list[Foo]:
+            def test_dask_flow(n: int = 3) -> List[Foo]:
                 foos = get_dataclass_values(n)
                 future = print_foo.submit(foos[0])
                 futures = print_foo.map(foos)
