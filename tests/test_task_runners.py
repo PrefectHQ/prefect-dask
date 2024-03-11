@@ -2,6 +2,7 @@ import asyncio
 import logging
 import sys
 from functools import partial
+from typing import List
 from uuid import uuid4
 
 import cloudpickle
@@ -273,3 +274,35 @@ class TestDaskTaskRunner(TaskRunnerStandardTestSuite):
             )
             async with task_runner.start():
                 assert task_runner._cluster._adapt_called
+
+    class TestInputArguments:
+        async def test_dataclasses_can_be_passed_to_task_runners(self, task_runner):
+            """
+            this is a regression test for https://github.com/PrefectHQ/prefect/issues/6905
+            """
+            from dataclasses import dataclass
+
+            @dataclass
+            class Foo:
+                value: int
+
+            @task
+            def get_dataclass_values(n: int):
+                return [Foo(value=i) for i in range(n)]
+
+            @task
+            def print_foo(x: Foo) -> Foo:
+                print(x)
+                return x
+
+            @flow(task_runner=task_runner)
+            def test_dask_flow(n: int = 3) -> List[Foo]:
+                foos = get_dataclass_values(n)
+                future = print_foo.submit(foos[0])
+                futures = print_foo.map(foos)
+
+                return [fut.result() for fut in futures + [future]]
+
+            results = test_dask_flow()
+
+            assert results == [Foo(value=i) for i in range(3)] + [Foo(value=0)]
