@@ -276,7 +276,9 @@ class TestDaskTaskRunner(TaskRunnerStandardTestSuite):
 
     class TestInputArguments:
         async def test_dataclasses_can_be_passed_to_task_runners(self, task_runner):
-            """this is a regression test for https://github.com/PrefectHQ/prefect/issues/6905"""
+            """
+            this is a regression test for https://github.com/PrefectHQ/prefect/issues/6905
+            """
             from dataclasses import dataclass
 
             @dataclass
